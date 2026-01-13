@@ -1,4 +1,5 @@
 import { supabaseServer } from "@/lib/supabase/server";
+import { NextResponse } from "next/server";
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
@@ -40,8 +41,8 @@ export async function GET(request) {
   const { data, error } = await query;
 
   if (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return Response.json({ data });
+  return NextResponse.json({ data });
 }
