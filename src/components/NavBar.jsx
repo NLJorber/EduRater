@@ -6,31 +6,33 @@ import Image from "next/image";
 
 
 export default function NavBar() {
-  // 1️⃣ STATE: controls whether the mobile menu is open or closed
+  // STATE: controls whether the mobile menu is open or closed
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    // 2️⃣ NAV WRAPPER (fixed bar at the top)
-    <nav className="bg-neutral-primary fixed w-full z-20 top-0 border-b border-default">
+    // NAV WRAPPER (fixed bar at the top)
+    <nav className="bg-brand-5 fixed w-full z-20 top-0 border-b border-default border-brand-5">
       <div className="max-w-7xl mx-auto p-4 flex items-center justify-between">
 
-        {/* 3️⃣ LEFT SIDE: Logo / Brand */}
+        {/* LEFT SIDE: Logo / Brand */}
         <Link
           href="/"
           className="flex items-center space-x-3"
         >
           <Image
-            src="https://flowbite.com/docs/images/logo.svg"
+            src="/EduRaterLogo.png"
             alt="Edurater logo"
-            width={40}
-            height={40}
+            width={50}
+            height={50}
+            className="rounded-full"
+            priority
           />
-          <span className="text-xl font-semibold text-heading">
+          <span className="text-xl font-semibold text-heading text-brand-1">
             Edurater
           </span>
         </Link>
 
-        {/* 4️⃣ RIGHT SIDE (mobile only): Hamburger button */}
+        {/* RIGHT SIDE (mobile only): Hamburger button */}
         <button
           type="button"
           onClick={() => setMenuOpen((open) => !open)}
@@ -52,7 +54,7 @@ export default function NavBar() {
           </svg>
         </button>
 
-        {/* 5️⃣ MENU LINKS */}
+        {/* MENU LINKS */}
         <div
           className={`
             w-full md:w-auto md:flex
@@ -61,22 +63,22 @@ export default function NavBar() {
         >
           <ul className="mt-4 md:mt-0 flex flex-col md:flex-row md:space-x-8 p-4 md:p-0 border md:border-0 rounded-base bg-neutral-secondary-soft md:bg-transparent">
             <li>
-              <Link href="#" className="block py-2 px-3 font-medium">
+              <Link href="#" className="block py-2 px-3 font-bold text-brand-1">
                 Home
               </Link>
             </li>
             <li>
-              <Link href="#" className="block py-2 px-3 font-medium">
+              <Link href="#" className="block py-2 px-3 font-bold text-brand-1">
                 Forum
               </Link>
             </li>
             <li>
-              <Link href="#" className="block py-2 px-3 font-medium">
+              <Link href="#" className="block py-2 px-3 font-bold text-brand-1">
                 Map
               </Link>
             </li>
             <li>
-              <Link href="#" className="block py-2 px-3 font-medium">
+              <Link href="#" className="block py-2 px-3 font-bold text-brand-1">
                 About Us
               </Link>
             </li>
