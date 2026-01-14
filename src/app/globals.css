@@ -5,6 +5,15 @@
   --foreground: #171717;
 }
 
+/* todo: Name brand colours once decided */
+@theme {
+  --color-brand-1: #4981E9;
+  --color-brand-2: #273F3B;
+  --color-brand-3: #FCEEB0;
+  --color-brand-4: #D05353;
+  --color-brand-5: #ABD1B5;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
