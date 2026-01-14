@@ -52,7 +52,7 @@ export default function SchoolsPage() {
 
     return (
         <div className="min-h-screen bg-zinc-50 dark:bg-black p-10">
-            {/* heading showing "Schools in (current query)" */}"}
+            {/* heading showing "Schools in (current query)" */}
             <h1 className="text-3xl font-bold text-black dark:text-white">
                 Schools in {q || "…"}
             </h1>
@@ -75,7 +75,7 @@ export default function SchoolsPage() {
                 {schools.map((school, num) => (
                 <Link
                     key={school.URN}
-                    {/* href sends you to individual school page when clicked */}
+                    /* href sends you to individual school page when clicked */
                     href={`/schools/${school.URN}`}
                     className="block rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 hover:scale-[1.01] transition"
                 >
