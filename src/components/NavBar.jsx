@@ -3,11 +3,23 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { supabaseClient } from "@/lib/supabase/client";
+import { useAuthProfile } from "@/lib/auth/useAuthProfile";
 
 
 export default function NavBar() {
   // STATE: controls whether the mobile menu is open or closed
   const [menuOpen, setMenuOpen] = useState(false);
+  const { profile, session, loading } = useAuthProfile();
+
+  const canSeeStaff = ["staff_verified", "super_admin"].includes(
+    profile?.role
+  );
+  const isSignedIn = Boolean(session);
+
+  const handleSignOut = async () => {
+    await supabaseClient.auth.signOut();
+  };
 
   return (
     // NAV WRAPPER (fixed bar at the top)
@@ -63,7 +75,7 @@ export default function NavBar() {
         >
           <ul className="mt-4 md:mt-0 flex flex-col md:flex-row md:space-x-8 p-4 md:p-0 border md:border-0 rounded-base bg-neutral-secondary-soft md:bg-transparent">
             <li>
-              <Link href="#" className="block py-2 px-3 font-bold text-brand-1">
+              <Link href="/" className="block py-2 px-3 font-bold text-brand-1">
                 Home
               </Link>
             </li>
@@ -82,6 +94,30 @@ export default function NavBar() {
                 About Us
               </Link>
             </li>
+            {canSeeStaff ? (
+              <li>
+                <Link href="/staff" className="block py-2 px-3 font-bold text-brand-1">
+                  Staff Tools
+                </Link>
+              </li>
+            ) : null}
+            {!loading ? (
+              <li>
+                {isSignedIn ? (
+                  <button
+                    type="button"
+                    onClick={handleSignOut}
+                    className="block py-2 px-3 font-bold text-brand-1"
+                  >
+                    Sign out
+                  </button>
+                ) : (
+                  <Link href="/login" className="block py-2 px-3 font-bold text-brand-1">
+                    Sign in
+                  </Link>
+                )}
+              </li>
+            ) : null}
           </ul>
         </div>
 
