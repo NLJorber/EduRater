@@ -42,7 +42,7 @@ export default function SchoolsPage() {
     }, [town]);
 
     return (
-        <div className="min-h-screen bg-zinc-50 dark:bg-black p-10">
+        <div className="min-h-screen bg-zinc-50 dark:bg-brand-6 p-10">
             <h1 className="text-3xl font-bold text-black dark:text-white">
                 Schools in {town || "…"}
             </h1>

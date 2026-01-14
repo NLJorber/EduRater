@@ -37,7 +37,7 @@ export default function Home() {
         <button
           type="button"
           onClick={onSearch}    /* call onSearch when button is clicked */
-          className="mt-4 rounded-md bg-brand-3 px-6 py-3 text-brand-2 font-bold hover:bg-brand-5 hover:text-brand-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="mt-4 rounded-md bg-brand-3 px-6 py-3 text-brand-2 font-bold hover:bg-brand-5 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         >
           Search
         </button>
