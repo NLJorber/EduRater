@@ -2,63 +2,88 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
+
+/* SchoolCard component which displays each school found */
 import SchoolCard from "@/components/School";
 
 export default function SchoolsPage() {
     const searchParams = useSearchParams();
-    const town = (searchParams.get("town") || "").trim();
+    const q = (searchParams.get("q") || "").trim();
 
     const [schools, setSchools] = useState([]);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
+    /* fetch schools data when q changes */
     useEffect(() => {
         const load = async () => {
-            setError("");
-            setSchools([]);
+            setError("");   /* clear old error messages */
+            setSchools([]); /* clear old schools data */
 
-            if (!town) {
-                setError("Please provide a town to search for schools.");
+            /* return error if no query is provided */
+            if (!q) {
+                setError("Please provide a query to search for schools.");
                 return;
             }
 
+            /* lets UI show "Loading..." */
             setLoading(true);
 
-            const res = await fetch(`/api/schools?town=${encodeURIComponent(town)}&limit=200`);
-            const body = await res.json();
+            /* calls /api/schools with q and limit provided */
+            const res = await fetch(`/api/schools?q=${encodeURIComponent(q)}&limit=10`);
+            const body = await res.json();  /* parses the JSON response into a JS object */
 
+            /* handles server errors if res.ok is false */
             if (!res.ok) {
                 setError(body.error || "An unknown error occurred.");
                 setLoading(false);
                 return;
             }
 
+            /* put returned schools into state and stop laoding */
             setSchools(body.data || []);
             setLoading(false);
         };
 
         load();
 
-    }, [town]);
+    }, [q]);
 
     return (
         <div className="min-h-screen bg-zinc-50 dark:bg-black p-10">
+            {/* heading showing "Schools in (current query)" */}"}
             <h1 className="text-3xl font-bold text-black dark:text-white">
-                Schools in {town || "…"}
+                Schools in {q || "…"}
             </h1>
 
+            {/* conditional loading message */}
             {loading && <p className="mt-4">Loading…</p>}
+
+            {/* conditional error message */}
             {error && <p className="mt-4 text-red-600">{error}</p>}
 
-            {!loading && !error && schools.length === 0 && town && (
+            {/* renders no results if no schools were found */}
+            {!loading && !error && schools.length === 0 && q && (
                 <p className="mt-4 text-gray-700 dark:text-gray-300">
-                No schools found for “{town}”.
+                No schools found for “{q}”.
                 </p>
             )}
 
             <div className="mt-6 grid gap-4">
+                {/* loops over the array of schools returning the school and its index num */}
                 {schools.map((school, num) => (
-                <SchoolCard key={school.URN} school={school} num={num} />
+                <Link
+                    key={school.URN}
+                    {/* href sends you to individual school page when clicked */}
+                    href={`/schools/${school.URN}`}
+                    className="block rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 hover:scale-[1.01] transition"
+                >
+                    <div>
+                        {/* use URN as key due to it being unique to each school */}
+                        <SchoolCard key={school.URN} school={school} num={num} />
+                    </div>
+                </Link>
                 ))}
             </div>
         </div>

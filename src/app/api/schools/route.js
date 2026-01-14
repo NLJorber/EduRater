@@ -6,7 +6,11 @@ export async function GET(request) {
   const urn = searchParams.get("urn");
   const postcode = searchParams.get("postcode");
   const town = searchParams.get("town");
+  const street = searchParams.get("street");
   const name = searchParams.get("name");
+
+  const q = searchParams.get("q");
+
   const limitParam = searchParams.get("limit");
 
   const limit =
@@ -17,24 +21,36 @@ export async function GET(request) {
   let query = supabaseServer
     .from("School data")
     .select(
-      'URN, Postcode, EstablishmentName, Town, SchoolWebsite, TelephoneNum, "Gender (name)", "PhaseOfEducation (name)", SchoolCapacity, NumberOfPupils, "SpecialClasses (name)"'
+      'URN, Postcode, EstablishmentName, Town, "LA (name)", Street, SchoolWebsite, TelephoneNum, "Gender (name)", "PhaseOfEducation (name)", SchoolCapacity, NumberOfPupils, "SpecialClasses (name)"'
     )
     .limit(limit);
+  
+  if (q && q.trim()) {
+    const term = q.trim();
 
-  if (urn) {
-    query = query.eq("URN", urn);
-  }
+    query = query.or(
+      `EstablishmentName.ilike.%${term}%,Town.ilike.%${term}%,Postcode.ilike.%${term}%`
+    );
+  } else {
+    if (urn) {
+      query = query.eq("URN", urn);
+    }
 
-  if (postcode) {
-    query = query.ilike("Postcode", `%${postcode}%`);
-  }
+    if (postcode) {
+      query = query.ilike("Postcode", `%${postcode}%`);
+    }
 
-  if (town) {
-    query = query.ilike("Town", `%${town}%`);
-  }
+    if (town) {
+      query = query.ilike("Town", `%${town}%`);
+    }
 
-  if (name) {
-    query = query.ilike("EstablishmentName", `%${name}%`);
+    if (street) {
+      query = query.ilike("Street", `%${street}%`);
+    }
+
+    if (name) {
+      query = query.ilike("EstablishmentName", `%${name}%`);
+    }
   }
 
   const { data, error } = await query;

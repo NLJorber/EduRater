@@ -7,15 +7,15 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const [town, setTown] = useState("");
+  const [q, setQ] = useState("");
   const router = useRouter();
 
   const onSearch = () => {
-    const t = town.trim();
-    if (!t) return;
+    const term = q.trim();
+    if (!term) return;
 
-    /* navigate to the schools page with the town as a query parameter */
-    router.push(`/schools?town=${encodeURIComponent(t)}`)
+    /* navigate to the schools page with the query as a query parameter */
+    router.push(`/schools?q=${encodeURIComponent(term)}`)
   }
 
   return (
@@ -28,8 +28,8 @@ export default function Home() {
         
         <input
           type="text"
-          value={town}
-          onChange={(e) => setTown(e.target.value)}   /* update town state on input change */
+          value={q}
+          onChange={(e) => setQ(e.target.value)}   /* update q state on input change */
           placeholder="Search for schools..."
           className="w-full rounded-md border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
         />
