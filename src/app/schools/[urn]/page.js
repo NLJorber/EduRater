@@ -12,6 +12,9 @@ import SchoolPage from "@/components/SchoolPage";
 /* imports the ReviewForm component for posting reviews */
 import ReviewForm from "@/components/ReviewForm";
 
+/* import ReviewsRow to show list of reviews for the school */
+import ReviewsRow from "@/components/ReviewsRow";
+
 export default function SchoolDetailPage() {
     /* reads the route parameter from the URL */
     const { urn } = useParams();
@@ -22,6 +25,9 @@ export default function SchoolDetailPage() {
 
     /* state to hold the logged in user's data */
     const [user, setUser] = useState(null);
+
+    /* refresh key state so the list refreshes after posting a review */
+    const [refreshKey, setRefreshKey] = useState(0);
 
     /* effect to load the user and keep it updated */
     useEffect(() => {
