@@ -51,19 +51,19 @@ export default function SchoolsPage() {
     }, [q]);
 
     return (
-        <div className="min-h-screen bg-zinc-50 dark:bg-black p-10">
+        <div className="min-h-screen bg-brand-azure dark:bg-brand-darkblue p-10">
             {/* heading showing "Schools in (current query)" */}
-            <h1 className="mt-16 text-3xl font-bold text-black dark:text-white">
+            <h1 className="text-3xl font-bold text-brand-custard dark:text-brand-custard">
                 Schools in {q || "…"}
             </h1>
 
             {loading && <p className="mt-4">Loading…</p>}
 
-            {error && <p className="mt-4 text-red-600">{error}</p>}
+            {error && <p className="mt-4 text-brand-red">{error}</p>}
 
             {/* renders no results if no schools were found */}
             {!loading && !error && schools.length === 0 && q && (
-                <p className="mt-4 text-gray-700 dark:text-gray-300">
+                <p className="mt-4 text-brand-white dark:text-brand-custard">
                 No schools found for “{q}”.
                 </p>
             )}

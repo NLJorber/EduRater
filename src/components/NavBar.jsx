@@ -23,7 +23,7 @@ export default function NavBar() {
 
   return (
     // NAV WRAPPER (fixed bar at the top)
-    <nav className="bg-brand-5 dark:bg-brand-7 fixed w-full z-20 top-0 border-b border-default border-brand-7">
+    <nav className="bg-brand-minty dark:bg-brand-deepmaroon fixed w-full z-20 top-0 border-b border-default border-brand-minty dark:border-brand-deepmaroon">
       <div className="max-w-7xl mx-auto p-4 flex items-center justify-between">
 
         {/* LEFT SIDE: Logo / Brand */}
@@ -39,7 +39,7 @@ export default function NavBar() {
             className="rounded-full"
             priority
           />
-          <span className="text-xl font-semibold text-heading text-brand-1 dark:text-white">
+          <span className="text-xl font-semibold text-heading text-brand-azure hover:text-brand-red dark:text-white dark:hover:text-brand-custard">
             Edurater
           </span>
         </Link>
@@ -75,28 +75,28 @@ export default function NavBar() {
         >
             <ul className="mt-4 md:mt-0 flex flex-col md:flex-row md:space-x-8 p-4 md:p-0 border md:border-0 rounded-base bg-neutral-secondary-soft md:bg-transparent">
               <li>
-                <Link href="/" className="block py-2 px-3 font-bold text-brand-1 dark:text-white">
+                <Link href="/" className="block py-2 px-3 font-bold text-brand-azure hover:text-brand-red dark:text-white dark:hover:text-brand-custard">
                   Home
                 </Link>
               </li>
             <li>
-              <Link href="#" className="block py-2 px-3 font-bold text-brand-1 dark:text-white">
+              <Link href="#" className="block py-2 px-3 font-bold text-brand-azure hover:text-brand-red dark:text-white dark:hover:text-brand-custard">
                 Forum
               </Link>
             </li>
             <li>
-              <Link href="#" className="block py-2 px-3 font-bold text-brand-1 dark:text-white">
+              <Link href="#" className="block py-2 px-3 font-bold text-brand-azure hover:text-brand-red dark:text-white dark:hover:text-brand-custard">
                 Map
               </Link>
             </li>
             <li>
-              <Link href="#" className="block py-2 px-3 font-bold text-brand-1 dark:text-white">
+              <Link href="#" className="block py-2 px-3 font-bold text-brand-azure hover:text-brand-red dark:text-white dark:hover:text-brand-custard">
                 About Us
               </Link>
             </li>
             {canSeeStaff ? (
               <li>
-                <Link href="/staff" className="block py-2 px-3 font-bold text-brand-1">
+                <Link href="/staff" className="block py-2 px-3 font-bold text-brand-azure hover:text-brand-red dark:text-white dark:hover:text-brand-custard">
                   Staff Tools
                 </Link>
               </li>
@@ -107,12 +107,12 @@ export default function NavBar() {
                   <button
                     type="button"
                     onClick={handleSignOut}
-                    className="block py-2 px-3 font-bold text-brand-1"
+                    className="block py-2 px-3 font-bold text-brand-azure hover:text-brand-red dark:text-brand-white hover:text-brand-red dark:hover:text-brand-custard" 
                   >
                     Sign out
                   </button>
                 ) : (
-                  <Link href="/login" className="block py-2 px-3 font-bold text-brand-1">
+                  <Link href="/login" className="block py-2 px-3 font-bold text-brand-azure hover:text-brand-red dark:text-brand-white dark:hover:text-brand-custard">
                     Sign in
                   </Link>
                 )}

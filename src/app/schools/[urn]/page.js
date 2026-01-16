@@ -83,12 +83,12 @@ export default function SchoolDetailPage() {
     }, [urn]);
 
     if (loading) return <div className="p-10">Loading...</div>; 
-    if (error) return <div className="p-10 text-red-600">{error}</div>;
+    if (error) return <div className="p-10 text-brand-red">{error}</div>;
     if (!school) return <div className="p-10">School not found</div>;
 
     return (
         /* passes the loaded school object as a prop to SchoolPage to load the component */
-        <div className="min-h-screen p-6 bg-brand-2 dark:bg-brand-6">
+        <div className="min-h-screen p-6 bg-brand-azure dark:bg-brand-darkblue">
             <SchoolPage school={school} />
 
             <ReviewsRow schoolUrn={urn} refreshKey={refreshKey} />

@@ -19,11 +19,11 @@ export default function Home() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-brand-1 font-sans dark:bg-brand-2">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-56 px-16 bg-brand-4 dark:bg-brand-2 sm:items-start">
+    <div className="flex min-h-screen items-center justify-center bg-brand-azure font-sans dark:bg-brand-darkblue">
+      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-56 px-16 bg-brand-red dark:bg-brand-darkgreen sm:items-start">
         <h1 className="text-5xl font-extrabold leading-tight text-white dark:text-white sm:text-6xl">
           Welcome to <br />
-          <span className="text-brand-3">EduRater</span>
+          <span className="text-brand-custard">EduRater</span>
         </h1>
         
         <input
@@ -31,13 +31,13 @@ export default function Home() {
           value={q}
           onChange={(e) => setQ(e.target.value)}   /* update q state on input change */
           placeholder="Search for schools..."
-          className="w-full rounded-md border border-brand-3 px-4 py-2 placeholder:text-brand-3 focus:border-brand-5 focus:outline-none focus:ring-2 focus:ring-brand-3 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+          className="w-full rounded-md border border-brand-custard px-4 py-2 text-brand-white placeholder:text-brand-custard focus:border-brand-custard focus:outline-none focus:ring-2 focus:ring-brand-custard bg-brand-azure dark:bg-brand-darkblue dark:border-brand-midgrey dark:placeholder-brand-lightgrey"
         />
 
         <button
           type="button"
           onClick={onSearch}    /* call onSearch when button is clicked */
-          className="mt-4 rounded-md bg-brand-3 px-6 py-3 text-brand-2 font-bold hover:bg-brand-5 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="mt-4 rounded-md px-6 py-3 bg-brand-custard dark:bg-brand-darkblue  text-brand-azure dark:text-brand-custard font-bold hover:bg-brand-minty dark:hover:bg-brand-custard hover:text-white dark:hover:text-brand-darkblue focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         >
           Search
         </button>

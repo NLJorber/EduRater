@@ -71,14 +71,15 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="min-h-screen bg-white text-slate-900">
-      <div className="mx-auto flex w-full max-w-md flex-col gap-6 px-6 py-16">
-        <div className="space-y-2">
-          <p className="text-sm uppercase tracking-[0.3em] text-slate-500">
-            EduRater
-          </p>
-          <h1 className="text-3xl font-semibold">Sign in or create an account to make reviews!</h1>
-          <p className="text-sm text-slate-600">
+    <main className="min-h-screen bg-brand-azure dark:bg-brand-darkgreen text-brand-white dark:text-brand-custard">
+      <div className="mx-auto flex w-full max-w-md flex-col gap-6 px-2 py-45">
+        <div>
+          <h1 className="text-5xl font-extrabold leading-tight text-white dark:text-white sm:text-6xl">
+          Welcome to <br />
+          <span className="text-brand-custard">EduRater</span>
+        </h1>
+          <h1 className="text-3xl font-semibold mt-10 mb-4">Sign in or create an account to make reviews!</h1>
+          <p className="text-sm text-brand-white">
             Use Google or email/password. Email signups require verification.
           </p>
         </div>
@@ -86,30 +87,30 @@ export default function LoginPage() {
         <button
           type="button"
           onClick={handleGoogleSignIn}
-          className="rounded-full border border-slate-200 px-4 py-3 text-sm font-semibold transition hover:border-slate-400"
+          className="rounded-full border border-brand-red hover:border-brand-custard dark:border-brand-darkblue dark:hover:border-brand-custard bg-brand-red dark:bg-brand-darkblue hover:bg-brand-custard dark:hover:bg-brand-custard px-4 py-3 text-sm text-brand-white dark:text-brand-custard  hover:text-brand-azure dark:hover:text-brand-darkgreen font-semibold transition"
         >
           Continue with Google
         </button>
 
-        <div className="flex items-center gap-3 text-xs uppercase tracking-[0.3em] text-slate-400">
+        <div className="flex items-center gap-3 text-xs uppercase tracking-[0.3em] text-brand-white">
           <span className="h-px flex-1 bg-slate-200" />
           or
           <span className="h-px flex-1 bg-slate-200" />
         </div>
 
         <form className="space-y-4" onSubmit={handleEmailSignIn}>
-          <label className="block text-sm font-medium text-slate-700">
+          <label className="block text-sm font-bold text-brand-custard">
             Email
             <input
               type="email"
               required
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              className="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm focus:border-slate-400 focus:outline-none"
+              className="mt-2 w-full rounded-2xl border dark:border-brand-lightgrey px-4 py-3 text-sm dark:placeholder:text-brand-midgrey dark:focus:border-brand-lightgrey focus:outline-none"
               placeholder="you@school.edu"
             />
           </label>
-          <label className="block text-sm font-medium text-slate-700">
+          <label className="block text-sm font-bold text-brand-custard">
             Password
             <input
               type="password"
@@ -117,7 +118,7 @@ export default function LoginPage() {
               minLength={8}
               value={password}
               onChange={(event) => setPassword(event.target.value)}
-              className="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm focus:border-slate-400 focus:outline-none"
+              className="mt-2 w-full rounded-2xl border dark:border-brand-lightgrey px-4 py-3 text-sm dark:placeholder:text-brand-midgrey dark:focus:border-brand-lightgrey focus:outline-none"
               placeholder="At least 8 characters"
             />
           </label>
@@ -125,14 +126,14 @@ export default function LoginPage() {
           <div className="flex flex-col gap-3 sm:flex-row">
             <button
               type="submit"
-              className="flex-1 rounded-full bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+              className="flex-1 rounded-full  px-4 py-3 text-sm font-semibold text-brand-white dark:text-brand-custard transition hover:text-brand-azure dark:hover:text-brand-darkblue bg-brand-minty dark:bg-brand-darkblue hover:bg-brand-custard"
             >
               Sign in
             </button>
             <button
               type="button"
               onClick={handleEmailSignUp}
-              className="flex-1 rounded-full border border-slate-200 px-4 py-3 text-sm font-semibold transition hover:border-slate-400"
+              className="flex-1 rounded-full border border-brand-red bg-brand-red dark:border-brand-darkblue dark:bg-brand-darkblue px-4 py-3 text-sm font-semibold transition hover:border-brand-custard hover:bg-brand-custard hover:text-brand-azure dark:hover:text-brand-darkblue"
             >
               Sign up
             </button>
