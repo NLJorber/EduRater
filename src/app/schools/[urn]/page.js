@@ -2,9 +2,18 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { supabaseClient } from "@/lib/supabase/client";
+
+import Link from "next/link";
 
 /* imports the SchoolPage component which displays the page for a specific school */
 import SchoolPage from "@/components/SchoolPage";
+
+/* imports the ReviewForm component for posting reviews */
+import ReviewForm from "@/components/ReviewForm";
+
+/* import ReviewsRow to show list of reviews for the school */
+import ReviewsRow from "@/components/ReviewsRow";
 
 export default function SchoolDetailPage() {
     /* reads the route parameter from the URL */
@@ -13,6 +22,28 @@ export default function SchoolDetailPage() {
     const [school, setSchool] = useState(null); /* holds the fetched school object, starting with null before loading */
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
+
+    /* state to hold the logged in user's data */
+    const [user, setUser] = useState(null);
+
+    /* refresh key state so the list refreshes after posting a review */
+    const [refreshKey, setRefreshKey] = useState(0);
+
+    /* effect to load the user and keep it updated */
+    useEffect(() => {
+        const loadUser = async () => {
+            const { data } = await supabaseClient.auth.getUser();
+            setUser(data?.user ?? null);
+        };
+
+        loadUser();
+
+        const { data: sub } = supabaseClient.auth.onAuthStateChange(() => {
+            loadUser();
+        });
+
+        return () => sub.subscription.unsubscribe();
+    }, []);
 
     /* fetch school when urn changes */
     useEffect(() => {
@@ -59,6 +90,22 @@ export default function SchoolDetailPage() {
         /* passes the loaded school object as a prop to SchoolPage to load the component */
         <div className="min-h-screen p-6 bg-brand-azure dark:bg-brand-darkblue">
             <SchoolPage school={school} />
+
+            <ReviewsRow schoolUrn={urn} refreshKey={refreshKey} />
+
+            {/* only show review form if user is logged in */}
+            {user ? (
+                <ReviewForm schoolUrn={urn} />
+            ) : (
+                <div className="mt-6 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-900">
+                    <p className="text-gray-700 dark:text-gray-200">
+                        You must be signed in to leave a review.
+                    </p>
+                    <Link href="/login" className="mt-2 inline-block font-semibold text-blue-600">
+                        Sign in
+                    </Link>
+                </div>
+            )}
         </div>
     );
 }
