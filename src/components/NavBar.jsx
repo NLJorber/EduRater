@@ -107,7 +107,7 @@ export default function NavBar() {
                   <button
                     type="button"
                     onClick={handleSignOut}
-                    className="block py-2 px-3 font-bold text-brand-azure hover:text-brand-red dark:text-brand-white hover:text-brand-red dark:hover:text-brand-custard" 
+                    className="block py-2 px-3 font-bold text-brand-azure dark:text-brand-white hover:text-brand-red dark:hover:text-brand-custard" 
                   >
                     Sign out
                   </button>

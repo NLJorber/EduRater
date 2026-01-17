@@ -3,11 +3,16 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import dynamic from "next/dynamic";
+
+// Tells SchoolsMap to load in browser, not server, and to not load during server side rendering
+const SchoolsMap = dynamic(() => import("@/components/SchoolsMap"), { ssr: false });
 
 /* SchoolCard component which displays each school found */
 import SchoolCard from "@/components/School";
 
 export default function SchoolsPage() {
+    
     const searchParams = useSearchParams();
     const q = (searchParams.get("q") || "").trim();
 
@@ -67,6 +72,15 @@ export default function SchoolsPage() {
                 No schools found for “{q}”.
                 </p>
             )}
+
+            {/* map */}
+            {!loading && !error && schools.length > 0 && (
+            <div className="mt-6 rounded-lg overflow-hidden">
+            <SchoolsMap schools={schools} />
+            </div>
+            )}
+
+
 
             <div className="mt-6 grid gap-4">
                 {/* loops over the array of schools returning the school and its index num */}
