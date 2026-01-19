@@ -122,6 +122,14 @@ export default function LoginPage() {
               placeholder="At least 8 characters"
             />
           </label>
+          <div className="text-right">
+            <a
+              href="/forgot-password"
+              className="text-xs font-semibold text-brand-custard hover:text-brand-minty"
+            >
+              Forgot password?
+            </a>
+          </div>
 
           <div className="flex flex-col gap-3 sm:flex-row">
             <button
