@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { supabaseClient } from "@/lib/supabase/client";
@@ -20,6 +20,22 @@ export default function NavBar() {
   const handleSignOut = async () => {
     await supabaseClient.auth.signOut();
   };
+
+  // Toggles between light and dark themes
+  const toggleTheme = () => {
+    const root = document.documentElement; // <html>
+    root.classList.toggle("dark");
+
+    // persist choice
+    localStorage.setItem("theme", root.classList.contains("dark") ? "dark" : "light");
+  };
+
+  // On initial load, set theme based on saved preference
+  useEffect(() => {
+    const saved = localStorage.getItem("theme");
+    if (saved === "dark") document.documentElement.classList.add("dark");
+    if (saved === "light") document.documentElement.classList.remove("dark");
+  }, []);
 
   return (
     // NAV WRAPPER (fixed bar at the top)
@@ -93,6 +109,15 @@ export default function NavBar() {
               <Link href="#" className="block py-2 px-3 font-bold text-brand-azure hover:text-brand-red dark:text-white dark:hover:text-brand-custard">
                 About Us
               </Link>
+            </li>
+            <li>
+              <button
+                type="button"
+                onClick={toggleTheme}
+                className="block py-2 px-3 font-bold text-brand-azure hover:text-brand-red dark:text-white dark:hover:text-brand-custard"
+              >
+                Toggle theme
+              </button>
             </li>
             {canSeeStaff ? (
               <li>
