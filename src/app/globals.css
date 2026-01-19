@@ -43,5 +43,39 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans);
 }
+
+code,
+pre {
+  font-family: var(--font-geist-mono);
+}
+
+/* Only use big Macondo headings inside .display-headings */
+.display-headings h1,
+.display-headings h2,
+.display-headings h3,
+.display-headings h4,
+.display-headings h5,
+.display-headings h6 {
+  font-family: var(--font-heading);
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+
+.display-headings h1 {
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  line-height: 1;
+  letter-spacing: 0.04em;
+}
+
+.display-headings h2 {
+  font-size: clamp(2.7rem, 6vw, 4.75rem);
+  line-height: 1.05;
+  letter-spacing: 0.035em;
+}
+
+.display-headings h3 { font-size: clamp(1.5rem, 2.6vw, 2.25rem); line-height: 1.15; }
+.display-headings h4 { font-size: clamp(1.25rem, 2vw, 1.75rem); line-height: 1.2; }
+.display-headings h5 { font-size: clamp(1.1rem, 1.4vw, 1.35rem); line-height: 1.25; }
+.display-headings h6 { font-size: clamp(1rem, 1.1vw, 1.15rem); line-height: 1.3; }

@@ -19,9 +19,9 @@ export default function Home() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-brand-azure font-sans dark:bg-brand-darkblue">
+    <div className="display-headings flex min-h-screen items-center justify-center bg-brand-azure font-sans dark:bg-brand-darkblue">
       <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-56 px-16 bg-brand-red dark:bg-brand-darkgreen sm:items-start">
-        <h1 className="text-5xl font-extrabold leading-tight text-white dark:text-white sm:text-6xl">
+        <h1 className="font-extrabold leading-tight text-white dark:text-white">
           Welcome to <br />
           <span className="text-brand-custard">EduRater</span>
         </h1>

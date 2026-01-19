@@ -2,6 +2,13 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import NavBar from "@/components/NavBar";
 import "leaflet/dist/leaflet.css"
+import { Faculty_Glyphic } from "next/font/google";
+
+const macondoSwash = Faculty_Glyphic({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-heading",
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,10 +27,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+    <html 
+        lang="en"
+        className={`${geistSans.variable} ${geistMono.variable} ${macondoSwash.variable}`}
       >
+        <body className="antialiased">
         <NavBar />
         {children}
       </body>

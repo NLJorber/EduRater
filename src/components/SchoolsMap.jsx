@@ -43,9 +43,13 @@ export default function SchoolsMap({ schools }) {
       ? [Number(getLat(schoolsWithCoords[0])), Number(getLng(schoolsWithCoords[0]))]
       : [51.5072, -0.1276];
 
+  const mapKey =
+    schoolsWithCoords[0]?.URN ?? `${center[0]}-${center[1]}-${schoolsWithCoords.length}`;
+
   return (
     <div style={{ height: 420, width: "100%" }}>
       <MapContainer
+        key={mapKey}
         center={center}
         zoom={12}
         style={{ height: "100%", width: "100%" }}
