@@ -36,7 +36,7 @@ export default function SchoolsPage() {
             setLoading(true);
 
             /* calls /api/schools with q and limit provided */
-            const res = await fetch(`/api/schools?q=${encodeURIComponent(q)}&limit=10`);
+            const res = await fetch(`/api/schools?q=${encodeURIComponent(q)}&limit=30`);
             const body = await res.json();  /* parses the JSON response into a JS object */
 
             /* handles server errors if res.ok is false */

@@ -4,6 +4,8 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
+import Link from "next/link";
+
 // Fix missing default marker icons in Next.js
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -21,7 +23,11 @@ function getLng(s) {
 }
 
 function getName(s) {
-  return s.SCHNAME ?? s.name ?? s.school_name ?? s.SchoolName ?? "School";
+  return s.SCHNAME ?? s.EstablishmentName ?? s.school_name ?? s.SchoolName ?? "School";
+}
+
+function getTown(s) {
+  return s.TOWN ?? s.Town ?? s.town ?? null;
 }
 
 export default function SchoolsMap({ schools }) {
@@ -57,7 +63,15 @@ export default function SchoolsMap({ schools }) {
             <Marker key={s.URN || `${lat}-${lng}`} position={[lat, lng]}>
               <Popup>
                 <div style={{ fontWeight: 600 }}>{getName(s)}</div>
-                {s.URN ? <div>URN: {s.URN}</div> : null}
+                <div>{getTown(s)}</div>
+                <Link
+                    key={s.URN}
+                    /* href sends you to individual school page when clicked */
+                    href={`/schools/${s.URN}`}
+                    className="block rounded-lg focus:scale-[1.03] hover:scale-[1.01] transition"
+                >
+                  Go to page
+                </Link>
               </Popup>
             </Marker>
           );
