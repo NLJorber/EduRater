@@ -58,9 +58,9 @@ export default function SchoolsPage() {
     return (
         <div className="min-h-screen bg-brand-azure dark:bg-brand-darkblue p-10">
             {/* heading showing "Schools in (current query)" */}
-            <h1 className="text-3xl font-bold text-brand-custard dark:text-brand-custard">
-                Schools in {q || "…"}
-            </h1>
+            <h4 className="text-xl font-bold !tracking-normal !leading-snug">
+            Schools in {q || "…"}
+            </h4>
 
             {loading && <p className="mt-4">Loading…</p>}
 

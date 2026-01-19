@@ -74,11 +74,11 @@ export default function LoginPage() {
     <main className="min-h-screen bg-brand-azure dark:bg-brand-darkgreen text-brand-white dark:text-brand-custard">
       <div className="mx-auto flex w-full max-w-md flex-col gap-6 px-2 py-45">
         <div>
-          <h1 className="text-5xl font-extrabold leading-tight text-white dark:text-white sm:text-6xl">
+          <h2 className="font-extrabold leading-tight text-white dark:text-white sm:text-6xl">
           Welcome to <br />
           <span className="text-brand-custard">EduRater</span>
-        </h1>
-          <h1 className="text-3xl font-semibold mt-10 mb-4">Sign in or create an account to make reviews!</h1>
+        </h2>
+          <h3 className="text-3xl font-semibold mt-10 mb-4">Sign in or create an account to make reviews!</h3>
           <p className="text-sm text-brand-white">
             Use Google or email/password. Email signups require verification.
           </p>
