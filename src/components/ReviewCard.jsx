@@ -1,4 +1,4 @@
-export default function ReviewCard({ review }) {
+export default function ReviewCard({ review, showControls, onEdit, onDelete }) {
     if (!review) return null;   /* prevent rendering if no review data is provided */
 
     return (
@@ -15,6 +15,25 @@ export default function ReviewCard({ review }) {
             <p className="mt-3 text-sm text-gray-700 dark:text-gray-300 line-clamp-5">
                 {review.body}
             </p>
+
+            {showControls ? (
+                <div className="mt-4 flex gap-3 text-sm font-semibold">
+                    <button
+                        type="button"
+                        onClick={onEdit}
+                        className="text-blue-600 hover:text-blue-700"
+                    >
+                        Edit
+                    </button>
+                    <button
+                        type="button"
+                        onClick={onDelete}
+                        className="text-red-600 hover:text-red-700"
+                    >
+                        Delete
+                    </button>
+                </div>
+            ) : null}
         </div>
     );
 }
