@@ -29,10 +29,11 @@ export default function SchoolPage({ school }) {
                 </div>
             )}
 
-            {/* school website section */}
-            <div className="text-brand-azure dark:text-brand-custard">
-                <p className="font-semibold mb-2">School website: <a className="text-blue-400" href={school.SchoolWebsite} target="_blank" rel="noopener noreferrer">{school.SchoolWebsite}</a></p>
-            </div>
+            {/* school website section if available */}
+            {school.SchoolWebsite && (
+                <div className="text-brand-azure dark:text-brand-custard">
+                    <p className="font-semibold mb-2">School website: <a className="text-blue-400" href={school.SchoolWebsite} target="_blank" rel="noopener noreferrer">{school.SchoolWebsite}</a></p>
+                </div>)}
 
             {/* contact section with local council so far */}
             <div className="pt-4 pb-4">

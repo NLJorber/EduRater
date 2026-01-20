@@ -27,21 +27,29 @@ export default function Home() {
         </h1>
         
         <div className="w-full flex flex-col gap-3">
-        <input
-          type="text"
-          value={q}
-          onChange={(e) => setQ(e.target.value)}   /* update q state on input change */
-          placeholder="Search for schools..."
-          className="w-full rounded-md border border-brand-custard px-4 py-2 text-brand-white placeholder:text-brand-custard focus:border-brand-custard focus:outline-none focus:ring-2 focus:ring-brand-custard bg-brand-azure dark:bg-brand-darkblue dark:border-brand-midgrey dark:placeholder-brand-lightgrey"
-        />
+          <form
+            className="w-full flex flex-col gap-3"
+            onSubmit={(e) => {
+              e.preventDefault();
+              onSearch();
+            }}
+          >
+            <input
+              type="text"
+              value={q}
+              onChange={(e) => setQ(e.target.value)}   /* update q state on input change */
+              placeholder="Search for schools..."
+              className="w-full rounded-md border border-brand-custard px-4 py-2 text-brand-white placeholder:text-brand-custard focus:border-brand-custard focus:outline-none focus:ring-2 focus:ring-brand-custard bg-brand-azure dark:bg-brand-darkblue dark:border-brand-midgrey dark:placeholder-brand-lightgrey"
+            />
 
-        <button
-          type="button"
-          onClick={onSearch}    
-          className="self-center rounded-md px-6 py-3 bg-brand-custard dark:bg-brand-darkblue  text-brand-azure dark:text-brand-custard font-bold hover:bg-brand-minty dark:hover:bg-brand-custard hover:text-white dark:hover:text-brand-darkblue focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-        >
-          Search
-        </button>
+            <button
+              type="button"
+              onClick={onSearch}    
+              className="self-center rounded-md px-6 py-3 bg-brand-custard dark:bg-brand-darkblue  text-brand-azure dark:text-brand-custard font-bold hover:bg-brand-minty dark:hover:bg-brand-custard hover:text-white dark:hover:text-brand-darkblue focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            >
+              Search
+            </button>
+          </form>
         </div>
       </main>
     </div>
