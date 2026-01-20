@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabase/server";
 import { createUserClient, getUserFromRequest } from "@/lib/auth/server";
 
+import { reviewIsClean } from "@/lib/moderation/bannedWords";
+
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const schoolUrn = searchParams.get("school_urn") ?? searchParams.get("schoolUrn");
@@ -29,15 +31,15 @@ export async function GET(request) {
     return NextResponse.json({ error: reviewsError.message }, { status: 500 });
   }
 
-  const reviewScores = (reviews ?? [])
+  const cleanReviews = (reviews ?? []).filter(reviewIsClean);
+
+  const reviewScores = cleanReviews
     .map((review) => {
       const sectionRatings = (review.review_sections ?? [])
         .map((section) => section.rating)
         .filter((value) => typeof value === "number");
 
-      if (sectionRatings.length === 0) {
-        return null;
-      }
+      if (sectionRatings.length === 0) return null;
 
       const total = sectionRatings.reduce((sum, value) => sum + value, 0);
       return total / sectionRatings.length;
@@ -51,9 +53,9 @@ export async function GET(request) {
 
   return NextResponse.json({
     data: {
-      reviews: reviews ?? [],
+      reviews: cleanReviews,
       schoolScore,
-      reviewCount: reviews?.length ?? 0,
+      reviewCount: cleanReviews.length,
     },
   });
 }
