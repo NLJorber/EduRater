@@ -17,6 +17,8 @@ export default function NavBar() {
   );
   const isSignedIn = Boolean(session);
 
+  // no admin link logic
+
   const handleSignOut = async () => {
     await supabaseClient.auth.signOut();
   };

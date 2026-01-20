@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import RoleGate from "@/components/RoleGate";
 import { supabaseClient } from "@/lib/supabase/client";
 import { useAuthProfile } from "@/lib/auth/useAuthProfile";
@@ -17,11 +17,17 @@ export default function StaffRequestPage() {
     profile?.role
   );
 
-  const setError = (message) =>
-    setStatus({ type: "error", message: message ?? "Something went wrong." });
-  const setMessage = (message) => setStatus({ type: "info", message });
+  const setError = useCallback(
+    (message) =>
+      setStatus({ type: "error", message: message ?? "Something went wrong." }),
+    []
+  );
+  const setMessage = useCallback(
+    (message) => setStatus({ type: "info", message }),
+    []
+  );
 
-  const loadSchools = async () => {
+  const loadSchools = useCallback(async () => {
     const { data, error } = await supabaseClient
       .from("schools")
       .select("id, name, domain")
@@ -33,9 +39,10 @@ export default function StaffRequestPage() {
     }
 
     setSchools(data ?? []);
-  };
+  }, [setError]);
 
-  const loadRequests = async (accessToken) => {
+  const loadRequests = useCallback(
+    async (accessToken) => {
     if (!accessToken) {
       setRequests([]);
       return;
@@ -54,18 +61,20 @@ export default function StaffRequestPage() {
     }
 
     setRequests(body.data ?? []);
-  };
+    },
+    [setError]
+  );
 
   useEffect(() => {
     loadSchools();
-  }, []);
+  }, [loadSchools]);
 
   useEffect(() => {
     if (!session?.access_token) {
       return;
     }
     loadRequests(session.access_token);
-  }, [session?.access_token]);
+  }, [loadRequests, session?.access_token]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
