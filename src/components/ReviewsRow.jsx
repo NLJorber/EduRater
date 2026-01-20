@@ -1,13 +1,39 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabaseClient } from "@/lib/supabase/client";
 import ReviewCard from "@/components/ReviewCard";
+import ReviewForm from "@/components/ReviewForm";
+import { supabaseClient } from "@/lib/supabase/client";
 
 export default function ReviewsRow({ schoolUrn, refreshKey = 0 }) {
     const [reviews, setReviews] = useState([]);
+    const [schoolScore, setSchoolScore] = useState(null);
+    const [reviewCount, setReviewCount] = useState(0);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const [currentUserId, setCurrentUserId] = useState(null);
+    const [accessToken, setAccessToken] = useState("");
+    const [editingReview, setEditingReview] = useState(null);
+    const [localRefresh, setLocalRefresh] = useState(0);
+
+    useEffect(() => {
+        const loadSession = async () => {
+            const { data } = await supabaseClient.auth.getSession();
+            setCurrentUserId(data?.session?.user?.id ?? null);
+            setAccessToken(data?.session?.access_token ?? "");
+        };
+
+        loadSession();
+
+        const { data: sub } = supabaseClient.auth.onAuthStateChange(
+            (_event, session) => {
+                setCurrentUserId(session?.user?.id ?? null);
+                setAccessToken(session?.access_token ?? "");
+            }
+        );
+
+        return () => sub.subscription.unsubscribe();
+    }, []);
 
     useEffect(() => {
         const load = async () => {
@@ -16,26 +42,52 @@ export default function ReviewsRow({ schoolUrn, refreshKey = 0 }) {
             setLoading(true);
             setError("");
             
-            const { data, error } = await supabaseClient
-                .from("reviews")
-                .select("id, title, body, rating, created_at")
-                .eq("school_urn", Number(schoolUrn))
-                .is("deleted_at", null)
-                .order("created_at", { ascending: false })
+            const res = await fetch(`/api/reviews?school_urn=${encodeURIComponent(schoolUrn)}`);
+            const body = await res.json();
 
-            if (error) {
-                setError(error.message);
+            if (!res.ok) {
+                setError(body.error || "Failed to load reviews.");
                 setReviews([]);
+                setSchoolScore(null);
+                setReviewCount(0);
                 setLoading(false);
                 return;
             }
 
-            setReviews(data || []);
+            setReviews(body.data?.reviews || []);
+            setSchoolScore(body.data?.schoolScore ?? null);
+            setReviewCount(body.data?.reviewCount ?? 0);
             setLoading(false);
         };
 
         load();
-    }, [schoolUrn, refreshKey]);
+    }, [schoolUrn, refreshKey, localRefresh]);
+
+    const handleDelete = async (reviewId) => {
+        if (!accessToken) {
+            setError("You must be signed in to delete a review.");
+            return;
+        }
+
+        const confirmed = window.confirm("Delete this review?");
+        if (!confirmed) return;
+
+        const res = await fetch(`/api/reviews/${reviewId}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+
+        const body = await res.json().catch(() => ({}));
+        if (!res.ok) {
+            setError(body.error || "Failed to delete review.");
+            return;
+        }
+
+        setEditingReview(null);
+        setLocalRefresh((prev) => prev + 1);
+    };
 
     return (
         <section className="mt-8">
@@ -45,10 +97,28 @@ export default function ReviewsRow({ schoolUrn, refreshKey = 0 }) {
                 </h2>
                 {!loading && !error && (
                     <p className="text-sm text-gray-600 dark:text-gray-300">
-                        {reviews.length} total
+                        {reviewCount} total
                     </p>
                 )}
             </div>
+            {!loading && !error && schoolScore !== null && (
+                <p className="mb-3 text-sm text-gray-600 dark:text-gray-300">
+                    School score: {schoolScore.toFixed(1)} / 5
+                </p>
+            )}
+
+            {editingReview ? (
+                <ReviewForm
+                    schoolUrn={schoolUrn}
+                    reviewId={editingReview.id}
+                    initialData={editingReview}
+                    onCancel={() => setEditingReview(null)}
+                    onPosted={() => {
+                        setEditingReview(null);
+                        setLocalRefresh((prev) => prev + 1);
+                    }}
+                />
+            ) : null}
 
             {loading && <p className="text-sm text-gray-600 dark:text-gray-300">Loading reviews...</p>}
             {error && <p className="text-sm text-red-600">{error}</p>}
@@ -62,7 +132,13 @@ export default function ReviewsRow({ schoolUrn, refreshKey = 0 }) {
             {!loading && !error && reviews.length > 0 && (
                 <div className="flex gap-4 overflow-x-auto pb-3 pr-2">
                     {reviews.map((review) => (
-                        <ReviewCard key={review.id} review={review} />
+                        <ReviewCard
+                            key={review.id}
+                            review={review}
+                            showControls={review.user_id === currentUserId}
+                            onEdit={() => setEditingReview(review)}
+                            onDelete={() => handleDelete(review.id)}
+                        />
                     ))}
                 </div>
             )}
