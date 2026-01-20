@@ -31,7 +31,7 @@ export async function GET(request) {
     supabaseServer
       .from("School data")
       .select(
-        'URN, Postcode, EstablishmentName, Locality, Address3, "County (name)", Town, latitude, longitude, "LA (name)", Street, SchoolWebsite, TelephoneNum, "Gender (name)", "PhaseOfEducation (name)", "EstablishmentStatus (name)", SchoolCapacity, NumberOfPupils, "SpecialClasses (name)"'
+        'URN, Postcode, EstablishmentName, Locality, Address3, "County (name)", Town, latitude, longitude, "LA (name)", Street, SchoolWebsite, TelephoneNum, "Gender (name)", "PhaseOfEducation (name)", "EstablishmentStatus (name)",SchoolCapacity, NumberOfPupils, "SpecialClasses (name)", SchoolWebsite'
       )
       .limit(limit);
 

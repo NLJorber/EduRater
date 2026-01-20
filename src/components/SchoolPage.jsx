@@ -29,8 +29,13 @@ export default function SchoolPage({ school }) {
                 </div>
             )}
 
+            {/* school website section */}
+            <div className="text-brand-azure dark:text-brand-custard">
+                <p className="font-semibold mb-2">School website: <a className="text-blue-400" href={school.SchoolWebsite} target="_blank" rel="noopener noreferrer">{school.SchoolWebsite}</a></p>
+            </div>
+
             {/* contact section with local council so far */}
-            <div className="p-4">
+            <div className="pt-4 pb-4">
                 <h3 className="font-semibold border-b text-lg text-brand-red dark:text-brand-custard border-gray-300 dark:border-brand-lightgrey inline-block mb-3">Contact the school</h3>
                 <p className=" text-brand-azure dark:text-brand-custard"><b>Local council:</b> {school["LA (name)"]}</p>
             </div>
