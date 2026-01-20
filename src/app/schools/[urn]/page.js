@@ -95,7 +95,10 @@ export default function SchoolDetailPage() {
 
             {/* only show review form if user is logged in */}
             {user ? (
-                <ReviewForm schoolUrn={urn} />
+                <ReviewForm
+                    schoolUrn={urn}
+                    onPosted={() => setRefreshKey((prev) => prev + 1)}
+                />
             ) : (
                 <div className="mt-6 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-900">
                     <p className="text-gray-700 dark:text-gray-200">
