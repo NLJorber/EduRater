@@ -23,8 +23,6 @@ export default function ReviewForm({
     const [title, setTitle] = useState("");
     const [body, setBody] = useState("");
     const [rating, setRating] = useState("");
-
-    /* status: { type: "idle" | "loading" | "error" | "info", message: string } */
     const [status, setStatus] = useState({ type: "idle", message: "" });
     const [sections, setSections] = useState(() =>
         SECTION_DEFS.map((section) => ({
@@ -84,10 +82,7 @@ export default function ReviewForm({
     }, [initialData]);
 
     const handleSubmit = async (e) => {
-        /* stops browser doing a normal form submit which reloads page */
         e.preventDefault();
-
-        /* immediately set status to loading */
         setStatus({ type: "loading", message: "Posting review..." });
 
         const { data, error: sessionErr } = await supabaseClient.auth.getSession();
@@ -96,18 +91,16 @@ export default function ReviewForm({
             setStatus({ type: "error", message: "You must be logged in to post a review." });
             return;
         }
-        
+
         const cleanTitle = title.trim();
         const cleanBody = body.trim();
         const numRating = Number(rating);
 
-        /* validate review data */
         if (!cleanBody) {
             setStatus({ type: "error", message: "Review body cannot be empty." });
             return;
         }
 
-        /* rating must be a number between 0 and 5 */
         if (!Number.isFinite(numRating) || numRating < 0 || numRating > 5) {
             setStatus({ type: "error", message: "Rating must be a number between 0 and 5." });
             return;
@@ -181,20 +174,16 @@ export default function ReviewForm({
     };
 
     return (
-        /* create the card look for the review form */
         <div className="mt-6 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-900">
             <h3 className="text-lg font-semibold text-black dark:text-white">
                 {isEditing ? "Edit your review" : "Leave a review"}
             </h3>
 
-            {/* hooks form submit to handleSubmit function */}
             <form onSubmit={handleSubmit} className="mt-4 space-y-3">
                 <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
                         Title
                     </label>
-
-                    {/* typing triggers onChange which updates the title state */}
                     <input
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
@@ -207,8 +196,6 @@ export default function ReviewForm({
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
                         Rating (0-5)
                     </label>
-
-                    {/* rating input field with min 0 and max 5 */}
                     <input
                         value={rating}
                         onChange={(e) => setRating(e.target.value)}
@@ -225,8 +212,6 @@ export default function ReviewForm({
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
                         Review
                     </label>
-
-                    {/* textarea for review body allowing multiline input */}
                     <textarea
                         value={body}
                         onChange={(e) => setBody(e.target.value)}
@@ -335,7 +320,6 @@ export default function ReviewForm({
                     </button>
                 ) : null}
 
-                {/* only shows message if you are not idle and makes it red when error */}
                 {status.type !== "idle" && (
                     <p
                         className={`text-sm ${
