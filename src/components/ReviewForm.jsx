@@ -175,7 +175,7 @@ export default function ReviewForm({
 
     return (
         <div className="mt-6 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-900">
-            <h3 className="text-lg font-semibold text-black dark:text-white">
+            <h3 className="text-lg font-semibold text-brand-brown dark:text-brand-cream">
                 {isEditing ? "Edit your review" : "Leave a review"}
             </h3>
 

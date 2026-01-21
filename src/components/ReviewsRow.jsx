@@ -91,18 +91,18 @@ export default function ReviewsRow({ schoolUrn, refreshKey = 0 }) {
 
     return (
         <section className="mt-8">
-            <div className="mb-3 flex items-end justify-between">
-                <h2 className="text-lg font-semibold text-black dark:text-white">
+            <div className="display-headings mb-3 flex items-end justify-between">
+                <h2 className="text-lg font-semibold text-brand-orange dark:text-brand-orange">
                     Reviews
                 </h2>
                 {!loading && !error && (
-                    <p className="text-sm text-gray-600 dark:text-gray-300">
+                    <p className="text-sm text-brand-brown dark:text-brand-cream">
                         {reviewCount} total
                     </p>
                 )}
             </div>
             {!loading && !error && schoolScore !== null && (
-                <p className="mb-3 text-sm text-gray-600 dark:text-gray-300">
+                <p className="mb-3 text-sm text-brand-brown dark:text-brand-cream">
                     School score: {schoolScore.toFixed(1)} / 5
                 </p>
             )}
@@ -120,11 +120,11 @@ export default function ReviewsRow({ schoolUrn, refreshKey = 0 }) {
                 />
             ) : null}
 
-            {loading && <p className="text-sm text-gray-600 dark:text-gray-300">Loading reviews...</p>}
-            {error && <p className="text-sm text-red-600">{error}</p>}
+            {loading && <p className="text-sm text-brand-cream dark:text-brand-cream">Loading reviews...</p>}
+            {error && <p className="text-sm text-brand-orange">{error}</p>}
 
             {!loading && !error && reviews.length === 0 && (
-                <p className="text-sm text-gray-600 dark:text-gray-300">
+                <p className="text-sm text-brand-blue dark:text-brand-cream">
                     No reviews yet. Be the first to leave a review!
                 </p>
             )}

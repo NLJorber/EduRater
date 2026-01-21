@@ -71,15 +71,15 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="display-headings min-h-screen bg-brand-azure dark:bg-brand-darkgreen text-brand-white dark:text-brand-custard">
+    <main className="display-headings min-h-screen bg-brand-blue dark:bg-brand-brown text-brand-white dark:text-brand-custard">
       <div className="mx-auto flex w-full max-w-md flex-col gap-6 px-2 py-45">
         <div>
-          <h2 className="font-extrabold text-white dark:text-white">
+          <h2 className="font-extrabold text-brand-cream dark:text-brand-cream">
           Welcome to <br />
-          <span className="text-brand-custard">EduRater</span>
+          <span className="text-brand-brown dark:text-brand-orange ">EduRater</span>
         </h2>
-          <h3 className="text-3xl font-semibold mt-10 mb-4">Sign in or create an account to make reviews!</h3>
-          <p className="text-sm text-brand-white">
+          <h3 className="text-brand-cream dark:text-brand-cream text-3xl font-semibold mt-10 mb-4">Sign in or create an account to make reviews!</h3>
+          <p className="text-sm text-brand-cream">
             Use Google or email/password. Email signups require verification.
           </p>
         </div>
@@ -87,30 +87,30 @@ export default function LoginPage() {
         <button
           type="button"
           onClick={handleGoogleSignIn}
-          className="rounded-full border border-brand-red hover:border-brand-custard dark:border-brand-darkblue dark:hover:border-brand-custard bg-brand-red dark:bg-brand-darkblue hover:bg-brand-custard dark:hover:bg-brand-custard px-4 py-3 text-sm text-brand-white dark:text-brand-custard  hover:text-brand-azure dark:hover:text-brand-darkgreen font-semibold transition"
+          className="rounded-full border border-brand-cream hover:border-brand-brown dark:border-brand-cream dark:hover:border-brand-orange bg-brand-cream dark:bg-brand-cream hover:bg-brand-brown dark:hover:bg-brand-orange px-4 py-3 text-sm text-brand-brown dark:text-brand-blue  hover:text-brand-cream dark:hover:text-brand-cream font-semibold transition"
         >
           Continue with Google
         </button>
 
-        <div className="flex items-center gap-3 text-xs uppercase tracking-[0.3em] text-brand-white">
-          <span className="h-px flex-1 bg-slate-200" />
+        <div className="flex items-center gap-3 text-xs uppercase tracking-[0.3em] text-brand-cream">
+          <span className="h-px flex-1 bg-brand-cream" />
           or
-          <span className="h-px flex-1 bg-slate-200" />
+          <span className="h-px flex-1 bg-brand-cream" />
         </div>
 
         <form className="space-y-4" onSubmit={handleEmailSignIn}>
-          <label className="block text-sm font-bold text-brand-custard">
+          <label className="block text-sm font-bold text-brand-cream dark:text-brand-orange">
             Email
             <input
               type="email"
               required
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              className="mt-2 w-full rounded-2xl border dark:border-brand-lightgrey px-4 py-3 text-sm dark:placeholder:text-brand-midgrey dark:focus:border-brand-lightgrey focus:outline-none"
+              className="mt-2 w-full rounded-2xl border dark:border-brand-cream px-4 py-3 text-sm placeholder:text-brand-lightgrey dark:placeholder:text-brand-midgrey dark:focus:border-brand-cream focus:outline-none"
               placeholder="you@school.edu"
             />
           </label>
-          <label className="block text-sm font-bold text-brand-custard">
+          <label className="block text-sm font-bold text-brand-cream dark:text-brand-orange">
             Password
             <input
               type="password"
@@ -118,14 +118,14 @@ export default function LoginPage() {
               minLength={8}
               value={password}
               onChange={(event) => setPassword(event.target.value)}
-              className="mt-2 w-full rounded-2xl border dark:border-brand-lightgrey px-4 py-3 text-sm dark:placeholder:text-brand-midgrey dark:focus:border-brand-lightgrey focus:outline-none"
+              className="mt-2 w-full rounded-2xl border dark:border-brand-lightgrey px-4 py-3 text-sm placeholder:text-brand-lightgrey dark:placeholder:text-brand-midgrey dark:focus:border-brand-lightgrey focus:outline-none"
               placeholder="At least 8 characters"
             />
           </label>
           <div className="text-right">
             <a
               href="/forgot-password"
-              className="text-xs font-semibold text-brand-custard hover:text-brand-minty"
+              className="text-xs font-semibold text-brand-cream hover:text-brand-blue"
             >
               Forgot password?
             </a>
@@ -134,14 +134,14 @@ export default function LoginPage() {
           <div className="flex flex-col gap-3 sm:flex-row">
             <button
               type="submit"
-              className="flex-1 rounded-full  px-4 py-3 text-sm font-semibold text-brand-white dark:text-brand-custard transition hover:text-brand-azure dark:hover:text-brand-darkblue bg-brand-minty dark:bg-brand-darkblue hover:bg-brand-custard"
+              className="flex-1 rounded-full  px-4 py-3 text-sm font-semibold text-brand-cream dark:text-brand-cream transition hover:text-brand-cream dark:hover:text-brand-cream bg-brand-orange dark:bg-brand-orange hover:bg-brand-brown"
             >
               Sign in
             </button>
             <button
               type="button"
               onClick={handleEmailSignUp}
-              className="flex-1 rounded-full border border-brand-red bg-brand-red dark:border-brand-darkblue dark:bg-brand-darkblue px-4 py-3 text-sm font-semibold transition hover:border-brand-custard hover:bg-brand-custard hover:text-brand-azure dark:hover:text-brand-darkblue"
+              className="flex-1 rounded-full border bg-brand-cream dark:bg-brand-cream border-brand-cream  dark:border-brand-cream  text-brand-brown dark:text-brand-blue hover:text-brand-cream dark:hover:text-brand-cream px-4 py-3 text-sm font-semibold transition hover:border-brand-brown dark:hover:border-brand-orange hover:bg-brand-brown dark:hover:bg-brand-orange"
             >
               Sign up
             </button>

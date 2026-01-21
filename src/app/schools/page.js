@@ -56,19 +56,19 @@ export default function SchoolsPage() {
     }, [q]);
 
     return (
-        <div className="min-h-screen bg-brand-azure dark:bg-brand-darkblue p-10">
+        <div className="display-headings min-h-screen text-brand-orange dark:text-brand-cream bg-brand-cream dark:bg-brand-brown p-35">
             {/* heading showing "Schools in (current query)" */}
-            <h4 className="text-xl font-bold !tracking-normal !leading-snug">
+            <h3 className="font-bold !tracking-normal !leading-snug">
             Schools in {q || "…"}
-            </h4>
+            </h3>
 
             {loading && <p className="mt-4">Loading…</p>}
 
-            {error && <p className="mt-4 text-brand-red">{error}</p>}
+            {error && <p className="mt-4 text-brand-orange">{error}</p>}
 
             {/* renders no results if no schools were found */}
             {!loading && !error && schools.length === 0 && q && (
-                <p className="mt-4 text-brand-white dark:text-brand-custard">
+                <p className="mt-4 text-brand-blue dark:text-brand-cream">
                 No schools found for “{q}”.
                 </p>
             )}
@@ -89,7 +89,7 @@ export default function SchoolsPage() {
                     key={school.URN}
                     /* href sends you to individual school page when clicked */
                     href={`/schools/${school.URN}`}
-                    className="block rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 hover:scale-[1.01] transition"
+                    className="block rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue hover:scale-[1.01] transition"
                 >
                     <div>
                         {/* use URN as key due to it being unique to each school */}

@@ -41,7 +41,7 @@ export default function NavBar() {
 
   return (
     // NAV WRAPPER (fixed bar at the top)
-    <nav className="bg-brand-minty dark:bg-brand-deepmaroon fixed w-full z-20 top-0 border-b border-default border-brand-minty dark:border-brand-deepmaroon">
+    <nav className="bg-brand-cream dark:bg-brand-brown fixed w-full z-20 top-0 border-b border-default border-brand-blue dark:border-brand-blue">
       <div className="max-w-7xl mx-auto p-4 flex items-center justify-between">
 
         {/* LEFT SIDE: Logo / Brand */}
@@ -52,8 +52,8 @@ export default function NavBar() {
           <Image
             src="/EduRaterLogo.png"
             alt="Edurater logo"
-            width={50}
-            height={50}
+            width={70}
+            height={70}
             className="rounded-full"
             priority
           />
@@ -96,22 +96,22 @@ export default function NavBar() {
         >
             <ul className="mt-4 md:mt-0 flex flex-col md:flex-row md:space-x-8 p-4 md:p-0 border md:border-0 rounded-base bg-neutral-secondary-soft md:bg-transparent">
               <li>
-                <Link href="/" className="block py-2 px-3 font-bold text-brand-azure hover:text-brand-red dark:text-white dark:hover:text-brand-custard">
+                <Link href="/" className="block py-2 px-3 font-bold text-brand-blue hover:text-brand-orange dark:text-brand-cream dark:hover:text-brand-orange">
                   Home
                 </Link>
               </li>
             <li>
-              <Link href="#" className="block py-2 px-3 font-bold text-brand-azure hover:text-brand-red dark:text-white dark:hover:text-brand-custard">
+              <Link href="#" className="block py-2 px-3 font-bold text-brand-blue hover:text-brand-orange dark:text-brand-cream dark:hover:text-brand-orange">
                 Forum
               </Link>
             </li>
             <li>
-              <Link href="#" className="block py-2 px-3 font-bold text-brand-azure hover:text-brand-red dark:text-white dark:hover:text-brand-custard">
+              <Link href="#" className="block py-2 px-3 font-bold text-brand-blue hover:text-brand-orange dark:text-brand-cream dark:hover:text-brand-orange">
                 Map
               </Link>
             </li>
             <li>
-              <Link href="#" className="block py-2 px-3 font-bold text-brand-azure hover:text-brand-red dark:text-white dark:hover:text-brand-custard">
+              <Link href="#" className="block py-2 px-3 font-bold text-brand-blue hover:text-brand-orange dark:text-brand-cream dark:hover:text-brand-orange">
                 About Us
               </Link>
             </li>
@@ -119,7 +119,7 @@ export default function NavBar() {
               <button
                 type="button"
                 onClick={toggleTheme}
-                className="block py-2 px-3 font-bold text-brand-azure hover:text-brand-red dark:text-white dark:hover:text-brand-custard"
+                className="block py-2 px-3 font-bold text-brand-blue hover:text-brand-orange dark:text-brand-cream dark:hover:text-brand-orange"
               >
                 Night Mode
               </button>
@@ -129,7 +129,7 @@ export default function NavBar() {
             
             {canSeeStaff ? (
               <li>
-                <Link href="/staff" className="block py-2 px-3 font-bold text-brand-azure hover:text-brand-red dark:text-white dark:hover:text-brand-custard">
+                <Link href="/staff" className="block py-2 px-3 font-bold text-brand-blue hover:text-brand-orange dark:text-brand-cream dark:hover:text-brand-orange">
                   Staff Tools
                 </Link>
               </li>
@@ -140,12 +140,12 @@ export default function NavBar() {
                   <button
                     type="button"
                     onClick={handleSignOut}
-                    className="block py-2 px-3 font-bold text-brand-azure dark:text-brand-white hover:text-brand-red dark:hover:text-brand-custard" 
+                    className="block py-2 px-3 font-bold text-brand-orange dark:text-brand-orange hover:text-brand-brown dark:hover:text-brand-blue" 
                   >
                     Sign out
                   </button>
                 ) : (
-                  <Link href="/login" className="block py-2 px-3 font-bold text-brand-azure hover:text-brand-red dark:text-brand-white dark:hover:text-brand-custard">
+                  <Link href="/login" className="block py-2 px-3 font-bold text-brand-orange hover:text-brand-brown dark:text-brand-orange dark:hover:text-brand-blue">
                     Sign in
                   </Link>
                 )}

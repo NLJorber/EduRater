@@ -83,12 +83,12 @@ export default function SchoolDetailPage() {
     }, [urn]);
 
     if (loading) return <div className="p-10">Loading...</div>; 
-    if (error) return <div className="p-10 text-brand-red">{error}</div>;
+    if (error) return <div className="p-10 text-brand-orange">{error}</div>;
     if (!school) return <div className="p-10">School not found</div>;
 
     return (
         /* passes the loaded school object as a prop to SchoolPage to load the component */
-        <div className="min-h-screen p-6 bg-brand-azure dark:bg-brand-darkblue">
+        <div className="min-h-screen p-6 bg-brand-cream dark:bg-brand-brown">
             <SchoolPage school={school} />
 
             <ReviewsRow schoolUrn={urn} refreshKey={refreshKey} />
@@ -100,11 +100,11 @@ export default function SchoolDetailPage() {
                     onPosted={() => setRefreshKey((prev) => prev + 1)}
                 />
             ) : (
-                <div className="mt-6 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-900">
-                    <p className="text-gray-700 dark:text-gray-200">
+                <div className="mt-6 rounded-lg border border-brand-brown bg-brand-cream p-4 dark:border-brand-blue dark:bg-brand-cream">
+                    <p className="text-brand-brown dark:text-brand-brown">
                         You must be signed in to leave a review.
                     </p>
-                    <Link href="/login" className="mt-2 inline-block font-semibold text-blue-600">
+                    <Link href="/login" className="mt-2 inline-block font-semibold text-brand-blue">
                         Sign in
                     </Link>
                 </div>

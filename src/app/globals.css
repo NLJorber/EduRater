@@ -27,6 +27,12 @@
   --color-brand-custard: #FCEEB0;
   --color-brand-minty: #ABD1B5;
   --color-brand-azure: #4981E9;
+
+  /* new colours */
+  --color-brand-blue: #1573FF; 
+  --color-brand-orange: #FF7B00;
+  --color-brand-brown: #3D2901; 
+  --color-brand-cream: #FBF5E7; 
   
   /* darkmode */
   --color-brand-deepmaroon: #301014;
