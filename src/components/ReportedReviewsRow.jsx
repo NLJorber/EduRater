@@ -96,7 +96,7 @@ useEffect(() => {
             
             {/* show no reports message if not loading, no error, and rows is empty */}
             {!loading && !error && rows.length === 0 && (
-                <p className="text-sm text-slate-600">No reports 🎉</p>
+                <p className="text-sm text-slate-600">No reports to show</p>
             )}
 
             {/* show the list of reported reviews when not loading, no error, and rows exist */}
