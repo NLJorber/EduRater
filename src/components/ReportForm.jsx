@@ -110,7 +110,7 @@ export default function ReportForm({
                     className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-700 dark:bg-black dark:text-white"
                     placeholder="Explain why you're reporting this review..."
                     rows={4}
-                    required {/* makes the textarea required */}
+                    required /* makes the textarea required */
                 />
                 </div>
 
