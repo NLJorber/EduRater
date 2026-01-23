@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { supabaseClient } from "@/lib/supabase/client";
+import Rating from "@/components/ui/rating";
 
 const SECTION_DEFS = [
     { key: "teaching_learning", label: "Teaching & Learning" },
@@ -42,40 +43,6 @@ export default function ReviewForm({
     );
 
     const isEditing = Boolean(reviewId);
-
-    const StarRow = ({ value, onChange, disabled = false }) => {
-        const current = Number(value) || 0;
-
-    return (
-      <div className="inline-flex w-max min-w-[11rem] items-center gap-1 overflow-visible leading-none shrink-0 whitespace-nowrap">
-        {Array.from({ length: 5 }, (_, i) => {
-          const starValue = i + 1;
-          const filled = starValue <= current;
-
-                      return (
-            <button
-              key={starValue}
-              type="button"
-              disabled={disabled}
-              onClick={() => onChange(String(starValue))}
-              className="group inline-flex h-8 w-8 flex-shrink-0 items-center justify-center leading-none overflow-visible disabled:opacity-50"
-              aria-label={`Rate ${starValue} out of 5`}
-            >
-              <span
-                aria-hidden="true"
-                className={`text-xl leading-none transition-colors ${
-                  filled ? "text-yellow-400" : "text-gray-300"
-                } group-hover:text-yellow-400`}
-              >
-                {filled ? "★" : "☆"}
-              </span>
-            </button>
-          );
-        })}
-      </div>
-    );
-  };
-
 
     useEffect(() => {
         if (!initialData) return;
@@ -259,15 +226,13 @@ const bodyResponse = await res.json().catch(() => ({}));
           </label>
 
           <div className="mt-1 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <div className="overflow-visible">
-              <StarRow
-                value={rating}
-                onChange={(val) => {
-                  setRatingManuallySet(true);
-                  setRating(val);
-                }}
-              />
-            </div>
+            <Rating
+              value={rating}
+              onChange={(val) => {
+                setRatingManuallySet(true);
+                setRating(val);
+              }}
+            />
 
             <span className="text-sm text-gray-600 dark:text-gray-300">
               {rating ? `${rating} / 5` : "Select a rating"}
@@ -357,9 +322,10 @@ const bodyResponse = await res.json().catch(() => ({}));
 
                 <div className="mt-2 grid gap-3">
                   <div>
-                    <StarRow
+                    <Rating
                       value={section.rating}
                       disabled={section.isNa}
+                      size="sm"
                       onChange={(val) =>
                         setSections((prev) =>
                           prev.map((item, itemIndex) =>
