@@ -11,6 +11,7 @@ export async function GET(request) {
   const name = searchParams.get("name");
 
   const q = searchParams.get("q");
+  const phaseParam = searchParams.get("phase");
   const latParam = searchParams.get("lat");
   const lngParam = searchParams.get("lng");
 
@@ -102,6 +103,7 @@ export async function GET(request) {
       lon: Number(lng),
       limit_count: limit,
       max_km: radiusKm,
+      phase_filter: phasePattern,
     });
 
     if (error) {
@@ -145,13 +147,26 @@ export async function GET(request) {
 
     return out;
   };
+
+  const normalizedPhase = (phaseParam || "").trim().toLowerCase();
+  const phasePattern = (() => {
+    if (!normalizedPhase || normalizedPhase === "all") return null;
+    if (normalizedPhase === "primary") return "%Primary%";
+    if (normalizedPhase === "secondary") return "%Secondary%";
+    if (normalizedPhase === "nursery") return "%Nursery%";
+    if (normalizedPhase === "not applicable") return "%Not applicable%";
+    return `%${normalizedPhase}%`;
+  })();
   
   if (hasCoords) {
     const nearby = await runNearbySearch(latParam, lngParam);
     if (nearby.error) {
       return NextResponse.json({ error: nearby.error }, { status: 500 });
     }
-    return NextResponse.json({ data: nearby.data, mode: "nearby" });
+    return NextResponse.json({
+      data: nearby.data,
+      mode: "nearby",
+    });
   }
 
   if (q && q.trim()) {
@@ -176,6 +191,9 @@ export async function GET(request) {
     let query = makeBaseQuery().or(
       `EstablishmentName.ilike.%${term}%,Town.ilike.%${term}%,Postcode.ilike.%${term}%`
     );
+    if (phasePattern) {
+      query = query.ilike('"PhaseOfEducation (name)"', phasePattern);
+    }
 
     const { data, error } = await query;
     if (error) {
@@ -224,6 +242,9 @@ export async function GET(request) {
 
     if (name) {
       query = query.ilike("EstablishmentName", `%${name}%`);
+    }
+    if (phasePattern) {
+      query = query.ilike('"PhaseOfEducation (name)"', phasePattern);
     }
     const { data, error } = await query;
 

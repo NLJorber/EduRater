@@ -2,7 +2,8 @@ create or replace function public.nearby_schools(
   lat double precision,
   lon double precision,
   limit_count integer default 50,
-  max_km double precision default 25
+  max_km double precision default 25,
+  phase_filter text default null
 )
 returns table (
   "URN" text,
@@ -57,6 +58,11 @@ as $$
       ) as distance_km
     from "School data"
     where latitude is not null and longitude is not null
+      and (
+        phase_filter is null
+        or phase_filter = ''
+        or "PhaseOfEducation (name)" ilike phase_filter
+      )
   )
   select *
   from candidates
