@@ -23,7 +23,10 @@ export default function ReviewForm({
     const [title, setTitle] = useState("");
     const [body, setBody] = useState("");
     const [rating, setRating] = useState("");
+    const [ratingManuallySet, setRatingManuallySet] = useState(false);
+
     const [status, setStatus] = useState({ type: "idle", message: "" });
+
     const [sections, setSections] = useState(() =>
         SECTION_DEFS.map((section) => ({
             ...section,
@@ -39,6 +42,42 @@ export default function ReviewForm({
     );
 
     const isEditing = Boolean(reviewId);
+
+    const StarRow = ({ value, onChange, disabled = false }) => {
+        const current = Number(value) || 0;
+
+    return (
+      <div className="flex items-center gap-1">
+        {Array.from({ length: 5 }, (_, i) => {
+          const starValue = i + 1;
+          const filled = starValue <= current;
+
+                      return (
+            <button
+              key={starValue}
+              type="button"
+              disabled={disabled}
+              onClick={() => onChange(String(starValue))}
+              className="inline-flex h-7 w-7 items-center justify-center leading-none disabled:opacity-50"
+              aria-label={`Rate ${starValue} out of 5`}
+            >
+              <svg
+                className={`block h-6 w-6 ${
+                  filled ? "text-yellow-400" : "text-gray-300"
+                }`}
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                aria-hidden="true"
+              >
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.955a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.449a1 0 00-.364 1.118l1.287 3.955c.3.921-.755 1.688-1.54 1.118l-3.37-2.449a1 0 00-1.176 0l-3.37 2.449c-.784.57-1.838-.197-1.539-1.118l1.286-3.955a1 0 00-.364-1.118L2.025 9.382c-.783-.57-.38-1.81.588-1.81h4.162a1 0 00.95-.69l1.286-3.955z" />
+              </svg>
+            </button>
+          );
+        })}
+      </div>
+    );
+  };
+
 
     useEffect(() => {
         if (!initialData) return;
@@ -81,255 +120,333 @@ export default function ReviewForm({
         );
     }, [initialData]);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setStatus({ type: "loading", message: "Posting review..." });
+    const computedOverall = useMemo(() => {
+    const nums = sections
+        .filter((s) => !s.isNa && s.rating !== "")
+        .map((s) => Number(s.rating))
+        .filter((n) => Number.isFinite(n) && n >= 1 && n <= 5);
 
-        const { data, error: sessionErr } = await supabaseClient.auth.getSession();
+    if (nums.length === 0) return null;
 
-        if (sessionErr || !data?.session) {
-            setStatus({ type: "error", message: "You must be logged in to post a review." });
-            return;
-        }
+    const avg = nums.reduce((a, b) => a + b, 0) / nums.length;
+    return Math.round(avg * 10) / 10; // 1 decimal
+}, [sections]);
 
-        const cleanTitle = title.trim();
-        const cleanBody = body.trim();
-        const numRating = Number(rating);
+    useEffect(() => {
+    if (!ratingManuallySet && computedOverall != null) {
+      setRating(String(computedOverall));
+    }
+  }, [computedOverall, ratingManuallySet]);
 
-        if (!cleanBody) {
-            setStatus({ type: "error", message: "Review body cannot be empty." });
-            return;
-        }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus({ type: "loading", message: "Posting review..." });
 
-        if (!Number.isFinite(numRating) || numRating < 0 || numRating > 5) {
-            setStatus({ type: "error", message: "Rating must be a number between 0 and 5." });
-            return;
-        }
+    const { data, error: sessionErr } = await supabaseClient.auth.getSession();
 
-        const payloadSections = sections
-            .filter((section) => section.rating !== "" || section.comment || section.isNa)
-            .map((section) => ({
-                sectionKey: section.key,
-                rating:
-                    section.isNa || section.rating === ""
-                        ? null
-                        : Number(section.rating),
-                comment: section.comment.trim() || null,
-            }));
+    if (sessionErr || !data?.session) {
+      setStatus({
+        type: "error",
+        message: "You must be logged in to post a review.",
+      });
+      return;
+    }
 
-        const res = await fetch(isEditing ? `/api/reviews/${reviewId}` : "/api/reviews", {
-            method: isEditing ? "PATCH" : "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${data.session.access_token}`,
-            },
-            body: JSON.stringify({
-                ...(isEditing
-                    ? {
-                          title: cleanTitle || null,
-                          body: cleanBody,
-                          rating: numRating,
-                          sections: payloadSections,
-                      }
-                    : {
-                          schoolUrn: Number(schoolUrn),
-                          title: cleanTitle || null,
-                          body: cleanBody,
-                          rating: numRating,
-                          sections: payloadSections,
-                      }),
+            const cleanTitle = title.trim();
+            const cleanBody = body.trim();
+            const numRating = Number(rating);
+
+    if (!cleanBody) {
+      setStatus({ type: "error", message: "Review body cannot be empty." });
+      return;
+    }
+
+    if (!Number.isFinite(numRating) || numRating < 0 || numRating > 5) {
+      setStatus({
+        type: "error",
+        message: "Rating must be a number between 0 and 5.",
+      });
+      return;
+    }
+
+    const payloadSections = sections
+      .filter((section) => section.rating !== "" || section.comment || section.isNa)
+      .map((section) => ({
+        sectionKey: section.key,
+        rating: section.isNa || section.rating === "" ? null : Number(section.rating),
+        comment: section.comment.trim() || null,
+      }));
+
+const res = await fetch(isEditing ? `/api/reviews/${reviewId}` : "/api/reviews", {
+      method: isEditing ? "PATCH" : "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${data.session.access_token}`,
+      },
+body: JSON.stringify({
+        ...(isEditing
+          ? {
+              title: cleanTitle || null,
+              body: cleanBody,
+              rating: numRating,
+              sections: payloadSections,
+            }
+          : {
+              schoolUrn: Number(schoolUrn),
+              title: cleanTitle || null,
+              body: cleanBody,
+              rating: numRating,
+              sections: payloadSections,
             }),
-        });
+      }),
+    });
 
-        const bodyResponse = await res.json().catch(() => ({}));
+const bodyResponse = await res.json().catch(() => ({}));
 
-        if (!res.ok) {
-            setStatus({
-                type: "error",
-                message: bodyResponse.error || "Failed to post review.",
-            });
-            return;
-        }
+    if (!res.ok) {
+      setStatus({
+        type: "error",
+        message: bodyResponse.error || "Failed to post review.",
+      });
+      return;
+    }
 
-        if (!isEditing) {
-            setTitle("");
-            setBody("");
-            setRating("");
-            setSections((prev) =>
-                prev.map((section) => ({
-                    ...section,
-                    rating: "",
-                    comment: "",
-                    isNa: false,
-                }))
-            );
-        }
+ if (!isEditing) {
+      setTitle("");
+      setBody("");
+      setRating("");
+      setRatingManuallySet(false);
+      setSections((prev) =>
+        prev.map((section) => ({
+          ...section,
+          rating: "",
+          comment: "",
+          isNa: false,
+        }))
+      );
+    }
 
-        setStatus({
-            type: "info",
-            message: isEditing ? "Review updated successfully!" : "Review posted successfully!",
-        });
+    setStatus({
+      type: "info",
+      message: isEditing
+        ? "Review updated successfully!"
+        : "Review posted successfully!",
+    });
 
-        onPosted?.();
-    };
+    onPosted?.();
+  };
 
     return (
-        <div className="mt-6 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-900">
-            <h3 className="text-lg font-semibold text-brand-brown dark:text-brand-cream">
-                {isEditing ? "Edit your review" : "Leave a review"}
-            </h3>
+    <div className="mt-6 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-900">
+      <h3 className="text-lg font-semibold text-brand-brown dark:text-brand-cream">
+        {isEditing ? "Edit your review" : "Leave a review"}
+      </h3>
 
-            <form onSubmit={handleSubmit} className="mt-4 space-y-3">
-                <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
-                        Title
-                    </label>
-                    <input
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-700 dark:bg-black dark:text-white"
-                        placeholder="Optional title"
-                    />
-                </div>
-
-                <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
-                        Rating (0-5)
-                    </label>
-                    <input
-                        value={rating}
-                        onChange={(e) => setRating(e.target.value)}
-                        type="number"
-                        min="0"
-                        max="5"
-                        step="0.1"
-                        className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-700 dark:bg-black dark:text-white"
-                        required
-                    />
-                </div>
-
-                <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
-                        Review
-                    </label>
-                    <textarea
-                        value={body}
-                        onChange={(e) => setBody(e.target.value)}
-                        className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-700 dark:bg-black dark:text-white"
-                        rows={5}
-                        placeholder="Write your review here..."
-                        required
-                    />
-                </div>
-
-                <div>
-                    <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-200">
-                        Section ratings (optional)
-                    </h4>
-                    <div className="mt-3 space-y-3">
-                        {sections.map((section, index) => (
-                            <div key={section.key} className="rounded-md border border-gray-200 p-3 dark:border-gray-700">
-                                <div className="flex items-center justify-between gap-3">
-                                    <p className="text-sm font-semibold text-gray-700 dark:text-gray-200">
-                                        {section.label}
-                                    </p>
-                                    {index === sendSectionIndex && (
-                                        <button
-                                            type="button"
-                                            onClick={() =>
-                                                setSections((prev) =>
-                                                    prev.map((item, itemIndex) =>
-                                                        itemIndex === index
-                                                            ? {
-                                                                  ...item,
-                                                                  isNa: !item.isNa,
-                                                                  rating: "",
-                                                                  comment: "",
-                                                              }
-                                                            : item
-                                                    )
-                                                )
-                                            }
-                                            className="text-xs font-semibold text-blue-600 hover:text-blue-700"
-                                        >
-                                            {section.isNa ? "Undo N/A" : "Mark as N/A"}
-                                        </button>
-                                    )}
-                                </div>
-
-                                <div className="mt-2 grid gap-3">
-                                    <input
-                                        value={section.rating}
-                                        onChange={(e) =>
-                                            setSections((prev) =>
-                                                prev.map((item, itemIndex) =>
-                                                    itemIndex === index
-                                                        ? {
-                                                              ...item,
-                                                              rating: e.target.value,
-                                                              isNa: false,
-                                                          }
-                                                        : item
-                                                )
-                                            )
-                                        }
-                                        type="number"
-                                        min="1"
-                                        max="5"
-                                        step="1"
-                                        className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm dark:border-gray-700 dark:bg-black dark:text-white"
-                                        placeholder="Rating (1-5)"
-                                        disabled={section.isNa}
-                                    />
-                                    <textarea
-                                        value={section.comment}
-                                        onChange={(e) =>
-                                            setSections((prev) =>
-                                                prev.map((item, itemIndex) =>
-                                                    itemIndex === index
-                                                        ? { ...item, comment: e.target.value, isNa: false }
-                                                        : item
-                                                )
-                                            )
-                                        }
-                                        className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm dark:border-gray-700 dark:bg-black dark:text-white"
-                                        rows={3}
-                                        placeholder="Optional comment"
-                                        disabled={section.isNa}
-                                    />
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                <button
-                    type="submit"
-                    disabled={status.type === "loading"}
-                    className="rounded-md bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700 disabled:opacity-60"
-                >
-                    {isEditing ? "Save changes" : "Post"}
-                </button>
-                {isEditing ? (
-                    <button
-                        type="button"
-                        onClick={onCancel}
-                        className="ml-3 rounded-md border border-gray-300 px-4 py-2 font-semibold text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-800"
-                    >
-                        Cancel
-                    </button>
-                ) : null}
-
-                {status.type !== "idle" && (
-                    <p
-                        className={`text-sm ${
-                            status.type === "error" ? "text-red-600" : "text-gray-600 dark:text-gray-300"
-                        }`}
-                    >
-                        {status.message}
-                    </p>
-                )}
-            </form>
+      <form onSubmit={handleSubmit} className="mt-4 space-y-3">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
+            Title
+          </label>
+          <input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-700 dark:bg-black dark:text-white"
+            placeholder="Optional title"
+          />
         </div>
-    );
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
+            Overall Rating
+          </label>
+
+          <div className="mt-1 flex items-center justify-between gap-3">
+            <StarRow
+              value={rating}
+              onChange={(val) => {
+                setRatingManuallySet(true);
+                setRating(val);
+              }}
+            />
+
+            <span className="text-sm text-gray-600 dark:text-gray-300">
+              {rating ? `${rating} / 5` : "Select a rating"}
+            </span>
+          </div>
+
+          {computedOverall != null ? (
+            <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+              Computed from section ratings:{" "}
+              <span className="font-semibold">{computedOverall} / 5</span>
+              {!ratingManuallySet ? " (auto-filled)" : ""}
+            </p>
+          ) : null}
+
+          {/* Optional: if you want users to type decimals, uncomment this.
+              If you do, consider also adding half-star UI later. */}
+          {/* 
+          <input
+            value={rating}
+            onChange={(e) => {
+              setRatingManuallySet(true);
+              setRating(e.target.value);
+            }}
+            type="number"
+            min="0"
+            max="5"
+            step="0.1"
+            className="mt-2 w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-700 dark:bg-black dark:text-white"
+            required
+          /> 
+          */}
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
+            Review
+          </label>
+          <textarea
+            value={body}
+            onChange={(e) => setBody(e.target.value)}
+            className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-700 dark:bg-black dark:text-white"
+            rows={5}
+            placeholder="Write your review here..."
+            required
+          />
+        </div>
+
+        <div>
+          <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-200">
+            Section ratings (optional)
+          </h4>
+
+          <div className="mt-3 space-y-3">
+            {sections.map((section, index) => (
+              <div
+                key={section.key}
+                className="rounded-md border border-gray-200 p-3 dark:border-gray-700"
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-sm font-semibold text-gray-700 dark:text-gray-200">
+                    {section.label}
+                  </p>
+
+                  {index === sendSectionIndex && (
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setSections((prev) =>
+                          prev.map((item, itemIndex) =>
+                            itemIndex === index
+                              ? {
+                                  ...item,
+                                  isNa: !item.isNa,
+                                  rating: "",
+                                  comment: "",
+                                }
+                              : item
+                          )
+                        )
+                      }
+                      className="text-xs font-semibold text-blue-600 hover:text-blue-700"
+                    >
+                      {section.isNa ? "Undo N/A" : "Mark as N/A"}
+                    </button>
+                  )}
+                </div>
+
+                <div className="mt-2 grid gap-3">
+                  <div>
+                    <StarRow
+                      value={section.rating}
+                      disabled={section.isNa}
+                      onChange={(val) =>
+                        setSections((prev) =>
+                          prev.map((item, itemIndex) =>
+                            itemIndex === index
+                              ? { ...item, rating: val, isNa: false }
+                              : item
+                          )
+                        )
+                      }
+                    />
+                    <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                      {section.isNa
+                        ? "Marked N/A"
+                        : section.rating
+                        ? `${section.rating} / 5`
+                        : "Optional"}
+                    </p>
+                  </div>
+
+                  <textarea
+                    value={section.comment}
+                    onChange={(e) =>
+                      setSections((prev) =>
+                        prev.map((item, itemIndex) =>
+                          itemIndex === index
+                            ? { ...item, comment: e.target.value, isNa: false }
+                            : item
+                        )
+                      )
+                    }
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm dark:border-gray-700 dark:bg-black dark:text-white"
+                    rows={3}
+                    placeholder="Optional comment"
+                    disabled={section.isNa}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          disabled={status.type === "loading"}
+          className="rounded-md bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700 disabled:opacity-60"
+        >
+          {isEditing ? "Save changes" : "Post"}
+        </button>
+
+        {isEditing ? (
+          <button
+            type="button"
+            onClick={onCancel}
+            className="ml-3 rounded-md border border-gray-300 px-4 py-2 font-semibold text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-800"
+          >
+            Cancel
+          </button>
+        ) : null}
+
+         {status.type !== "idle" && (
+          <p
+            className={`text-sm ${
+              status.type === "error"
+                ? "text-red-600"
+                : "text-gray-600 dark:text-gray-300"
+            }`}
+          >
+            {status.message}
+          </p>
+        )}
+      </form>
+    </div>
+  );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
