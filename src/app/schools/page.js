@@ -82,7 +82,8 @@ export default function SchoolsPage() {
 
 
 
-            <div className="mt-6 grid gap-4">
+            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+
                 {/* loops over the array of schools returning the school and its index num */}
                 {schools.map((school, num) => (
                 <Link
@@ -91,10 +92,10 @@ export default function SchoolsPage() {
                     href={`/schools/${school.URN}`}
                     className="block rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue hover:scale-[1.01] transition"
                 >
-                    <div>
+                    
                         {/* use URN as key due to it being unique to each school */}
                         <SchoolCard key={school.URN} school={school} num={num} />
-                    </div>
+                    
                 </Link>
                 ))}
             </div>
