@@ -31,9 +31,9 @@ export default function RootLayout({ children }) {
         lang="en"
         className={`${geistSans.variable} ${geistMono.variable} ${dmSerifDisplay.variable}`}
       >
-        <body className="antialiased">
+      <body className="antialiased">
         <NavBar />
-        {children}
+        <div className="pt-24">{children}</div>
       </body>
     </html>
   );
