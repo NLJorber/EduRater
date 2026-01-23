@@ -56,7 +56,7 @@ export default function SchoolsPage() {
     }, [q]);
 
     return (
-        <div className="display-headings min-h-screen text-brand-orange dark:text-brand-cream bg-brand-cream dark:bg-brand-brown p-35">
+        <div className="display-headings min-h-screen text-brand-orange dark:text-brand-cream bg-brand-cream dark:bg-brand-brown px-32 py-6">
             {/* heading showing "Schools in (current query)" */}
             <h3 className="font-bold !tracking-normal !leading-snug">
             Schools in {q || "…"}
