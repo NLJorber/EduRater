@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 
@@ -16,9 +16,24 @@ export default function SchoolsPage() {
     const searchParams = useSearchParams();
     const q = (searchParams.get("q") || "").trim();
 
+    const [nextQ, setNextQ] = useState("");
+    const router = useRouter();
+
     const [schools, setSchools] = useState([]);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+
+    const onSearch = () => {
+        const term = nextQ.trim();
+        if (!term) return;
+
+        /* navigate to the schools page with the query as a query parameter */
+        router.push(`/schools?q=${encodeURIComponent(term)}`)
+    }
+
+    useEffect(() => {
+        setNextQ(q);
+    }, [q]);
 
     /* fetch schools data when q changes */
     useEffect(() => {
@@ -56,11 +71,36 @@ export default function SchoolsPage() {
     }, [q]);
 
     return (
-        <div className="display-headings min-h-screen text-brand-orange dark:text-brand-cream bg-brand-cream dark:bg-brand-brown px-32 py-6">
+        <div className="display-headings min-h-screen text-brand-orange dark:text-brand-cream bg-brand-cream dark:bg-brand-brown p-4 md:px-32 py-6">
             {/* heading showing "Schools in (current query)" */}
             <h2 className="font-bold !tracking-normal !leading-snug">
             Schools in {q || "…"}
             </h2>
+
+            <div className="w-full max-w-lg pt-2">
+                <form
+                    className="w-full flex flex-row gap-3"
+                    onSubmit={(e) => {
+                    e.preventDefault();
+                    onSearch();
+                    }}
+                >
+                    <input
+                    type="text"
+                    value={nextQ}
+                    onChange={(e) => setNextQ(e.target.value)}
+                    placeholder="Search for schools..."
+                    className="w-full rounded-md border border-brand-brown px-4 py-2 text-brand-blue placeholder:text-brand-brown focus:border-brand-blue focus:outline-none focus:ring-2 focus:ring-brand-blue bg-brand-cream dark:bg-brand-brown dark:border-brand-cream dark:placeholder-brand-cream"
+                    />
+
+                    <button
+                    type="submit"
+                    className="self-center rounded-md px-6 py-3 bg-brand-brown dark:bg-brand-cream text-brand-cream dark:text-brand-brown font-bold hover:bg-brand-orange dark:hover:bg-brand-blue hover:text-white dark:hover:text-brand-cream focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    >
+                    Search
+                    </button>
+                </form>
+            </div>
 
             {loading && <p className="mt-4">Loading…</p>}
 
