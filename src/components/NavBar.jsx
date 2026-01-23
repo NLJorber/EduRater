@@ -52,8 +52,8 @@ export default function NavBar() {
           <Image
             src="/EduRaterLogo.png"
             alt="Edurater logo"
-            width={70}
-            height={70}
+            width={50}
+            height={50}
             className="rounded-full"
             priority
           />

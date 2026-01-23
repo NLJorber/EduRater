@@ -5,6 +5,7 @@ import { useState } from "react";
 
 /* lets component navigate to different pages without a page reload */
 import { useRouter } from "next/navigation";
+import IconsScroll from "@/components/IconsScroll";
 
 export default function Home() {
   const [q, setQ] = useState("");
@@ -18,10 +19,23 @@ export default function Home() {
     router.push(`/schools?q=${encodeURIComponent(term)}`)
   }
 
+  const icons = [
+    "/icons/Book.png",
+    "/icons/Flask.png",
+    "/icons/Division.png",
+    "/icons/Paintbrush.png",
+    "/icons/Pi.png",
+    "/icons/Plus.png",
+    "/icons/Atom.png",
+    "/icons/Sodium.png"
+  ];
+
   return (
     <main className="min-h-screen flex flex-col">
-      <header className="display-headings w-full min-h-[33vh] flex items-center justify-center bg-brand-blue">
-        <div className="px-6 text-center">
+      <header className="relative display-headings w-full min-h-[44vh] flex items-center justify-center bg-brand-blue">
+        <IconsScroll icons={icons} size={44} rows={7} speed={300}/>
+
+        <div className="relative z-10 px-6 text-center">
           <h1 className="font-extrabold text-brand-brown dark:text-white">
             Welcome to <br />
             <span className="text-brand-cream dark:text-brand-orange">EduRater</span>

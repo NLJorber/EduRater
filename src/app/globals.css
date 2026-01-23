@@ -98,3 +98,23 @@ pre {
   .display-headings h5 { font-size: clamp(1.1rem, 1.4vw, 1.35rem); }
   .display-headings h6 { font-size: clamp(1rem, 1.1vw, 1.15rem); }
 }
+
+/* ANIMATIONS */
+
+@keyframes iconScroll {
+  0%   { transform: translate3d(0,0,0); }
+  100% { transform: translate3d(-50%,0,0); }
+}
+
+.icon-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: iconScroll 300s linear infinite;
+}
+
+.icon-strip {
+  display: flex;
+  gap: 2rem;
+}
+
