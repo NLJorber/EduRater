@@ -1,9 +1,9 @@
 "use client";
 
+import { useMemo } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-
 import Link from "next/link";
 
 // Fix missing default marker icons in Next.js
@@ -31,11 +31,20 @@ function getTown(s) {
 }
 
 export default function SchoolsMap({ schools }) {
-  const schoolsWithCoords = (schools || []).filter((s) => {
-    const lat = getLat(s);
-    const lng = getLng(s);
-    return lat != null && lng != null && !Number.isNaN(Number(lat)) && !Number.isNaN(Number(lng));
-  });
+  const schoolsWithCoords = useMemo(
+    () => 
+      (schools || []).filter((s) => {
+        const lat = getLat(s);
+        const lng = getLng(s);
+        return (
+          lat != null && 
+          lng != null && 
+          !Number.isNaN(Number(lat)) && 
+          !Number.isNaN(Number(lng))
+        );
+  }),
+  [schools]
+);
 
   // Pick a sensible center: first school with coords, otherwise London
   const center =
@@ -43,13 +52,11 @@ export default function SchoolsMap({ schools }) {
       ? [Number(getLat(schoolsWithCoords[0])), Number(getLng(schoolsWithCoords[0]))]
       : [51.5072, -0.1276];
 
-  const mapKey =
-    schoolsWithCoords[0]?.URN ?? `${center[0]}-${center[1]}-${schoolsWithCoords.length}`;
+  const containerKey = `${center[0]}-${center[1]}-${schoolsWithCoords.length}`;
 
   return (
-    <div style={{ height: 420, width: "100%" }}>
+    <div key={containerKey} style={{ height: 420, width: "100%" }}>
       <MapContainer
-        key={mapKey}
         center={center}
         zoom={12}
         style={{ height: "100%", width: "100%" }}
@@ -69,7 +76,6 @@ export default function SchoolsMap({ schools }) {
                 <div style={{ fontWeight: 600 }}>{getName(s)}</div>
                 <div>{getTown(s)}</div>
                 <Link
-                    key={s.URN}
                     /* href sends you to individual school page when clicked */
                     href={`/schools/${s.URN}`}
                     className="block rounded-lg focus:scale-[1.03] hover:scale-[1.01] transition"
