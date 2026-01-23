@@ -148,6 +148,14 @@ export async function GET(request) {
     return out;
   };
 
+  const excludeHigherEd = (rows) =>
+    Array.isArray(rows)
+      ? rows.filter((row) => {
+          const name = `${row?.EstablishmentName || ""}`.toLowerCase();
+          return !name.includes("university") && !name.includes("college");
+        })
+      : rows;
+
   const normalizedPhase = (phaseParam || "").trim().toLowerCase();
   const phasePattern = (() => {
     if (!normalizedPhase || normalizedPhase === "all") return null;
@@ -164,7 +172,7 @@ export async function GET(request) {
       return NextResponse.json({ error: nearby.error }, { status: 500 });
     }
     return NextResponse.json({
-      data: nearby.data,
+      data: excludeHigherEd(nearby.data),
       mode: "nearby",
     });
   }
@@ -181,7 +189,7 @@ export async function GET(request) {
           return NextResponse.json({ error: nearby.error }, { status: 500 });
         }
         return NextResponse.json({
-          data: dedupeByNameAndPostcode(nearby.data),
+          data: excludeHigherEd(dedupeByNameAndPostcode(nearby.data)),
           mode: "nearby",
           location: coords,
         });
@@ -202,7 +210,7 @@ export async function GET(request) {
 
     if (data && data.length > 0) {
       return NextResponse.json({
-        data: dedupeByNameAndPostcode(data),
+        data: excludeHigherEd(dedupeByNameAndPostcode(data)),
         mode: "text",
       });
     }
@@ -214,7 +222,7 @@ export async function GET(request) {
         return NextResponse.json({ error: nearby.error }, { status: 500 });
       }
       return NextResponse.json({
-        data: dedupeByNameAndPostcode(nearby.data),
+        data: excludeHigherEd(dedupeByNameAndPostcode(nearby.data)),
         mode: "nearby",
         location: coords,
       });
@@ -252,6 +260,8 @@ export async function GET(request) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    return NextResponse.json({ data: dedupeByNameAndPostcode(data) });
+    return NextResponse.json({
+      data: excludeHigherEd(dedupeByNameAndPostcode(data)),
+    });
   }
 }

@@ -47,7 +47,7 @@ export default function ReviewForm({
         const current = Number(value) || 0;
 
     return (
-      <div className="flex items-center gap-1">
+      <div className="inline-flex w-max min-w-[11rem] items-center gap-1 overflow-visible leading-none shrink-0 whitespace-nowrap">
         {Array.from({ length: 5 }, (_, i) => {
           const starValue = i + 1;
           const filled = starValue <= current;
@@ -58,19 +58,17 @@ export default function ReviewForm({
               type="button"
               disabled={disabled}
               onClick={() => onChange(String(starValue))}
-              className="inline-flex h-7 w-7 items-center justify-center leading-none disabled:opacity-50"
+              className="group inline-flex h-8 w-8 flex-shrink-0 items-center justify-center leading-none overflow-visible disabled:opacity-50"
               aria-label={`Rate ${starValue} out of 5`}
             >
-              <svg
-                className={`block h-6 w-6 ${
-                  filled ? "text-yellow-400" : "text-gray-300"
-                }`}
-                fill="currentColor"
-                viewBox="0 0 20 20"
+              <span
                 aria-hidden="true"
+                className={`text-xl leading-none transition-colors ${
+                  filled ? "text-yellow-400" : "text-gray-300"
+                } group-hover:text-yellow-400`}
               >
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.955a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.449a1 0 00-.364 1.118l1.287 3.955c.3.921-.755 1.688-1.54 1.118l-3.37-2.449a1 0 00-1.176 0l-3.37 2.449c-.784.57-1.838-.197-1.539-1.118l1.286-3.955a1 0 00-.364-1.118L2.025 9.382c-.783-.57-.38-1.81.588-1.81h4.162a1 0 00.95-.69l1.286-3.955z" />
-              </svg>
+                {filled ? "★" : "☆"}
+              </span>
             </button>
           );
         })}
@@ -260,14 +258,16 @@ const bodyResponse = await res.json().catch(() => ({}));
             Overall Rating
           </label>
 
-          <div className="mt-1 flex items-center justify-between gap-3">
-            <StarRow
-              value={rating}
-              onChange={(val) => {
-                setRatingManuallySet(true);
-                setRating(val);
-              }}
-            />
+          <div className="mt-1 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <div className="overflow-visible">
+              <StarRow
+                value={rating}
+                onChange={(val) => {
+                  setRatingManuallySet(true);
+                  setRating(val);
+                }}
+              />
+            </div>
 
             <span className="text-sm text-gray-600 dark:text-gray-300">
               {rating ? `${rating} / 5` : "Select a rating"}
