@@ -1,4 +1,4 @@
-export default function ReviewCard({ review, showControls, onEdit, onDelete }) {
+export default function ReviewCard({ review, showControls, onEdit, onDelete, onReport }) {
     if (!review) return null;   /* prevent rendering if no review data is provided */
 
     return (
@@ -31,6 +31,13 @@ export default function ReviewCard({ review, showControls, onEdit, onDelete }) {
                         className="text-red-600 hover:text-red-700"
                     >
                         Delete
+                    </button>
+                    <button
+                        type="button"
+                        onClick={onReport}
+                        className="text-red-600 hover:text-red-700"
+                    >
+                        Report
                     </button>
                 </div>
             ) : null}

@@ -2,6 +2,15 @@ export default function SchoolPage({ school }) {
     /* prevent rendering if the school does not exist */
     if (!school) return null;
 
+    // trim whitespace from the school website URL
+    const rawWebsite = (school.SchoolWebsite || "").trim();
+
+    // make website link an absolute URL for <a href="">
+    const websiteHref =
+        rawWebsite && !/^https?:\/\//i.test(rawWebsite)
+        ? `https://${rawWebsite.replace(/^\/+/, "")}`
+        : rawWebsite;
+
     /* builds address lines and skips any null values */
     /* creates array of possible address data points */
     const addressLines = [school.Street, school.Locality, school.Address3, school.Town, school["County (name)"], school.Postcode]
@@ -32,7 +41,7 @@ export default function SchoolPage({ school }) {
             {/* school website section if available */}
             {school.SchoolWebsite && (
                 <div className="text-brand-blue dark:text-brand-cream">
-                    <p className="font-semibold mb-2">School website: <a className="text-blue-400" href={school.SchoolWebsite} target="_blank" rel="noopener noreferrer">{school.SchoolWebsite}</a></p>
+                    <p className="font-semibold mb-2">School website: <a className="text-blue-400" href={websiteHref} target="_blank" rel="noopener noreferrer">{rawWebsite}</a></p>
                 </div>)}
 
             {/* contact section with local council so far */}
