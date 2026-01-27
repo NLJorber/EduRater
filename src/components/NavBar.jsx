@@ -11,6 +11,7 @@ export default function NavBar() {
   // STATE: controls whether the mobile menu is open or closed
   const [menuOpen, setMenuOpen] = useState(false);
   const { profile, session, loading } = useAuthProfile();
+  const [isDark, setIsDark] = useState(false);
 
   const canSeeStaff = ["staff_verified", "super_admin"].includes(
     profile?.role
@@ -23,20 +24,28 @@ export default function NavBar() {
     await supabaseClient.auth.signOut();
   };
 
-  // Toggles between light and dark themes
-  const toggleTheme = () => {
-    const root = document.documentElement; // <html>
-    root.classList.toggle("dark");
-
-    // persist choice
-    localStorage.setItem("theme", root.classList.contains("dark") ? "dark" : "light");
+  // toggles between light and dark themes
+  const setTheme = (nextIsDark) => {
+    setIsDark(nextIsDark);
+    document.documentElement.classList.toggle("dark", nextIsDark);
+    localStorage.setItem("theme", nextIsDark ? "dark" : "light");
   };
 
-  // On initial load, set theme based on saved preference
   useEffect(() => {
     const saved = localStorage.getItem("theme");
-    if (saved === "dark") document.documentElement.classList.add("dark");
-    if (saved === "light") document.documentElement.classList.remove("dark");
+
+    if (saved === "dark") {
+      document.documentElement.classList.add("dark");
+      setIsDark(true);
+    } else if (saved === "light") {
+      document.documentElement.classList.remove("dark");
+      setIsDark(false);
+    } else {
+      // default: follow system preference
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      document.documentElement.classList.toggle("dark", prefersDark);
+      setIsDark(prefersDark);
+    }
   }, []);
 
   return (
@@ -115,17 +124,29 @@ export default function NavBar() {
                 About Us
               </Link>
             </li>
-            <li>
-              <button
-                type="button"
-                onClick={toggleTheme}
-                className="block py-2 px-3 font-bold text-brand-blue hover:text-brand-orange dark:text-brand-cream dark:hover:text-brand-orange"
-              >
-                Night Mode
-              </button>
+
+            {/* DARK MODE TOGGLE */}
+            <li className="flex items-center">
+              <label className="inline-flex items-center cursor-pointer select-none gap-3">
+                <input
+                  type="checkbox"
+                  className="sr-only"
+                  checked={isDark}
+                  onChange={(e) => setTheme(e.target.checked)}
+                  aria-label="Toggle dark mode"
+                />
+
+                {/* Track */}
+                <div className="relative h-5 w-9 rounded-full bg-brand-cream border border-brand-blue dark:bg-brand-brown dark:border-brand-cream transition">
+                  {/* Thumb */}
+                  <div
+                    className={`absolute top-[1px] left-[1px] h-4 w-4 rounded-full bg-brand-blue transition-transform ${
+                      isDark ? "translate-x-4 bg-brand-orange" : ""
+                    }`}
+                  />
+                </div>
+              </label>
             </li>
-
-
             
             {canSeeStaff ? (
               <li>
