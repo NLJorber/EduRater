@@ -150,15 +150,15 @@ export default function Home() {
             )}
 
             {suggestions.length > 0 && (
-              <div className="bg-brand-brown dark:bg-brand-cream p-4 rounded-md border border-brand-brown dark:border-brand-cream">
-                <div className="grid grid-cols-1">
+              <div className="flex align-center bg-brand-brown dark:bg-brand-cream p-4 rounded-md border border-brand-brown dark:border-brand-cream">
+                <div className="divide-y divide-brand-cream/30 dark:divide-brand-blue/30">
                   {suggestions.map((suggestion) => (
                     <Link
                       key={suggestion.URN}
                       href={`/schools/${suggestion.URN}`}
-                      className="block rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue hover:scale-[1.01] transition"
+                      className="block focus:outline-none focus:ring-2 focus:ring-brand-blue hover:scale-[1.01] transition"
                     >
-                      <RecommendationCard key={suggestion.URN} school={suggestion} num={0} />
+                      <RecommendationCard key={suggestion.URN} school={suggestion} />
                     </Link>
                   ))}
                 </div>
