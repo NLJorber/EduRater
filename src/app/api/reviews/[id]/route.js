@@ -7,26 +7,20 @@ export async function PATCH(request, { params }) {
     return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
   }
 
-  const { id: reviewId } = await params;
+  const { id: reviewId } = params; // no await
   if (!reviewId) {
     return NextResponse.json({ error: "Missing review id." }, { status: 400 });
   }
 
   const body = await request.json().catch(() => ({}));
-  const { rating, title, body: reviewBody, sections } = body;
+  const { title, body: reviewBody, sections } = body; // removed rating
 
   const supabaseUser = createUserClient(token);
 
+  // Update review text fields only (overall rating is computed)
   const updatePayload = {};
-  if (rating !== undefined) {
-    updatePayload.rating = rating ?? null;
-  }
-  if (title !== undefined) {
-    updatePayload.title = title ?? null;
-  }
-  if (reviewBody !== undefined) {
-    updatePayload.body = reviewBody ?? null;
-  }
+  if (title !== undefined) updatePayload.title = title ?? null;
+  if (reviewBody !== undefined) updatePayload.body = reviewBody ?? null;
 
   if (Object.keys(updatePayload).length > 0) {
     const { error: updateError } = await supabaseUser
@@ -39,7 +33,44 @@ export async function PATCH(request, { params }) {
     }
   }
 
+  // Replace sections if provided
   if (Array.isArray(sections)) {
+    const normalizedSections = sections
+      .filter((section) => section?.sectionKey)
+      .map((section) => ({
+        review_id: reviewId,
+        section_key: section.sectionKey,
+        rating: typeof section.rating === "number" ? section.rating : null,
+        comment:
+          typeof section.comment === "string" && section.comment.trim()
+            ? section.comment.trim()
+            : null,
+      }));
+
+    // Enforce your rules on edit too
+    const hasAtLeastOneRating = normalizedSections.some(
+      (s) => typeof s.rating === "number" && s.rating >= 1 && s.rating <= 5
+    );
+
+    const hasAtLeastOneSectionComment = normalizedSections.some(
+      (s) => typeof s.comment === "string" && s.comment.trim().length > 0
+    );
+
+    if (!hasAtLeastOneRating) {
+      return NextResponse.json(
+        { error: "Please rate at least one section." },
+        { status: 400 }
+      );
+    }
+
+    if (!hasAtLeastOneSectionComment) {
+      return NextResponse.json(
+        { error: "Please write a comment in at least one section." },
+        { status: 400 }
+      );
+    }
+
+    // Delete existing sections then insert new ones
     const { error: deleteError } = await supabaseUser
       .from("review_sections")
       .delete()
@@ -49,24 +80,22 @@ export async function PATCH(request, { params }) {
       return NextResponse.json({ error: deleteError.message }, { status: 500 });
     }
 
-    const normalizedSections = sections
-      .filter((section) => section?.sectionKey)
-      .map((section) => ({
-        review_id: reviewId,
-        section_key: section.sectionKey,
-        rating: typeof section.rating === "number" ? section.rating : null,
-        comment: section.comment ?? null,
-      }));
+    const { error: insertError } = await supabaseUser
+      .from("review_sections")
+      .insert(normalizedSections);
 
-    if (normalizedSections.length > 0) {
-      const { error: insertError } = await supabaseUser
-        .from("review_sections")
-        .insert(normalizedSections);
-
-      if (insertError) {
-        return NextResponse.json({ error: insertError.message }, { status: 500 });
-      }
+    if (insertError) {
+      return NextResponse.json({ error: insertError.message }, { status: 500 });
     }
+
+    // Optional: refetch computed rating after triggers (nice for UI)
+    const { data: updatedReview } = await supabaseUser
+      .from("reviews")
+      .select("id, rating_computed")
+      .eq("id", reviewId)
+      .single();
+
+    return NextResponse.json({ data: updatedReview ?? { id: reviewId } });
   }
 
   return NextResponse.json({ data: { id: reviewId } });
@@ -78,7 +107,7 @@ export async function DELETE(request, { params }) {
     return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
   }
 
-  const { id: reviewId } = await params;
+  const { id: reviewId } = params; // no await
   if (!reviewId) {
     return NextResponse.json({ error: "Missing review id." }, { status: 400 });
   }

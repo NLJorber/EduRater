@@ -5,110 +5,98 @@ import { supabaseClient } from "@/lib/supabase/client";
 import Rating from "@/components/ui/rating";
 
 const SECTION_DEFS = [
-    { key: "teaching_learning", label: "Teaching & Learning" },
-    { key: "pastoral_safeguarding", label: "Pastoral Care & Safeguarding" },
-    { key: "parent_communication", label: "Parent Communication" },
-    { key: "send_support", label: "SEND Support" },
-    { key: "facilities_resources", label: "Facilities & Resources" },
-    { key: "behaviour_culture", label: "Behaviour & Culture" },
-    { key: "extra_curricular", label: "Extra-Curricular & Enrichment" },
+  { key: "teaching_learning", label: "Teaching & Learning" },
+  { key: "pastoral_safeguarding", label: "Pastoral Care & Safeguarding" },
+  { key: "parent_communication", label: "Parent Communication" },
+  { key: "send_support", label: "SEND Support" },
+  { key: "facilities_resources", label: "Facilities & Resources" },
+  { key: "behaviour_culture", label: "Behaviour & Culture" },
+  { key: "extra_curricular", label: "Extra-Curricular & Enrichment" },
 ];
 
 export default function ReviewForm({
-    schoolUrn,
-    onPosted,
-    reviewId,
-    initialData,
-    onCancel,
+  schoolUrn,
+  onPosted,
+  reviewId,
+  initialData,
+  onCancel,
 }) {
-    const [title, setTitle] = useState("");
-    const [body, setBody] = useState("");
-    const [rating, setRating] = useState("");
-    const [ratingManuallySet, setRatingManuallySet] = useState(false);
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
 
-    const [status, setStatus] = useState({ type: "idle", message: "" });
+  const [status, setStatus] = useState({ type: "idle", message: "" });
 
-    const [sections, setSections] = useState(() =>
-        SECTION_DEFS.map((section) => ({
-            ...section,
-            rating: "",
-            comment: "",
-            isNa: false,
-        }))
+  const [sections, setSections] = useState(() =>
+    SECTION_DEFS.map((section) => ({
+      ...section,
+      rating: "",
+      comment: "",
+      isNa: false,
+    }))
+  );
+
+  const sendSectionIndex = useMemo(
+    () => sections.findIndex((section) => section.key === "send_support"),
+    [sections]
+  );
+
+  const isEditing = Boolean(reviewId);
+
+  // Load edit data
+  useEffect(() => {
+    if (!initialData) return;
+
+    setTitle(initialData.title ?? "");
+    setBody(initialData.body ?? "");
+
+    const sectionMap = new Map(
+      (initialData.review_sections || []).map((section) => [
+        section.section_key,
+        section,
+      ])
     );
 
-    const sendSectionIndex = useMemo(
-        () => sections.findIndex((section) => section.key === "send_support"),
-        [sections]
+    setSections(
+      SECTION_DEFS.map((section) => {
+        const existing = sectionMap.get(section.key);
+        if (!existing) {
+          return { ...section, rating: "", comment: "", isNa: false };
+        }
+
+        const isNa =
+          section.key === "send_support" &&
+          existing.rating === null &&
+          (existing.comment === null || existing.comment === "");
+
+        return {
+          ...section,
+          rating:
+            typeof existing.rating === "number" ? String(existing.rating) : "",
+          comment: existing.comment ?? "",
+          isNa,
+        };
+      })
     );
+  }, [initialData]);
 
-    const isEditing = Boolean(reviewId);
-
-    useEffect(() => {
-        if (!initialData) return;
-
-        setTitle(initialData.title ?? "");
-        setBody(initialData.body ?? "");
-        setRating(
-            typeof initialData.rating === "number" ? String(initialData.rating) : ""
-        );
-
-        const sectionMap = new Map(
-            (initialData.review_sections || []).map((section) => [
-                section.section_key,
-                section,
-            ])
-        );
-
-        setSections(
-            SECTION_DEFS.map((section) => {
-                const existing = sectionMap.get(section.key);
-                if (!existing) {
-                    return { ...section, rating: "", comment: "", isNa: false };
-                }
-
-                const isNa =
-                    section.key === "send_support" &&
-                    existing.rating === null &&
-                    (existing.comment === null || existing.comment === "");
-
-                return {
-                    ...section,
-                    rating:
-                        typeof existing.rating === "number"
-                            ? String(existing.rating)
-                            : "",
-                    comment: existing.comment ?? "",
-                    isNa,
-                };
-            })
-        );
-    }, [initialData]);
-
-    const computedOverall = useMemo(() => {
+  // Computed overall (display only)
+  const computedOverall = useMemo(() => {
     const nums = sections
-        .filter((s) => !s.isNa && s.rating !== "")
-        .map((s) => Number(s.rating))
-        .filter((n) => Number.isFinite(n) && n >= 1 && n <= 5);
+      .filter((s) => !s.isNa && s.rating !== "")
+      .map((s) => Number(s.rating))
+      .filter((n) => Number.isFinite(n) && n >= 1 && n <= 5);
 
     if (nums.length === 0) return null;
 
     const avg = nums.reduce((a, b) => a + b, 0) / nums.length;
     return Math.round(avg * 10) / 10; // 1 decimal
-}, [sections]);
-
-    useEffect(() => {
-    if (!ratingManuallySet && computedOverall != null) {
-      setRating(String(computedOverall));
-    }
-  }, [computedOverall, ratingManuallySet]);
+  }, [sections]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus({ type: "loading", message: "Posting review..." });
+    setStatus({ type: "loading", message: isEditing ? "Saving..." : "Posting..." });
 
     const { data, error: sessionErr } = await supabaseClient.auth.getSession();
-
     if (sessionErr || !data?.session) {
       setStatus({
         type: "error",
@@ -117,56 +105,70 @@ export default function ReviewForm({
       return;
     }
 
-            const cleanTitle = title.trim();
-            const cleanBody = body.trim();
-            const numRating = Number(rating);
+    const cleanTitle = title.trim();
+    const cleanBody = body.trim();
 
     if (!cleanBody) {
       setStatus({ type: "error", message: "Review body cannot be empty." });
       return;
     }
 
-    if (!Number.isFinite(numRating) || numRating < 0 || numRating > 5) {
+    // Build sections payload (only include sections that have anything)
+    const payloadSections = sections
+      .filter((s) => s.rating !== "" || s.comment.trim() || s.isNa)
+      .map((s) => ({
+        sectionKey: s.key,
+        rating: s.isNa || s.rating === "" ? null : Number(s.rating),
+        comment: s.comment.trim() || null,
+      }));
+
+    // Enforce your rules:
+    // 1) at least one section star rating
+    const hasAtLeastOneSectionRating = payloadSections.some(
+      (s) => typeof s.rating === "number" && s.rating >= 1 && s.rating <= 5
+    );
+
+    if (!hasAtLeastOneSectionRating) {
+      setStatus({ type: "error", message: "Please rate at least one section." });
+      return;
+    }
+
+    // 2) at least one section comment (you said “ideally” — you asked to enforce it)
+    const hasAtLeastOneSectionComment = payloadSections.some(
+      (s) => typeof s.comment === "string" && s.comment.trim().length > 0
+    );
+
+    if (!hasAtLeastOneSectionComment) {
       setStatus({
         type: "error",
-        message: "Rating must be a number between 0 and 5.",
+        message: "Please write a comment in at least one section.",
       });
       return;
     }
 
-    const payloadSections = sections
-      .filter((section) => section.rating !== "" || section.comment || section.isNa)
-      .map((section) => ({
-        sectionKey: section.key,
-        rating: section.isNa || section.rating === "" ? null : Number(section.rating),
-        comment: section.comment.trim() || null,
-      }));
-
-const res = await fetch(isEditing ? `/api/reviews/${reviewId}` : "/api/reviews", {
+    const res = await fetch(isEditing ? `/api/reviews/${reviewId}` : "/api/reviews", {
       method: isEditing ? "PATCH" : "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${data.session.access_token}`,
       },
-body: JSON.stringify({
-        ...(isEditing
+      body: JSON.stringify(
+        isEditing
           ? {
               title: cleanTitle || null,
               body: cleanBody,
-              rating: numRating,
               sections: payloadSections,
             }
           : {
               schoolUrn: Number(schoolUrn),
               title: cleanTitle || null,
               body: cleanBody,
-              rating: numRating,
               sections: payloadSections,
-            }),
-      }),
+            }
+      ),
     });
 
-const bodyResponse = await res.json().catch(() => ({}));
+    const bodyResponse = await res.json().catch(() => ({}));
 
     if (!res.ok) {
       setStatus({
@@ -176,11 +178,10 @@ const bodyResponse = await res.json().catch(() => ({}));
       return;
     }
 
- if (!isEditing) {
+    // Reset form after creating (not editing)
+    if (!isEditing) {
       setTitle("");
       setBody("");
-      setRating("");
-      setRatingManuallySet(false);
       setSections((prev) =>
         prev.map((section) => ({
           ...section,
@@ -193,15 +194,13 @@ const bodyResponse = await res.json().catch(() => ({}));
 
     setStatus({
       type: "info",
-      message: isEditing
-        ? "Review updated successfully!"
-        : "Review posted successfully!",
+      message: isEditing ? "Review updated successfully!" : "Review posted successfully!",
     });
 
     onPosted?.();
   };
 
-    return (
+  return (
     <div className="mt-6 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-900">
       <h3 className="text-lg font-semibold text-brand-brown dark:text-brand-cream">
         {isEditing ? "Edit your review" : "Leave a review"}
@@ -222,20 +221,15 @@ const bodyResponse = await res.json().catch(() => ({}));
 
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
-            Overall Rating
+            Overall Rating (computed)
           </label>
 
           <div className="mt-1 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <Rating
-              value={rating}
-              onChange={(val) => {
-                setRatingManuallySet(true);
-                setRating(val);
-              }}
-            />
-
+            <Rating value={computedOverall != null ? String(computedOverall) : ""} disabled />
             <span className="text-sm text-gray-600 dark:text-gray-300">
-              {rating ? `${rating} / 5` : "Select a rating"}
+              {computedOverall != null
+                ? `${computedOverall} / 5`
+                : "Rate the sections to see an overall score"}
             </span>
           </div>
 
@@ -243,27 +237,8 @@ const bodyResponse = await res.json().catch(() => ({}));
             <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
               Computed from section ratings:{" "}
               <span className="font-semibold">{computedOverall} / 5</span>
-              {!ratingManuallySet ? " (auto-filled)" : ""}
             </p>
           ) : null}
-
-          {/* Optional: if you want users to type decimals, uncomment this.
-              If you do, consider also adding half-star UI later. */}
-          {/* 
-          <input
-            value={rating}
-            onChange={(e) => {
-              setRatingManuallySet(true);
-              setRating(e.target.value);
-            }}
-            type="number"
-            min="0"
-            max="5"
-            step="0.1"
-            className="mt-2 w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-700 dark:bg-black dark:text-white"
-            required
-          /> 
-          */}
         </div>
 
         <div>
@@ -282,7 +257,7 @@ const bodyResponse = await res.json().catch(() => ({}));
 
         <div>
           <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-200">
-            Section ratings (optional)
+            Section ratings
           </h4>
 
           <div className="mt-3 space-y-3">
@@ -303,12 +278,7 @@ const bodyResponse = await res.json().catch(() => ({}));
                         setSections((prev) =>
                           prev.map((item, itemIndex) =>
                             itemIndex === index
-                              ? {
-                                  ...item,
-                                  isNa: !item.isNa,
-                                  rating: "",
-                                  comment: "",
-                                }
+                              ? { ...item, isNa: !item.isNa, rating: "", comment: "" }
                               : item
                           )
                         )
@@ -341,7 +311,7 @@ const bodyResponse = await res.json().catch(() => ({}));
                         ? "Marked N/A"
                         : section.rating
                         ? `${section.rating} / 5`
-                        : "Optional"}
+                        : "Select a rating"}
                     </p>
                   </div>
 
@@ -358,7 +328,7 @@ const bodyResponse = await res.json().catch(() => ({}));
                     }
                     className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm dark:border-gray-700 dark:bg-black dark:text-white"
                     rows={3}
-                    placeholder="Optional comment"
+                    placeholder="Write a comment (at least one section comment required)"
                     disabled={section.isNa}
                   />
                 </div>
@@ -385,7 +355,7 @@ const bodyResponse = await res.json().catch(() => ({}));
           </button>
         ) : null}
 
-         {status.type !== "idle" && (
+        {status.type !== "idle" && (
           <p
             className={`text-sm ${
               status.type === "error"
@@ -400,19 +370,3 @@ const bodyResponse = await res.json().catch(() => ({}));
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
