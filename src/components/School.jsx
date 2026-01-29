@@ -1,5 +1,5 @@
 /* school and num are passed as props containing the schools data and its index */
-export default function SchoolCard({ school }) {
+export default function SchoolCard({ school, score }) {
     if (!school) return null;   /* prevent rendering if no school data is provided */
 
     return (
@@ -12,6 +12,8 @@ export default function SchoolCard({ school }) {
 
             {/* Display school postcode */}
             <p className="text-brand-cream dark:text-brand-brown">Location: {school.Postcode}</p>
+
+            <p className="mt-4 text-brand-cream dark:text-brand-brown">{score === null ? "No score yet" : `${score.toFixed(1)} / 5`}</p>
         </div>
     );
 }

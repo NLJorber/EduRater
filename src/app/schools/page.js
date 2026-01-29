@@ -30,6 +30,47 @@ export default function SchoolsPage() {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
+    const [scoresByUrn, setScoresByUrn] = useState({});
+
+    useEffect(() => {
+        let cancelled = false;
+
+        const loadScores = async () => {
+            if (!schools.length) {
+            setScoresByUrn({});
+            return;
+            }
+
+            // optionally only fetch for the first N to reduce requests
+            const urns = schools.map((s) => s.URN);
+
+            const pairs = await Promise.all(
+            urns.map(async (urn) => {
+                try {
+                const res = await fetch(`/api/reviews?school_urn=${encodeURIComponent(urn)}`);
+                const body = await res.json().catch(() => ({}));
+                const score = res.ok ? (body.data?.schoolScore ?? null) : null;
+                return [urn, score];
+                } catch {
+                return [urn, null];
+                }
+            })
+            );
+
+            if (cancelled) return;
+
+            const map = Object.fromEntries(pairs);
+            setScoresByUrn(map);
+        };
+
+        loadScores();
+
+        return () => {
+            cancelled = true;
+        };
+    }, [schools]);
+
+
     const onSearch = () => {
         const term = nextQ.trim();
         if (!term) return;
@@ -200,7 +241,7 @@ export default function SchoolsPage() {
                 >
                     
                         {/* use URN as key due to it being unique to each school */}
-                        <SchoolCard key={school.URN} school={school} />
+                        <SchoolCard key={school.URN} school={school} score={scoresByUrn[school.URN] ?? null} />
                     
                 </Link>
                 ))}
