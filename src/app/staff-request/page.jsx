@@ -190,7 +190,7 @@ export default function StaffRequestPage() {
                     value={fullName}
                     onChange={(event) => setFullName(event.target.value)}
                     className="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm focus:border-slate-400 focus:outline-none"
-                    placeholder="Jane Doe"
+                    placeholder="Willy Wonka"
                     required
                   />
                 </label>
