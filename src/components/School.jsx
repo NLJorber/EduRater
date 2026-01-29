@@ -1,5 +1,5 @@
 /* school and num are passed as props containing the schools data and its index */
-export default function SchoolCard({ school, num }) {
+export default function SchoolCard({ school }) {
     if (!school) return null;   /* prevent rendering if no school data is provided */
 
     return (
@@ -12,9 +12,6 @@ export default function SchoolCard({ school, num }) {
 
             {/* Display school postcode */}
             <p className="text-brand-cream dark:text-brand-brown">Location: {school.Postcode}</p>
-
-            {/* Display school index in list of found schools */}
-            <p className="text-brand-cream dark:text-brand-brown">Number: {num + 1}</p>
         </div>
     );
 }
