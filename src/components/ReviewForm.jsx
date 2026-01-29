@@ -258,6 +258,7 @@ export default function ReviewForm({
             onChange={(e) => setBody(e.target.value)}
             className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-700 dark:bg-black dark:text-white"
             rows={5}
+            maxLength={2000}
             placeholder="Write your review here..."
             required
           />
@@ -326,6 +327,7 @@ export default function ReviewForm({
 
                   <textarea
                     value={section.comment}
+                    maxLength={1000}
                     onChange={(e) =>
                       setSections((prev) =>
                         prev.map((item, itemIndex) =>
