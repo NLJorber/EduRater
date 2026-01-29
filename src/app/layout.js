@@ -3,6 +3,7 @@ import { DM_Serif_Display } from "next/font/google";
 import "./globals.css";
 import NavBar from "@/components/NavBar";
 import "leaflet/dist/leaflet.css"
+import { ThemeProvider } from "@/components/themeProvider"
 
 const dmSerifDisplay = DM_Serif_Display ({
   subsets: ["latin"],
@@ -28,12 +29,20 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html 
-        lang="en"
+        lang="en" 
+        suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable} ${dmSerifDisplay.variable}`}
       >
       <body className="antialiased">
+         <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
         <NavBar />
         <div className="pt-20">{children}</div>
+        </ThemeProvider>
       </body>
     </html>
   );
