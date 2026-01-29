@@ -12,11 +12,11 @@ export default function StaffPage() {
           </p>
           <h1 className="text-3xl font-semibold">School staff access</h1>
           <p className="text-sm text-slate-600">
-            Only verified staff or super admins can access this area.
+            Only verified staff or admins can access this area.
           </p>
         </div>
 
-        <RoleGate allowedRoles={["staff_verified", "super_admin"]}>
+        <RoleGate allowedRoles={["staff_verified", "admin"]}>
           <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6">
             <p className="text-sm text-slate-700">
               You are cleared to access staff features. This is where moderation

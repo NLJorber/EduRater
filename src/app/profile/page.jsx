@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { supabaseClient } from "@/lib/supabase/client";
 import { useAuthProfile } from "@/lib/auth/useAuthProfile";
 
@@ -10,11 +11,30 @@ export default function ProfilePage() {
   const canSeeStaff = ["staff_verified", "super_admin"].includes(
     profile?.role
   );
-  const canSeeAdmin = profile?.role === "super_admin";
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const handleSignOut = async () => {
     await supabaseClient.auth.signOut();
   };
+
+  useEffect(() => {
+    const checkAdmin = async () => {
+      if (!session?.access_token) {
+        setIsAdmin(false);
+        return;
+      }
+
+      const res = await fetch("/api/admin/me", {
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
+      });
+
+      setIsAdmin(res.ok);
+    };
+
+    checkAdmin();
+  }, [session?.access_token]);
 
   return (
     <main className="min-h-screen bg-white text-slate-900">
@@ -54,7 +74,7 @@ export default function ProfilePage() {
               </p>
               <p>
                 <span className="font-semibold">Role:</span>{" "}
-                {profile?.role ?? "user"}
+                {isAdmin ? "admin" : profile?.role ?? "user"}
               </p>
             </div>
 
@@ -73,7 +93,7 @@ export default function ProfilePage() {
                   Staff tools
                 </Link>
               ) : null}
-              {canSeeAdmin ? (
+              {isAdmin ? (
                 <Link
                   href="/admin"
                   className="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100"

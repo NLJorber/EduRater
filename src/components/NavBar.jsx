@@ -16,7 +16,7 @@ export default function NavBar() {
   const canSeeStaff = ["staff_verified", "super_admin"].includes(
     profile?.role
   );
-  const canSeeAdmin = profile?.role === "super_admin";
+  const [isAdmin, setIsAdmin] = useState(false);
   const isSignedIn = Boolean(session);
 
   // no admin link logic
@@ -48,6 +48,25 @@ export default function NavBar() {
       setIsDark(prefersDark);
     }
   }, []);
+
+  useEffect(() => {
+    const checkAdmin = async () => {
+      if (!session?.access_token) {
+        setIsAdmin(false);
+        return;
+      }
+
+      const res = await fetch("/api/admin/me", {
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
+      });
+
+      setIsAdmin(res.ok);
+    };
+
+    checkAdmin();
+  }, [session?.access_token]);
 
   return (
     // NAV WRAPPER (fixed bar at the top)
@@ -156,7 +175,7 @@ export default function NavBar() {
                 </Link>
               </li>
             ) : null}
-            {canSeeAdmin ? (
+            {isAdmin ? (
               <li>
                 <Link href="/admin" className="block py-2 px-3 font-bold text-brand-blue hover:text-brand-orange dark:text-brand-cream dark:hover:text-brand-orange">
                   Admin
