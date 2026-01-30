@@ -20,6 +20,7 @@ export default function SchoolDetailPage() {
     const { urn } = useParams();
 
     const [school, setSchool] = useState(null); /* holds the fetched school object, starting with null before loading */
+    const [reviewing, setReviewing] = useState(false); /* controls whether the review form is shown */
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
 
@@ -95,10 +96,19 @@ export default function SchoolDetailPage() {
 
             {/* only show review form if user is logged in */}
             {user ? (
-                <ReviewForm
-                    schoolUrn={urn}
-                    onPosted={() => setRefreshKey((prev) => prev + 1)}
-                />
+             
+                <div>
+                    <button onClick={() => setReviewing(!reviewing)} className="rounded-md bg-blue-600 mt-6 px-4 py-2 font-semibold text-white hover:bg-blue-700 disabled:opacity-60">
+                        {reviewing ? "Cancel Review" : "Leave a Review"}
+                    </button>
+
+                    {reviewing && (
+                        <ReviewForm
+                            schoolUrn={urn}
+                            onPosted={() => setRefreshKey((prev) => prev + 1)}
+                        />
+                    )}
+                </div>
             ) : (
                 <div className="mt-6 rounded-lg border border-brand-brown bg-brand-cream p-4 dark:border-brand-blue dark:bg-brand-cream">
                     <p className="text-brand-brown dark:text-brand-brown">
