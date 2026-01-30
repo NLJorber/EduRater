@@ -19,6 +19,7 @@ import { useEffect, useState } from "react";
 import { supabaseClient } from "@/lib/supabase/client"; // browser-side Supabase client (auth + DB calls)
 
 import ReportedReviewsRow from "@/components/ReportedReviewsRow"; // component to show reported reviews
+import AdminActivityChart from "@/components/AdminActivityChart";
 
 export default function AdminDashboardPage() {
   const [session, setSession] = useState(null); // holds current logged in session object or null if logged out
@@ -211,6 +212,10 @@ export default function AdminDashboardPage() {
         {error && <p className="text-sm text-red-600">{error}</p>}
         
         {/* if logged in and no error, show the admin dashboard content */}
+        {!authLoading && session && !error && (
+          <AdminActivityChart accessToken={session.access_token} />
+        )}
+
         {!authLoading && session && !error && (
           <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6">
 
