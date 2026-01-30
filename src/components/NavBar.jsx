@@ -6,6 +6,8 @@ import Image from "next/image";
 import { supabaseClient } from "@/lib/supabase/client";
 import { useAuthProfile } from "@/lib/auth/useAuthProfile";
 import { ModeToggle } from "@/components/ModeToggle"
+import { cn } from "@/lib/utils"
+
 
 
 
@@ -58,8 +60,8 @@ export default function NavBar() {
           <Image
             src="/EduRaterLogo.png"
             alt="Edurater logo"
-            width={50}
-            height={50}
+            width={70}
+            height={70}
             className="rounded-full"
             priority
           />
@@ -92,15 +94,20 @@ export default function NavBar() {
   className={`
     ${menuOpen ? "block" : "hidden"}
     absolute right-4 top-full mt-2
-    w-56
+    w-36
     md:static md:block md:w-auto md:mt-0
   `}
 >
 
-<ul className="flex flex-col md:flex-row md:space-x-8 p-4 md:p-0
-               rounded-base border
-               bg-neutral-secondary-soft md:bg-transparent
-               shadow-md md:shadow-none">
+<ul
+  className={cn(
+    "flex flex-col md:flex-row md:space-x-8 p-4 md:p-0 rounded-xl shadow-md md:shadow-none",
+    "bg-brand-cream dark:bg-brand-brown md:bg-transparent"
+  )}
+>
+
+
+
 
               <li>
                 <Link href="/" className="block py-2 px-3 font-bold text-brand-blue hover:text-brand-orange dark:text-brand-cream dark:hover:text-brand-orange">
