@@ -223,7 +223,7 @@ export default function SchoolsPage() {
             {/* map */}
             {!loading && !error && schools.length > 0 && (
             <div className="mt-6 rounded-lg overflow-hidden">
-            <SchoolsMap schools={schools} />
+            <SchoolsMap schools={schools} scoresByUrn={scoresByUrn} />
             </div>
             )}
 

@@ -30,7 +30,7 @@ function getTown(s) {
   return s.TOWN ?? s.Town ?? s.town ?? null;
 }
 
-export default function SchoolsMap({ schools }) {
+export default function SchoolsMap({ schools, scoresByUrn = {} }) {
   const schoolsWithCoords = useMemo(
     () => 
       (schools || []).filter((s) => {
@@ -54,6 +54,7 @@ export default function SchoolsMap({ schools }) {
 
   const containerKey = `${center[0]}-${center[1]}-${schoolsWithCoords.length}`;
 
+
   return (
     <div key={containerKey} style={{ height: 420, width: "100%" }}>
       <MapContainer
@@ -69,12 +70,17 @@ export default function SchoolsMap({ schools }) {
         {schoolsWithCoords.map((s) => {
           const lat = Number(getLat(s));
           const lng = Number(getLng(s));
+          const score = scoresByUrn[s.URN] ?? null;
 
           return (
             <Marker key={s.URN || `${lat}-${lng}`} position={[lat, lng]}>
               <Popup>
                 <div style={{ fontWeight: 600 }}>{getName(s)}</div>
                 <div>{getTown(s)}</div>
+                <div className="mt-1 text-sm">
+                  <b>Score:</b>{" "}
+                  {score === null ? "No reviews yet" : `${Number(score).toFixed(1)} / 5`}
+                </div>
                 <Link
                     /* href sends you to individual school page when clicked */
                     href={`/schools/${s.URN}`}
