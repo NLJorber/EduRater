@@ -37,37 +37,38 @@ export default function ProfilePage() {
   }, [session?.access_token]);
 
   return (
-    <main className="min-h-screen bg-white text-slate-900">
+    <main className="display-headings min-h-screen bg-brand-blue text-brand-cream">
       <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 px-6 py-16">
         <div className="space-y-2">
           <p className="text-sm uppercase tracking-[0.3em] text-slate-500">
             Profile
           </p>
-          <h1 className="text-3xl font-semibold">Your account</h1>
-          <p className="text-sm text-slate-600">
+          <h2 className="font-semibold">Your account</h2>
+          <h4 className="text-brand-cream">
             Manage your account and access staff tools.
-          </p>
+          </h4>
         </div>
 
         {loading ? (
-          <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6 text-sm text-slate-600">
+          <div className="rounded-3xl border border-brand-cream bg-brand-cream p-6 text-sm text-brand-orange">
+          
             Loading profile...
           </div>
         ) : !isSignedIn ? (
-          <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6">
-            <p className="text-sm text-slate-700">
+          <div className="rounded-3xl border border-brand-cram bg-brand-cream p-6">
+            <p className="text-sm text-brand-blue">
               You are not signed in.
             </p>
             <Link
               href="/login"
-              className="mt-4 inline-flex rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+              className="mt-4 inline-flex rounded-md bg-brand-brown px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-orange"
             >
               Sign in
             </Link>
           </div>
         ) : (
-          <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6">
-            <div className="space-y-2 text-sm text-slate-700">
+          <div className="rounded-3xl border border-brand-cream bg-brand-cream p-6">
+            <div className="space-y-2 text-sm text-brand-brown">
               <p>
                 <span className="font-semibold">Email:</span>{" "}
                 {session?.user?.email}
@@ -81,14 +82,19 @@ export default function ProfilePage() {
             <div className="mt-6 flex flex-wrap gap-3">
               <Link
                 href="/staff-request"
-                className="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100"
+                className="rounded-full border border-brand-brown px-4 py-2 text-sm font-semibold text-brand-brown 
+                hover:border-brand-blue hover:bg-brand-blue hover:text-brand-white"
               >
                 Staff request
               </Link>
               {canSeeStaff ? (
                 <Link
                   href="/staff"
-                  className="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100"
+                  className="rounded-full border border-brand-brown px-4 py-2 text-sm font-semibold text-brand-brown  
+                  
+                  hover:border-brand-orange
+                  hover:bg-brand-orange
+                  hover:text-brand-cream"
                 >
                   Staff tools
                 </Link>
@@ -96,7 +102,11 @@ export default function ProfilePage() {
               {isAdmin ? (
                 <Link
                   href="/admin"
-                  className="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100"
+                  className="rounded-full border border-brand-brown px-4 py-2 text-sm font-semibold text-brand-brown 
+                  
+                  hover:border-brand-blue
+                  hover:bg-brand-blue
+                  hover:text-brand-cream"
                 >
                   Admin dashboard
                 </Link>
@@ -104,7 +114,7 @@ export default function ProfilePage() {
               <button
                 type="button"
                 onClick={handleSignOut}
-                className="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800"
+                className="rounded-full bg-brand-orange px-4 py-2 text-sm font-semibold text-brand-cream hover:bg-brand-brown"
               >
                 Sign out
               </button>

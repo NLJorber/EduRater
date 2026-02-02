@@ -186,10 +186,10 @@ export default function AdminDashboardPage() {
   return (
     <main className="display-headings min-h-screen bg-brand-cream dark:bg-brand-brown text-brand-brown dark:text-brand-cream ">
       <div className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-6 py-16">
-        <div className="space-y-2">
-          <h4 className="text-sm uppercase tracking-[0.3em] text-brand-brown dark:text-brand-cream">
+        <div className="space-y-2 font-bold">
+          <h2 className=" mt-8 text-brand-brown dark:text-brand-cream">
             Admin Dashboard
-          </h4>
+          </h2>
           <h1 className="text-3xl font-semibold">School review overview</h1>
           <p className="text-sm text-brand-brown dark:text-brand-cream">
             Review counts for schools with at least one review.
@@ -275,7 +275,7 @@ export default function AdminDashboardPage() {
         )}
 
         {!authLoading && session && !error && (
-          <div className="rounded-3xl border border-brand-orange bg-brand-orange p-6">
+          <div className="rounded-3xl border border-brand-brown bg-brand-cream p-6">
             <div className="flex items-center justify-between gap-4">
               <div>
                 <h2 className="text-lg text-brand-brown font-semibold">Staff requests</h2>
@@ -286,7 +286,7 @@ export default function AdminDashboardPage() {
               <button
                 type="button"
                 onClick={() => setStaffRefresh((prev) => prev + 1)}
-                className="rounded-md border border-brand-cream hover:border-brand-blue bg-brand-cream px-4 py-2 text-sm font-semibold text-brand-brown hover:text-brand-cream hover:bg-brand-blue"
+                className="rounded-md border border-brand-blue hover:border-brand-orange bg-brand-blue px-4 py-2 text-sm font-semibold text-brand-cream hover:bg-brand-orange"
               >
                 Refresh
               </button>
@@ -301,7 +301,7 @@ export default function AdminDashboardPage() {
                 Loading staff requests...
               </p>
             ) : staffRequests.length === 0 ? (
-              <p className="mt-5 text-sm font-medium text-brand-white">
+              <p className="mt-5 text-sm font-medium text-brand-blue">
                 No pending staff requests.
               </p>
             ) : (
