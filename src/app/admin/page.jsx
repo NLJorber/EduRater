@@ -184,32 +184,32 @@ export default function AdminDashboardPage() {
   };
 
   return (
-    <main className="min-h-screen bg-white text-slate-900">
+    <main className="display-headings min-h-screen bg-brand-cream dark:bg-brand-brown text-brand-brown dark:text-brand-cream ">
       <div className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-6 py-16">
         <div className="space-y-2">
-          <p className="text-sm uppercase tracking-[0.3em] text-slate-500">
+          <h4 className="text-sm uppercase tracking-[0.3em] text-brand-brown dark:text-brand-cream">
             Admin Dashboard
-          </p>
+          </h4>
           <h1 className="text-3xl font-semibold">School review overview</h1>
-          <p className="text-sm text-slate-600">
+          <p className="text-sm text-brand-brown dark:text-brand-cream">
             Review counts for schools with at least one review.
           </p>
         </div>
 
         {/* while authLoading is true (session check in progress), show checking access message */}
         {authLoading && (
-          <p className="text-sm text-slate-600">Checking access...</p>
+          <p className="text-sm text-brand-blue">Checking access...</p>
         )}
 
         {/* while not logged in and not checking auth, show sign in prompt */}
         {!authLoading && !session && (
-          <p className="text-sm text-slate-600">
+          <p className="text-sm text-brand-orange">
             Please <Link href="/login">sign in</Link> to continue.
           </p>
         )}
 
         {/* if not checking auth and logged in, show error message if any */}
-        {error && <p className="text-sm text-red-600">{error}</p>}
+        {error && <p className="text-sm text-brand-orange">{error}</p>}
         
         {/* if logged in and no error, show the admin dashboard content */}
         {!authLoading && session && !error && (
@@ -217,7 +217,7 @@ export default function AdminDashboardPage() {
         )}
 
         {!authLoading && session && !error && (
-          <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+          <div className="rounded-3xl border border-brand-blue bg-brand-blue p-6">
 
             {/* 
               if dataLoading true, show loading message
@@ -225,16 +225,16 @@ export default function AdminDashboardPage() {
               else show the data table
             */}
             {dataLoading ? (
-              <p className="text-sm text-slate-600">Loading review counts...</p>
+              <p className="text-sm text-brand-cream">Loading review counts...</p>
             ) : rows.length === 0 ? (
-              <p className="text-sm text-slate-600">
+              <p className="text-sm text-brand-cream">
                 No schools have reviews yet.
               </p>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full border-collapse text-left text-sm text-slate-700">
+                <table className="w-full border-collapse text-left text-sm text-brand-orange">
                   <thead>
-                    <tr className="border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500">
+                    <tr className="border-b border-brand-cream text-xs uppercase tracking-wide text-brand-cream">
                       <th className="py-3 pr-4">School</th>
                       <th className="py-3 pr-4">URN</th>
                       <th className="py-3 text-right">Reviews</th>
@@ -246,12 +246,12 @@ export default function AdminDashboardPage() {
                     {rows.map((row) => (
                       <tr
                         key={row.school_urn}
-                        className="border-b border-slate-200 last:border-0"
+                        className="border-b border-brand-cream last:border-0"
                       >
                         <td className="py-3 pr-4 font-medium">
                           <Link
                             href={`/schools/${row.school_urn}`}
-                            className="inline-flex items-center gap-2 text-slate-900 hover:text-brand-orange"
+                            className="inline-flex items-center gap-2 text-brand-cream hover:text-brand-orange"
                           >
                             {row.school_name}
                           </Link>
@@ -275,18 +275,18 @@ export default function AdminDashboardPage() {
         )}
 
         {!authLoading && session && !error && (
-          <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+          <div className="rounded-3xl border border-brand-orange bg-brand-orange p-6">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <h2 className="text-lg font-semibold">Staff requests</h2>
-                <p className="text-sm text-slate-600">
-                  Review pending staff access requests.
+                <h2 className="text-lg text-brand-brown font-semibold">Staff requests</h2>
+                <p className="text-sm font-medium mt-1 text-brand-brown">
+                  Review pending staff access requests:
                 </p>
               </div>
               <button
                 type="button"
                 onClick={() => setStaffRefresh((prev) => prev + 1)}
-                className="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100"
+                className="rounded-md border border-brand-cream hover:border-brand-blue bg-brand-cream px-4 py-2 text-sm font-semibold text-brand-brown hover:text-brand-cream hover:bg-brand-blue"
               >
                 Refresh
               </button>
@@ -297,11 +297,11 @@ export default function AdminDashboardPage() {
             ) : null}
 
             {staffLoading ? (
-              <p className="mt-4 text-sm text-slate-600">
+              <p className="mt-6 text-sm text-brand-blue">
                 Loading staff requests...
               </p>
             ) : staffRequests.length === 0 ? (
-              <p className="mt-4 text-sm text-slate-600">
+              <p className="mt-5 text-sm font-medium text-brand-white">
                 No pending staff requests.
               </p>
             ) : (

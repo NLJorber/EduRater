@@ -11,8 +11,8 @@ import {
 } from "recharts";
 
 const METRICS = [
-  { key: "reviews", label: "Reviews", color: "var(--chart-1)" },
-  { key: "users", label: "New users", color: "var(--chart-2)" },
+  { key: "reviews", label: "Reviews", color: "#1573ff" },
+  { key: "users", label: "New users", color: "#FF7B00" },
 ];
 
 function formatShortDate(value) {
@@ -95,15 +95,15 @@ export default function AdminActivityChart({ accessToken, days = 90 }) {
     "var(--chart-1)";
 
   return (
-    <section className="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+    <section className="rounded-3xl border border-brand-blue dark:border-brand-cream bg-brand-cream p-6">
       <div className="flex flex-wrap items-start justify-between gap-4 border-b border-slate-200 pb-4">
         <div className="space-y-1">
-          <h2 className="text-lg font-semibold">Activity overview</h2>
-          <p className="text-sm text-slate-600">
+          <h2 className="text-lg text-brand-brown font-semibold">Activity overview</h2>
+          <p className="text-sm text-brand-brown">
             Daily totals for the last {days} days.
           </p>
         </div>
-        <div className="flex overflow-hidden rounded-full border border-slate-200 bg-white text-sm">
+        <div className="flex overflow-hidden rounded-full border border-brand-brown bg-brand-cream text-sm">
           {METRICS.map((metric) => (
             <button
               key={metric.key}
@@ -111,8 +111,8 @@ export default function AdminActivityChart({ accessToken, days = 90 }) {
               onClick={() => setActiveMetric(metric.key)}
               className={`px-4 py-2 text-sm font-semibold transition ${
                 activeMetric === metric.key
-                  ? "bg-slate-900 text-white"
-                  : "text-slate-600 hover:bg-slate-100"
+                  ? "bg-brand-brown text-brand-cream"
+                  : "text-brand-brown hover:bg-brand-orange"
               }`}
             >
               <span className="block text-xs uppercase tracking-wide opacity-70">
@@ -126,12 +126,12 @@ export default function AdminActivityChart({ accessToken, days = 90 }) {
         </div>
       </div>
 
-      {error ? <p className="mt-4 text-sm text-red-600">{error}</p> : null}
+      {error ? <p className="mt-4 text-sm text-brand-orange">{error}</p> : null}
 
       {loading ? (
-        <p className="mt-4 text-sm text-slate-600">Loading chart data...</p>
+        <p className="mt-4 text-sm text-brand-brown">Loading chart data...</p>
       ) : chartData.length === 0 ? (
-        <p className="mt-4 text-sm text-slate-600">
+        <p className="mt-4 text-sm text-brand-brown">
           No activity recorded yet.
         </p>
       ) : (
@@ -154,11 +154,12 @@ export default function AdminActivityChart({ accessToken, days = 90 }) {
                 tickFormatter={formatShortDate}
               />
               <Tooltip
-                cursor={{ stroke: "#cbd5f5", strokeDasharray: "4 4" }}
+                cursor={{ stroke: "#3D2901", strokeDasharray: "4 4" }}
                 contentStyle={{
                   borderRadius: 12,
-                  borderColor: "#e2e8f0",
+                  borderColor: "#3D2901",
                   fontSize: 12,
+                  color: "#3D2901",
                 }}
                 labelFormatter={formatLongDate}
               />

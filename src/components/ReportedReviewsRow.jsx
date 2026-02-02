@@ -82,23 +82,23 @@ useEffect(() => {
     return (
         <section className="mt-10">
             <div className="mb-3 flex items-end justify-between">
-                <h2 className="text-lg font-semibold">Reported reviews</h2>
+                <h2 className="text-lg text-brand-cream font-semibold">Reported reviews</h2>
 
                 {/* show X reports only when you have a stable result */}
                 {!loading && !error && (
-                    <p className="text-sm text-slate-600">{rows.length} reports</p>
+                    <p className="text-sm text-brand-orange">{rows.length} reports</p>
                 )}
             </div>
             
             {/* show loading when loading === true */}
-            {loading && <p className="text-sm text-slate-600">Loading…</p>}
+            {loading && <p className="text-sm text-brand-orange">Loading…</p>}
 
             {/* show error message if error exists */}
-            {error && <p className="text-sm text-red-600">{error}</p>}
+            {error && <p className="text-sm text-brand-orange">{error}</p>}
             
             {/* show no reports message if not loading, no error, and rows is empty */}
             {!loading && !error && rows.length === 0 && (
-                <p className="text-sm text-slate-600">No reports to show</p>
+                <p className="text-sm text-brand-cream">No reports to show</p>
             )}
 
             {/* show the list of reported reviews when not loading, no error, and rows exist */}
@@ -108,7 +108,7 @@ useEffect(() => {
                     {/* map each reported review row to a ReviewCard component inside a div */}
                     {rows.map((r) => (
                         <div key={r.id} className="min-w-[360px] shrink-0">
-                            <div className="mb-2 text-xs text-slate-600">
+                            <div className="mb-2 text-xs text-brand-cream">
                                 <b>Reason:</b> {r.reason || "No reason provided"} <br />
                                 <b>Reported:</b> {new Date(r.created_at).toLocaleString()}
                             </div>

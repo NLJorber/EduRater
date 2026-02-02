@@ -121,10 +121,6 @@ export default function NavBar() {
               </Link>
             </li>
 
-            <li className="flex items-center">
-              <ModeToggle />
-            </li>
-
             {canSeeStaff ? (
               <li>
                 <Link href="/staff" className="block py-2 px-3 font-bold text-brand-blue hover:text-brand-orange dark:text-brand-cream dark:hover:text-brand-orange">
@@ -164,8 +160,13 @@ export default function NavBar() {
                 )}
               </li>
             ) : null}
+
+          <li className="flex items-center">
+              <ModeToggle />
+            </li>
+
           </ul>
-        </div>
+      </div>
 
       </div>
     </nav>
