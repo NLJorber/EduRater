@@ -171,6 +171,18 @@ export default function ReviewsRow({ schoolUrn, refreshKey = 0 }) {
                 </p>
             )}
 
+            {reportingReview ? (
+                <ReportForm
+                    reviewId={reportingReview.id}
+                    onCancel={() => setReportingReview(null)}
+                    onReported={() => {
+                    setReportingReview(null);
+                    // optional: refresh list or show a toast
+                    // setLocalRefresh((prev) => prev + 1);
+                    }}
+                />
+            ) : null}
+
             {!loading && !error && reviews.length > 0 && (
                 <div className="flex gap-4 overflow-x-auto pb-3 pr-2">
                     {reviews.map((review) => (
