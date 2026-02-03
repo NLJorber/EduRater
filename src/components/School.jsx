@@ -12,12 +12,12 @@ export default function SchoolCard({ school, score }) {
                     <img
                         src={logoUrl}
                         alt={`${school.EstablishmentName} logo`}
-                        className="h-12 w-12 rounded-full bg-white p-1 object-contain"
+                        className="h-12 w-12 rounded-full bg-white dark:bg-brand-blue p-1 object-contain"
                         loading="lazy"
                         decoding="async"
                     />
                 ) : (
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-cream/90 text-lg font-semibold text-brand-blue">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-cream/90 dark:bg-brand-blue text-lg font-semibold text-brand-blue dark:text-brand-cream">
                         {initial}
                     </div>
                 )}

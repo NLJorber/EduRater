@@ -83,7 +83,7 @@ export default function SchoolDetailPage() {
         if (urn) load();    /* prevents the API call if urn is missing */
     }, [urn]);
 
-    if (loading) return <div className="p-10">Loading...</div>; 
+    if (loading) return <div className="min-h-screen p-10 bg-brand-cream dark:bg-brand-brown">Loading...</div>; 
     if (error) return <div className="p-10 text-brand-orange">{error}</div>;
     if (!school) return <div className="p-10">School not found</div>;
 
