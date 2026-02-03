@@ -192,9 +192,15 @@ export default function ReviewsRow({ schoolUrn, refreshKey = 0 }) {
                             showEdit={review.user_id === currentUserId}
                             showDelete={isAdmin}
                             showReport={canReport}
-                            onEdit={() => setEditingReview(review)}
+                            onEdit={() => {
+                                setReportingReview(null);
+                                setEditingReview(review);
+                            }}
                             onDelete={() => handleDelete(review.id)}
-                            onReport={() => setReportingReview(review)}
+                            onReport={() => {
+                                setEditingReview(null);
+                                setReportingReview(review);
+                            }}
                         />
                     ))}
                 </div>
