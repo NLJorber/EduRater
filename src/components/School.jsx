@@ -6,7 +6,7 @@ export default function SchoolCard({ school, score }) {
     const initial = (school.EstablishmentName || "?").trim().charAt(0).toUpperCase();
 
     return (
-        <div className="display-headings h-full rounded-lg border-3 p-6 bg-brand-blue dark:bg-brand-cream border-brand-brown dark:border-brand-blue">
+        <div className="display-headings h-full w-full rounded-lg border-3 p-6 bg-brand-blue dark:bg-brand-cream border-brand-brown dark:border-brand-blue flex flex-col">
             <div className="flex items-start gap-3">
                 {logoUrl ? (
                     <img
@@ -33,7 +33,7 @@ export default function SchoolCard({ school, score }) {
             {/* Display school postcode */}
             <p className="text-brand-cream dark:text-brand-brown">Location: {school.Postcode}</p>
 
-            <p className="mt-4 text-brand-cream dark:text-brand-brown">{score === null ? "No score yet" : `${score.toFixed(1)} / 5`}</p>
+            <p className="mt-auto pt-4 text-brand-cream dark:text-brand-brown">{score === null ? "No score yet" : `${score.toFixed(1)} / 5`}</p>
         </div>
     );
 }

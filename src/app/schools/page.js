@@ -287,7 +287,7 @@ export default function SchoolsPage() {
             {!loading && !error && schools.length > 0 && (
                 <AnimatedGroup
                     key={`${q}-${page}-${schools.length}`}
-                    className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
+                    className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 items-stretch"
                     preset="scale"
                 >
                     {/* loops over the array of schools returning the school and its index num */}
@@ -296,7 +296,7 @@ export default function SchoolsPage() {
                         key={school.URN}
                         /* href sends you to individual school page when clicked */
                         href={`/schools/${school.URN}`}
-                        className="block rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue hover:scale-[1.01] transition"
+                        className="flex h-full rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue hover:scale-[1.01] transition"
                     >
                         {/* use URN as key due to it being unique to each school */}
                         <SchoolCard key={school.URN} school={school} score={scoresByUrn[school.URN] ?? null} />
