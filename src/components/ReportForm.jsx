@@ -81,7 +81,7 @@ export default function ReportForm({
     };
 
     return (
-        <div className="mt-6 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-900">
+        <div className="my-6 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-900">
             <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-black dark:text-white">Report review</h3>
 
