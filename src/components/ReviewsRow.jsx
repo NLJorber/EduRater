@@ -134,19 +134,6 @@ export default function ReviewsRow({ schoolUrn, refreshKey = 0 }) {
                 </p>
             )}
 
-            {editingReview ? (
-                <ReviewForm
-                    schoolUrn={schoolUrn}
-                    reviewId={editingReview.id}
-                    initialData={editingReview}
-                    onCancel={() => setEditingReview(null)}
-                    onPosted={() => {
-                        setEditingReview(null);
-                        setLocalRefresh((prev) => prev + 1);
-                    }}
-                />
-            ) : null}
-
             {loading && <p className="text-sm text-gray-600 dark:text-gray-300">Loading reviews...</p>}
 
             {editingReview ? (
@@ -177,8 +164,6 @@ export default function ReviewsRow({ schoolUrn, refreshKey = 0 }) {
                     onCancel={() => setReportingReview(null)}
                     onReported={() => {
                     setReportingReview(null);
-                    // optional: refresh list or show a toast
-                    // setLocalRefresh((prev) => prev + 1);
                     }}
                 />
             ) : null}
