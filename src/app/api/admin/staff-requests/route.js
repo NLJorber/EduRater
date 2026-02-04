@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/auth/server";
+import { supabaseServer } from "@/lib/supabase/server";
 
 const allowedStatuses = new Set(["pending", "approved", "rejected"]);
 
@@ -90,20 +91,32 @@ export async function PATCH(request) {
 
   if (status === "approved") {
     if (requestRow.user_id) {
-      await authResult.supabaseUser
+      const { error: profileError } = await supabaseServer
         .from("profiles")
         .update({ role: "staff_verified", school_id: finalSchoolId })
         .eq("id", requestRow.user_id);
+      if (profileError) {
+        return NextResponse.json(
+          { error: profileError.message },
+          { status: 500 }
+        );
+      }
     }
   }
 
   if (status === "rejected") {
     if (requestRow.user_id) {
-      await authResult.supabaseUser
+      const { error: profileError } = await supabaseServer
         .from("profiles")
         .update({ role: "user", school_id: null })
         .eq("id", requestRow.user_id)
         .eq("role", "staff_pending");
+      if (profileError) {
+        return NextResponse.json(
+          { error: profileError.message },
+          { status: 500 }
+        );
+      }
     }
   }
 
