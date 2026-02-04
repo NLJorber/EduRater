@@ -12,7 +12,7 @@ export default function ReviewCard({
     if (!review) return null;   /* prevent rendering if no review data is provided */
 
     return (
-        <div className="min-w-[280px] max-w-[280px] shrink-0 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-900">
+        <div className="min-w-[280px] max-w-[280px] shrink-0 rounded-lg border border-gray-200 bg-white p-4 dark:border-brand-cream dark:bg-brand-cream">
             <div className="mb-3">
                 <Rating
                     value={
