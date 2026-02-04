@@ -145,6 +145,11 @@ export default function StaffSchoolCharts({ days = 90 }) {
     }));
   }, [sectionData]);
 
+  const hasLineData = useMemo(
+    () => chartData.some((row) => typeof row.avg_score === "number"),
+    [chartData]
+  );
+
   return (
     <div className="space-y-6">
       <section className="rounded-3xl border border-brand-blue dark:border-brand-cream bg-brand-cream p-6">
@@ -171,9 +176,9 @@ export default function StaffSchoolCharts({ days = 90 }) {
 
         {loading ? (
           <p className="mt-4 text-sm text-brand-brown">Loading chart data...</p>
-        ) : chartData.length === 0 ? (
+        ) : !hasLineData ? (
           <p className="mt-4 text-sm text-brand-brown">
-            No review activity yet.
+            No review scores yet.
           </p>
         ) : (
           <div className="mt-6 h-64">
@@ -211,6 +216,7 @@ export default function StaffSchoolCharts({ days = 90 }) {
                 <Line
                   dataKey="avg_score"
                   type="monotone"
+                  connectNulls
                   stroke={CHART_COLOR}
                   strokeWidth={2}
                   dot={false}

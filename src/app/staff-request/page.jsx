@@ -33,25 +33,40 @@ export default function StaffRequestPage() {
     []
   );
 
-  const loadSchools = useCallback(async () => {
-    setSchoolsLoading(true);
-    setSchoolsError("");
-    const { data, error } = await supabaseClient
-      .from("schools")
-      .select("id, name, domain")
-      .order("name", { ascending: true });
+  const searchSchools = useCallback(
+    async (query) => {
+      const trimmed = query.trim();
+      if (!trimmed) {
+        setSchools([]);
+        setSchoolsLoading(false);
+        return;
+      }
 
-    if (error) {
-      setError(error.message);
-      setSchoolsError(error.message || "Failed to load schools.");
-      setSchools([]);
+      setSchoolsLoading(true);
+      setSchoolsError("");
+
+      const escaped = trimmed.replace(/[%_]/g, "\\$&");
+      const pattern = `%${escaped}%`;
+      const { data, error } = await supabaseClient
+        .from("schools")
+        .select("id, name, domain")
+        .or(`name.ilike.${pattern},domain.ilike.${pattern}`)
+        .order("name", { ascending: true })
+        .limit(50);
+
+      if (error) {
+        setError(error.message);
+        setSchoolsError(error.message || "Failed to load schools.");
+        setSchools([]);
+        setSchoolsLoading(false);
+        return;
+      }
+
+      setSchools(data ?? []);
       setSchoolsLoading(false);
-      return;
-    }
-
-    setSchools(data ?? []);
-    setSchoolsLoading(false);
-  }, [setError]);
+    },
+    [setError]
+  );
 
   const loadRequests = useCallback(
     async (accessToken) => {
@@ -78,8 +93,19 @@ export default function StaffRequestPage() {
   );
 
   useEffect(() => {
-    loadSchools();
-  }, [loadSchools]);
+    const trimmed = schoolQuery.trim();
+    if (!trimmed) {
+      setSchools([]);
+      setSchoolsLoading(false);
+      return;
+    }
+
+    const handle = setTimeout(() => {
+      searchSchools(trimmed);
+    }, 250);
+
+    return () => clearTimeout(handle);
+  }, [schoolQuery, searchSchools]);
 
   useEffect(() => {
     if (!session?.access_token) {
@@ -146,15 +172,7 @@ export default function StaffRequestPage() {
     [schools, schoolId]
   );
 
-  const filteredSchools = useMemo(() => {
-    const query = schoolQuery.trim().toLowerCase();
-    if (!query) return schools;
-    return schools.filter((school) => {
-      const name = school.name?.toLowerCase() ?? "";
-      const domain = school.domain?.toLowerCase() ?? "";
-      return name.includes(query) || domain.includes(query);
-    });
-  }, [schools, schoolQuery]);
+  const filteredSchools = useMemo(() => schools, [schools]);
 
   return (
     <main className="display-headings min-h-screen bg-brand-cream dark:bg-brand-brown text-brand-blue dark:text-brand-cream">
@@ -216,6 +234,10 @@ export default function StaffRequestPage() {
                           <div className="px-4 py-3 text-sm text-brand-orange">
                             {schoolsError}
                           </div>
+                        ) : schoolQuery.trim() === "" ? (
+                          <div className="px-4 py-3 text-sm text-brand-brown">
+                            Start typing to search for your school.
+                          </div>
                         ) : filteredSchools.length === 0 ? (
                           <div className="px-4 py-3 text-sm text-brand-brown">
                             No schools found. Try a different search.
@@ -225,6 +247,7 @@ export default function StaffRequestPage() {
                             <button
                               key={school.id}
                               type="button"
+                              onMouseDown={(event) => event.preventDefault()}
                               onClick={() => {
                                 setSchoolId(school.id);
                                 setSchoolQuery(
