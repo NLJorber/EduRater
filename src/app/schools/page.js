@@ -235,7 +235,7 @@ export default function SchoolsPage() {
                         value={nextQ}
                         onChange={(e) => setNextQ(e.target.value)}
                         placeholder="Search for schools..."
-                        className="w-full rounded-md border border-brand-brown px-4 py-2 text-brand-blue placeholder:text-brand-brown focus:border-brand-blue focus:outline-none focus:ring-2 focus:ring-brand-blue bg-brand-cream dark:border-brand-cream dark:text-brand-orange dark:placeholder-brand-cream dark:focus:border-brand-orange focus:ring-brand-orange dark:bg-brand-brown"
+                        className="w-full rounded-md border border-brand-brown px-4 py-2 text-brand-blue placeholder:text-brand-brown focus:border-brand-blue focus:outline-none focus:ring-2 focus:ring-brand-blue bg-brand-cream dark:border-brand-cream dark:text-brand-orange dark:placeholder-brand-cream dark:focus:border-brand-orange dark:focus:ring-brand-orange dark:bg-brand-brown"
                     />
 
                     {/* Phase select (shadcn/radix) */}

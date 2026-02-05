@@ -271,6 +271,17 @@ pre {
     cursor: pointer;
   }
 
+  .dark input.custom-range::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    margin-top: -6px;
+    background: #FF7B00 !important;
+    width: 18px;
+    height: 18px;
+    border-radius: 9999px;
+    cursor: pointer;
+  }
+
   input.custom-range::-moz-range-track {
     background: #e6d5b8 !important;
     height: 6px;
