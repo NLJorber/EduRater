@@ -52,7 +52,7 @@ return (
       />
 
       {/* modal panel */}
-      <div className="relative z-10 w-[min(720px,92vw)] min-h-[300px] max-h-[70vh] overflow-auto rounded-2xl bg-white p-6 shadow-xl dark:bg-gray-900">
+      <div className="relative z-10 w-[min(720px,92vw)] h-[40vh] min-h-[300px] rounded-2xl bg-white p-6 shadow-xl dark:bg-gray-900 flex flex-col">
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
             <h3 className="text-xl font-semibold text-slate-900 dark:text-white">
@@ -74,9 +74,9 @@ return (
 
         {/* CONTENT AREA */}
         {isMain ? (
-          <div>
+          <div className="mt-4 flex-1 min-h-0">
             {/* overall rating (use the correct field name you store) */}
-            <div className="mt-6 rounded-xl border border-slate-200 p-4 dark:border-slate-700">
+            <div className="h-full overflow-y-auto rounded-xl border border-slate-200 p-4 dark:border-slate-700">
                 <div className="flex items-center justify-between gap-4">
                     <p className="font-semibold text-slate-900 dark:text-white">
                     Main Review
@@ -105,8 +105,8 @@ return (
             </div>
           </div>
         ) : (
-          <div>
-            <div className="mt-6 rounded-xl border border-slate-200 p-4 dark:border-slate-700">
+          <div className="mt-4 flex-1 min-h-0">
+            <div className="h-full overflow-y-auto rounded-xl border border-slate-200 p-4 dark:border-slate-700">
               <div className="flex items-center justify-between gap-4">
                 <p className="font-semibold text-slate-900 dark:text-white">
                   {prettySectionName(activeSection.section_key)}
