@@ -1,3 +1,5 @@
+
+
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -241,4 +243,58 @@ pre {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+
+@layer components {
+  input.custom-range {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    background: transparent !important;
+    height: 46px;
+  }
+
+  input.custom-range::-webkit-slider-runnable-track {
+    background: #e6d5b8 !important;
+    height: 6px;
+    border-radius: 9999px;
+  }
+
+  input.custom-range::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    margin-top: -6px;
+    background: #5c3a1e !important;
+    width: 18px;
+    height: 18px;
+    border-radius: 9999px;
+    cursor: pointer;
+  }
+
+  input.custom-range::-moz-range-track {
+    background: #e6d5b8 !important;
+    height: 6px;
+    border-radius: 9999px;
+  }
+
+  input.custom-range::-moz-range-thumb {
+    background: #5c3a1e !important;
+    width: 18px;
+    height: 18px;
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+  }
+}
+
+/* Radix/shadcn Select hover highlight */
+[data-radix-select-viewport] [data-highlighted] {
+  background-color: #3D2901 !important; /* brand-brown */
+  color: #FBF5E7 !important;            /* brand-cream */
+}
+
+/* Radix/shadcn Select hover highlight – dark mode */
+.dark [data-radix-select-viewport] [data-highlighted] {
+  background-color: #FBF5E7 !important; /* brand-cream */
+  color: #3D2901 !important;            /* brand-brown */
 }

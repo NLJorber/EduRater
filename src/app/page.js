@@ -136,7 +136,7 @@ export default function Home() {
                 step="1"
                 value={radiusKm}
                 onChange={(e) => setRadiusKm(Number(e.target.value))}
-                className="w-full"
+                className="w-full custom-range"
               />
               <select
                 value={phase}

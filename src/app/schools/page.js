@@ -15,6 +15,14 @@ import {
 } from "@/components/ui/pagination";
 import { usePagination } from "@/components/hooks/use-pagination";
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 // Tells SchoolsMap to load in browser, not server, and to not load during server side rendering
 const SchoolsMap = dynamic(() => import("@/components/SchoolsMap"), { ssr: false });
 
@@ -22,22 +30,26 @@ const SchoolsMap = dynamic(() => import("@/components/SchoolsMap"), { ssr: false
 import SchoolCard from "@/components/School";
 
 export default function SchoolsPage() {
-    
     const searchParams = useSearchParams();
+    const router = useRouter();
+
     const q = (searchParams.get("q") || "").trim();
     const phase = (searchParams.get("phase") || "all").trim().toLowerCase();
     const radiusParam = searchParams.get("radiusKm");
     const pageParam = searchParams.get("page");
+
     const radiusKm = Number.isFinite(Number(radiusParam))
         ? Math.min(Math.max(Number(radiusParam), 1), 40)
         : 25;
+
     const page = Number.isFinite(Number(pageParam)) && Number(pageParam) > 0 ? Math.floor(Number(pageParam)) : 1;
+
     const pageSize = 50;
 
     const [nextQ, setNextQ] = useState("");
     const [nextPhase, setNextPhase] = useState("all");
     const [nextRadius, setNextRadius] = useState(25);
-    const router = useRouter();
+
 
     const [schools, setSchools] = useState([]);
     const [error, setError] = useState("");
@@ -92,11 +104,14 @@ export default function SchoolsPage() {
 
         const phaseParam = nextPhase !== "all" ? `&phase=${encodeURIComponent(nextPhase)}` : "";
         const limitParam = `&limit=${pageSize}`;
-        const radiusParam = `&radiusKm=${encodeURIComponent(nextRadius)}`;
-        const pageParam = `&page=1`;
+        const radiusQuery = `&radiusKm=${encodeURIComponent(nextRadius)}`;
+        const pageQuery = `&page=1`;
+
         /* navigate to the schools page with the query as a query parameter */
-        router.push(`/schools?q=${encodeURIComponent(term)}${phaseParam}${limitParam}${radiusParam}${pageParam}`)
-    }
+        router.push(
+            `/schools?q=${encodeURIComponent(term)}${phaseParam}${limitParam}${radiusQuery}${pageQuery}`
+          );
+        };
 
     useEffect(() => {
         setNextQ(q);
@@ -126,10 +141,13 @@ export default function SchoolsPage() {
             const limitParam = `&limit=${pageSize}`;
             const radiusQuery = `&radiusKm=${encodeURIComponent(radiusKm)}`;
             const pageQuery = `&page=${page}`;
+
             let res;
             let body = {};
             try {
-                res = await fetch(`/api/schools?q=${encodeURIComponent(q)}${limitParam}${phaseParam}${radiusQuery}${pageQuery}`);
+                res = await fetch(
+                    `/api/schools?q=${encodeURIComponent(q)}${limitParam}${phaseParam}${radiusQuery}${pageQuery}`
+                );
                 body = await res.json().catch(() => ({}));
             } catch {
                 setError("Failed to load schools. Please try again.");
@@ -161,7 +179,9 @@ export default function SchoolsPage() {
                           if (normalizedPhase === "nursery") return raw.includes("nursery");
                           return raw.includes(normalizedPhase);
                       });
+
             setSchools(filtered);
+
             if (Number.isFinite(Number(body.count))) {
                 setTotalCount(Number(body.count));
                 setHasNextPage(page < Math.max(1, Math.ceil(Number(body.count) / pageSize)));
@@ -169,6 +189,7 @@ export default function SchoolsPage() {
                 setTotalCount(0);
                 setHasNextPage(Boolean(body.hasNext));
             }
+
             setLoading(false);
         };
 
@@ -195,6 +216,7 @@ export default function SchoolsPage() {
 
     return (
         <div className="display-headings min-h-screen text-brand-orange dark:text-brand-cream bg-brand-cream dark:bg-brand-brown p-4 md:px-32 py-6">
+            
             {/* heading showing "Schools in (current query)" */}
             <h2 className="font-bold !tracking-normal !leading-snug">
             Schools in {q || "…"}
@@ -213,29 +235,49 @@ export default function SchoolsPage() {
                         value={nextQ}
                         onChange={(e) => setNextQ(e.target.value)}
                         placeholder="Search for schools..."
-                        className="w-full rounded-md border border-brand-brown px-4 py-2 text-brand-blue placeholder:text-brand-brown focus:border-brand-blue focus:outline-none focus:ring-2 focus:ring-brand-blue bg-brand-cream dark:bg-brand-brown dark:border-brand-cream dark:placeholder-brand-cream"
+                        className="w-full rounded-md border border-brand-brown px-4 py-2 text-brand-blue placeholder:text-brand-brown focus:border-brand-blue focus:outline-none focus:ring-2 focus:ring-brand-blue bg-brand-cream dark:border-brand-cream dark:text-brand-orange dark:placeholder-brand-cream dark:focus:border-brand-orange focus:ring-brand-orange dark:bg-brand-brown"
                     />
 
-                    <select
+                    {/* Phase select (shadcn/radix) */}
+                    <div className="w-full sm:w-44">
+                    <Select
                         value={nextPhase}
-                        onChange={(e) => {
-                        const value = e.target.value;
+                        onValueChange={(value) => {
                         setNextPhase(value);
+
+                        
                         if (nextQ.trim()) {
                             const phaseParam = value !== "all" ? `&phase=${encodeURIComponent(value)}` : "";
                             const limitParam = `&limit=${pageSize}`;
-                            const radiusParam = `&radiusKm=${encodeURIComponent(nextRadius)}`;
-                            const pageParam = `&page=1`;
-                            router.push(`/schools?q=${encodeURIComponent(nextQ.trim())}${phaseParam}${limitParam}${radiusParam}${pageParam}`);
+                            const radiusQuery = `&radiusKm=${encodeURIComponent(nextRadius)}`;
+                            const pageQuery = `&page=1`;
+                            router.push(`/schools?q=${encodeURIComponent(nextQ.trim())}${phaseParam}${limitParam}${radiusQuery}${pageQuery}`);
                         }
                         }}
-                        className="w-full rounded-md border border-brand-brown px-4 py-2 text-brand-blue focus:border-brand-blue focus:outline-none focus:ring-2 focus:ring-brand-blue bg-brand-cream dark:bg-brand-brown dark:border-brand-cream sm:w-44"
-                    >
-                    <option value="all">All phases</option>
-                    <option value="primary">Primary</option>
-                    <option value="secondary">Secondary</option>
-                    <option value="nursery">Nursery</option>
-                    </select>
+                        >
+
+                          <SelectTrigger className="w-full sm:w-44 h-12 min-h-12 inline-flex items-center rounded-md border border-brand-brown px-4 text-base text-brand-blue focus:border-brand-blue focus:outline-none focus:ring-2 focus:ring-brand-blue bg-brand-cream dark:border-brand-cream dark:text-brand-orange dark:focus:border-brand-orange dark:focus:ring-brand-orange dark:bg-brand-brown">
+
+                          <SelectValue placeholder="Phase:" />
+                            </SelectTrigger>
+
+                            <SelectContent className="bg-brand-cream dark:bg-brand-brown border-brand-brown dark:border-brand-cream">
+
+                                <SelectItem value="all">All phases</SelectItem>
+                                <SelectItem value="primary">Primary</SelectItem>
+                                <SelectItem value="secondary">Secondary</SelectItem>
+                                <SelectItem value="nursery">Nursery</SelectItem>
+                            </SelectContent>
+                    </Select>
+                    </div>
+
+                    {/* <span className="
+                        pointer-events-none
+                        absolute right-3 top-1/2 -translate-y-1/2
+                         text-brand-brown dark:text-brand-cream
+                        ">
+    ▾               </span> */}
+                    
 
                     <button
                     type="submit"
@@ -244,11 +286,13 @@ export default function SchoolsPage() {
                     Search
                     </button>
                 </form>
+
                 <div className="mt-3 rounded-md border border-brand-brown px-4 py-3 text-brand-blue bg-brand-cream dark:bg-brand-brown dark:border-brand-cream">
-                    <div className="flex items-center justify-between text-sm font-semibold">
+                    <div className="flex items-center justify-between text-sm font-semibold text-brand-blue dark:text-brand-orange">
                         <span>Range</span>
                         <span>{nextRadius} km</span>
                     </div>
+
                     <input
                         type="range"
                         min="1"
@@ -259,12 +303,12 @@ export default function SchoolsPage() {
                             const value = Number(e.target.value);
                             setNextRadius(value);
                         }}
-                        className="mt-2 w-full"
+                        className="mt-2 w-full custom-range"
                     />
                 </div>
             </div>
 
-            {loading && <p className="mt-4">Loading…</p>}
+            {loading && <p className="mt-4 text-brand-orange">Loading…</p>}
 
             {error && <p className="mt-4 text-brand-orange">{error}</p>}
 
