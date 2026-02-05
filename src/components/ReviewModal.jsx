@@ -39,7 +39,7 @@ export default function ReviewModal({ open, review, onClose }) {
             />
 
             {/* modal panel */}
-            <div className="relative z-10 w-[min(720px,92vw)] max-h-[85vh] overflow-auto rounded-2xl bg-white p-6 shadow-xl dark:bg-gray-900">
+            <div className="relative z-10 w-[min(720px,92vw)] max-h-[70vh] overflow-auto rounded-2xl bg-white p-6 shadow-xl dark:bg-gray-900">
                 <div className="flex items-start justify-between gap-4">
                 <div>
                     <h3 className="text-xl font-semibold text-slate-900 dark:text-white">
