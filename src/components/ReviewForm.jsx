@@ -201,27 +201,27 @@ export default function ReviewForm({
   };
 
   return (
-    <div className="my-6 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-900">
-      <h3 className="text-lg font-semibold text-brand-brown dark:text-brand-cream">
+    <div className="my-6 pl-16 rounded-lg border border-brand-brown bg-brand-blue p-4 dark:border-brand-blue dark:bg-brand-orange">
+      <h3 className="text-lg font-semibold text-brand-cream dark:text-brand-cream">
         {isEditing ? "Edit your review" : "Leave a review"}
       </h3>
 
       <form onSubmit={handleSubmit} className="mt-4 space-y-3">
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
+          <label className="block text-sm font-medium text-brand-cream dark:text-brand-cream">
             Title
           </label>
           <input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             maxLength={200}
-            className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-700 dark:bg-black dark:text-white"
+            className="mt-1 w-full rounded-md border border-brand-cream px-3 py-2 dark:border-brand-cream dark:bg-brand-cream text-brand-cream dark:text-white"
             placeholder="Optional title"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
+          <label className="block text-sm font-medium text-brand-cream dark:text-brand-cream">
             Overall Rating (computed)
           </label>
 
@@ -231,18 +231,18 @@ export default function ReviewForm({
               disabled
               roundToHalf
             />
-            <span className="text-sm text-gray-600 dark:text-gray-300">
+            <span className="text-sm text-brand-cream dark:text-brand-cream">
               {computedOverall != null
                 ? `${computedOverall} / 5`
                 : "Rate the sections to see an overall score"}
             </span>
           </div>
-          <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+          <p className="mt-1 text-xs text-brand-cream dark:text-brand-cream">
             Pick ratings below to calculate your overall score.
           </p>
 
           {computedOverall != null ? (
-            <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+            <p className="mt-2 text-xs text-brand-cream dark:text-brand-cream">
               Computed from section ratings:{" "}
               <span className="font-semibold">{computedOverall} / 5</span>
             </p>
@@ -250,13 +250,13 @@ export default function ReviewForm({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
+          <label className="block text-sm font-medium text-brand-cream dark:text-brand-cream">
             Review
           </label>
           <textarea
             value={body}
             onChange={(e) => setBody(e.target.value)}
-            className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-700 dark:bg-black dark:text-white"
+            className="mt-1 w-full rounded-md border border-brand-cream px-3 py-2 dark:border-brand-cream dark:bg-brand-cream dark:text-brand-cream placeholder:text-brand-cream/70"
             rows={5}
             maxLength={2000}
             placeholder="Write your review here..."
@@ -265,7 +265,7 @@ export default function ReviewForm({
         </div>
 
         <div>
-          <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-200">
+          <h4 className="text-sm font-semibold text-brand-cream dark:text-brand-cream">
             Section ratings
           </h4>
 
@@ -273,10 +273,10 @@ export default function ReviewForm({
             {sections.map((section, index) => (
               <div
                 key={section.key}
-                className="rounded-md border border-gray-200 p-3 dark:border-gray-700"
+                className="rounded-md border border-brand-cream p-3 dark:border-brand-cream"
               >
                 <div className="flex items-center justify-between gap-3">
-                  <p className="text-sm font-semibold text-gray-700 dark:text-gray-200">
+                  <p className="text-sm font-semibold text-brand-cream dark:text-brand-cream">
                     {section.label}
                   </p>
 
@@ -292,7 +292,7 @@ export default function ReviewForm({
                           )
                         )
                       }
-                      className="text-xs font-semibold text-blue-600 hover:text-blue-700"
+                      className="text-xs font-semibold text-brand-cream hover:text-brand-cream"
                     >
                       {section.isNa ? "Undo N/A" : "Mark as N/A"}
                     </button>
@@ -306,6 +306,7 @@ export default function ReviewForm({
                       disabled={section.isNa}
                       size="sm"
                       allowHalfSelect
+                      colorMode="perStar"
                       onChange={(val) =>
                         setSections((prev) =>
                           prev.map((item, itemIndex) =>
@@ -316,7 +317,7 @@ export default function ReviewForm({
                         )
                       }
                     />
-                    <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                    <p className="mt-1 text-xs text-brand-cream dark:text-brand-cream">
                       {section.isNa
                         ? "Marked N/A"
                         : section.rating
@@ -337,7 +338,7 @@ export default function ReviewForm({
                         )
                       )
                     }
-                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm dark:border-gray-700 dark:bg-black dark:text-white"
+                    className="w-full rounded-md border border-brand-cream px-3 py-2 text-sm dark:border-brand-cream dark:bg-brand-cream text-brand-cream dark:text-brand-brown placeholder:text-brand-cream/70" 
                     rows={3}
                     placeholder="Write a comment (at least one section comment required)"
                     disabled={section.isNa}
@@ -351,7 +352,7 @@ export default function ReviewForm({
         <button
           type="submit"
           disabled={status.type === "loading"}
-          className="rounded-md bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700 disabled:opacity-60"
+          className="rounded-md bg-brand-brown px-4 py-2 font-semibold text-brand-cream hover:bg-brand-orange disabled:opacity-60"
         >
           {isEditing ? "Save changes" : "Post"}
         </button>
@@ -360,7 +361,7 @@ export default function ReviewForm({
           <button
             type="button"
             onClick={onCancel}
-            className="ml-3 rounded-md border border-gray-300 px-4 py-2 font-semibold text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-800"
+            className="ml-3 rounded-md border border-brand-cream px-4 py-2 font-semibold text-brand-cream hover:bg-brand-cream dark:border-brand-cream dark:text-brand-cream dark:hover:bg-brand-cream"
           >
             Cancel
           </button>
@@ -370,8 +371,8 @@ export default function ReviewForm({
           <p
             className={`text-sm ${
               status.type === "error"
-                ? "text-red-600"
-                : "text-gray-600 dark:text-gray-300"
+                ? "text-brand-orange"
+                : "text-brand-orange dark:text-brand-orange"
             }`}
           >
             {status.message}

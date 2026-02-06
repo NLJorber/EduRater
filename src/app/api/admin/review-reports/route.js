@@ -83,6 +83,28 @@ export async function GET(request) {
   // remove reports whose review has been deleted
   const rows = (data ?? []).filter((r) => r.review && !r.review.deleted_at);
 
+  const reviewUserIds = [
+    ...new Set(rows.map((row) => row.review?.user_id).filter(Boolean)),
+  ];
+
+  let authorMap = new Map();
+  if (reviewUserIds.length > 0) {
+    const { data: settings, error: settingsError } = await supabaseUser
+      .from("profile_settings")
+      .select("user_id, display_name, avatar_seed, avatar_style")
+      .in("user_id", reviewUserIds);
+
+    if (!settingsError && Array.isArray(settings)) {
+      authorMap = new Map(settings.map((row) => [row.user_id, row]));
+    }
+  }
+
+  rows.forEach((row) => {
+    if (row.review?.user_id) {
+      row.review.author = authorMap.get(row.review.user_id) ?? null;
+    }
+  });
+
   // return the final JSON response
   return NextResponse.json({ data: rows });
 }

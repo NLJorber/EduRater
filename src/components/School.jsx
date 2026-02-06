@@ -9,7 +9,7 @@ export default function SchoolCard({ school, score }) {
         <div className="display-headings h-full w-full rounded-lg border-3 p-6 bg-brand-blue dark:bg-brand-cream border-brand-brown dark:border-brand-blue flex flex-col">
             <div className="flex items-start gap-3">
                 {logoUrl ? (
-                    <img
+                    <image
                         src={logoUrl}
                         alt={`${school.EstablishmentName} logo`}
                         className="h-12 w-12 rounded-full bg-white dark:bg-brand-blue p-1 object-contain"

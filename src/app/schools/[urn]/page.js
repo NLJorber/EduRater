@@ -87,38 +87,57 @@ export default function SchoolDetailPage() {
     if (error) return <div className="p-10 text-brand-orange">{error}</div>;
     if (!school) return <div className="p-10">School not found</div>;
 
-    return (
-        /* passes the loaded school object as a prop to SchoolPage to load the component */
-        <div className="min-h-screen p-6 bg-brand-cream dark:bg-brand-brown">
-            <SchoolPage school={school} />
+return (
+  <div className="min-h-screen p-6 bg-brand-cream dark:bg-brand-brown display-headings">
+    {/* FULL-WIDTH HEADER */}
+    <h2 className="mt-16 mb-4 text-center text-brand-orange dark:text-brand-orange">
+      {school.EstablishmentName}
+    </h2>
 
-            <ReviewsRow schoolUrn={urn} refreshKey={refreshKey} />
+    <hr className="border-brand-brown dark:border-brand-cream mb-6" />
 
-            {/* only show review form if user is logged in */}
-            {user ? (
-             
-                <div>
-                    <button onClick={() => setReviewing(!reviewing)} className="rounded-md bg-blue-600 mt-6 px-4 py-2 font-semibold text-white hover:bg-blue-700 disabled:opacity-60">
-                        {reviewing ? "Cancel Review" : "Leave a Review"}
-                    </button>
+    {/* MAIN LAYOUT: 2/5 left, 3/5 right */}
+    <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-10">
+      {/* LEFT: 2/5 */}
+      <div>
+        <SchoolPage school={school} />
+      </div>
 
-                    {reviewing && (
-                        <ReviewForm
-                            schoolUrn={urn}
-                            onPosted={() => setRefreshKey((prev) => prev + 1)}
-                        />
-                    )}
-                </div>
-            ) : (
-                <div className="mt-6 rounded-lg border border-brand-brown bg-brand-cream p-4 dark:border-brand-blue dark:bg-brand-cream">
-                    <p className="text-brand-brown dark:text-brand-brown">
-                        You must be signed in to leave a review.
-                    </p>
-                    <Link href="/login" className="mt-2 inline-block font-semibold text-brand-blue">
-                        Sign in
-                    </Link>
-                </div>
+      {/* RIGHT: 3/5 */}
+      <div>
+        <ReviewsRow schoolUrn={urn} refreshKey={refreshKey} />
+      </div>
+
+      {/* FULL-WIDTH BELOW BOTH COLUMNS */}
+      <div className="lg:col-span-2 pl-15">
+        {user ? (
+          <div>
+            <button
+              onClick={() => setReviewing(!reviewing)}
+              className="rounded-md bg-brand-brown mt-6 px-4 py-2 font-semibold text-brand-cream hover:bg-brand-orange disabled:opacity-60"
+            >
+              {reviewing ? "Cancel Review" : "Leave a Review"}
+            </button>
+
+            {reviewing && (
+              <ReviewForm
+                schoolUrn={urn}
+                onPosted={() => setRefreshKey((prev) => prev + 1)}
+              />
             )}
-        </div>
-    );
+          </div>
+        ) : (
+          <div className="mt-6 rounded-lg border border-brand-brown bg-brand-cream p-4 dark:border-brand-blue dark:bg-brand-cream">
+            <p className="text-brand-brown dark:text-brand-brown">
+              You must be signed in to leave a review.
+            </p>
+            <Link href="/login" className="mt-2 inline-block font-semibold text-brand-blue">
+              Sign in
+            </Link>
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+);
 }

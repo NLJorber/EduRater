@@ -9,11 +9,12 @@ import { ModeToggle } from "@/components/ModeToggle"
 import { cn } from "@/lib/utils"
 
 
-
-
 export default function NavBar() {
   // STATE: controls whether the mobile menu is open or closed
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const closeMenu = () => setMenuOpen(false);
+
   const { profile, session, loading } = useAuthProfile();
 
   const canSeeStaff = ["staff_verified", "super_admin"].includes(
@@ -110,27 +111,27 @@ export default function NavBar() {
 
 
               <li>
-                <Link href="/" className="block py-2 px-3 font-bold text-brand-blue hover:text-brand-orange dark:text-brand-cream dark:hover:text-brand-orange">
+                <Link href="/" onClick={closeMenu} className="block py-2 px-3 font-bold text-brand-blue hover:text-brand-orange dark:text-brand-cream dark:hover:text-brand-orange">
                   Home
                 </Link>
               </li>
             
             <li>
-              <Link href="#" className="block py-2 px-3 font-bold text-brand-blue hover:text-brand-orange dark:text-brand-cream dark:hover:text-brand-orange">
+              <Link href="#" onClick={closeMenu} className="block py-2 px-3 font-bold text-brand-blue hover:text-brand-orange dark:text-brand-cream dark:hover:text-brand-orange">
                 About Us
               </Link>
             </li>
 
             {canSeeStaff ? (
               <li>
-                <Link href="/staff" className="block py-2 px-3 font-bold text-brand-blue hover:text-brand-orange dark:text-brand-cream dark:hover:text-brand-orange">
+                <Link href="/staff" onClick={closeMenu} className="block py-2 px-3 font-bold text-brand-blue hover:text-brand-orange dark:text-brand-cream dark:hover:text-brand-orange">
                   Staff Tools
                 </Link>
               </li>
             ) : null}
             {isAdmin ? (
               <li>
-                <Link href="/admin" className="block py-2 px-3 font-bold text-brand-blue hover:text-brand-orange dark:text-brand-cream dark:hover:text-brand-orange">
+                <Link href="/admin" onClick={closeMenu} className="block py-2 px-3 font-bold text-brand-blue hover:text-brand-orange dark:text-brand-cream dark:hover:text-brand-orange">
                   Admin
                 </Link>
               </li>
@@ -140,21 +141,24 @@ export default function NavBar() {
                 {isSignedIn ? (
                   <div className="flex flex-col md:flex-row md:items-center md:gap-2">
                     <Link
-                      href="/profile"
+                      href="/profile" onClick={closeMenu}
                       className="block py-2 px-3 font-bold text-brand-orange hover:text-brand-brown dark:text-brand-orange dark:hover:text-brand-blue"
                     >
                       Profile
                     </Link>
                     <button
                       type="button"
-                      onClick={handleSignOut}
+                      onClick={() => {
+                      handleSignOut();
+                      closeMenu();
+                    }}
                       className="block py-2 px-3 font-bold text-brand-orange dark:text-brand-orange hover:text-brand-brown dark:hover:text-brand-blue"
                     >
                       Sign out
                     </button>
                   </div>
                 ) : (
-                  <Link href="/login" className="block py-2 px-3 font-bold text-brand-orange hover:text-brand-brown dark:text-brand-orange dark:hover:text-brand-blue">
+                  <Link href="/login" onClick={closeMenu} className="block py-2 px-3 font-bold text-brand-orange hover:text-brand-brown dark:text-brand-orange dark:hover:text-brand-blue">
                     Sign in
                   </Link>
                 )}
@@ -162,8 +166,8 @@ export default function NavBar() {
             ) : null}
 
           <li className="flex items-center">
-              <ModeToggle />
-            </li>
+            <ModeToggle onModeSelected={closeMenu}/>
+          </li>
 
           </ul>
       </div>

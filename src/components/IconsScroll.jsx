@@ -23,8 +23,8 @@ export default function IconsScroll({
         return (
           <div
             key={rowIndex}
-            className="absolute mt-8 left-0 w-full"
-            style={{ top: `${rowIndex * rowGap}px` }}
+            className="absolute left-0 w-full"
+            style={{ top: `${rowIndex * rowGap + 32}px` }}
           >
             <div
               className="icon-field"

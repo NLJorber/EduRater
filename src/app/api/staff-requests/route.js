@@ -108,7 +108,7 @@ export async function POST(request) {
     );
   }
 
-  const { data: staffRequest, error: insertError } = await supabaseUser
+  const { data: staffRequest, error: insertError } = await supabaseServer
     .from("staff_requests")
     .insert({
       user_id: user.id,
@@ -126,11 +126,17 @@ export async function POST(request) {
     return NextResponse.json({ error: insertError.message }, { status: 500 });
   }
 
-  await supabaseUser
+  const { error: profileUpdateError } = await supabaseServer
     .from("profiles")
     .update({ role: "staff_pending", school_id: schoolId })
     .eq("id", user.id)
     .eq("role", "user");
+  if (profileUpdateError) {
+    return NextResponse.json(
+      { error: profileUpdateError.message },
+      { status: 500 }
+    );
+  }
 
   return NextResponse.json({ data: staffRequest }, { status: 201 });
 }

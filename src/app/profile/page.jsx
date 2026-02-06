@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { supabaseClient } from "@/lib/supabase/client";
 import { useAuthProfile } from "@/lib/auth/useAuthProfile";
+import ProfileAvatarPicker from "@/components/Profile";
 
 export default function ProfilePage() {
   const { session, profile, loading } = useAuthProfile();
@@ -40,9 +41,7 @@ export default function ProfilePage() {
     <main className="display-headings min-h-screen bg-brand-blue text-brand-cream">
       <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 px-6 py-16">
         <div className="space-y-2">
-          <p className="text-sm uppercase tracking-[0.3em] text-slate-500">
-            Profile
-          </p>
+          
           <h2 className="font-semibold">Your account</h2>
           <h4 className="text-brand-cream">
             Manage your account and access staff tools.
@@ -68,6 +67,7 @@ export default function ProfilePage() {
           </div>
         ) : (
           <div className="rounded-3xl border border-brand-cream bg-brand-cream p-6">
+            <ProfileAvatarPicker session={session} />
             <div className="space-y-2 text-sm text-brand-brown">
               <p>
                 <span className="font-semibold">Email:</span>{" "}

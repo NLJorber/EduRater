@@ -1,6 +1,11 @@
+
+
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+:root { --nav-h: 5rem; }  /* 5rem == Tailwind pt-20 */
+
 
 :root.dark {
   --background: #0A0A0A;
@@ -239,3 +244,85 @@ pre {
     @apply bg-background text-foreground;
   }
 }
+
+
+@layer components {
+  input.custom-range {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    background: transparent !important;
+    height: 46px;
+  }
+
+  input.custom-range::-webkit-slider-runnable-track {
+    background: #e6d5b8 !important;
+    height: 6px;
+    border-radius: 9999px;
+  }
+
+  input.custom-range::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    margin-top: -6px;
+    background: #5c3a1e !important;
+    width: 18px;
+    height: 18px;
+    border-radius: 9999px;
+    cursor: pointer;
+  }
+
+  .dark input.custom-range::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    margin-top: -6px;
+    background: #FF7B00 !important;
+    width: 18px;
+    height: 18px;
+    border-radius: 9999px;
+    cursor: pointer;
+  }
+
+  input.custom-range::-moz-range-track {
+    background: #e6d5b8 !important;
+    height: 6px;
+    border-radius: 9999px;
+  }
+
+  input.custom-range::-moz-range-thumb {
+    background: #5c3a1e !important;
+    width: 18px;
+    height: 18px;
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+  }
+}
+
+/* Radix/shadcn Select hover highlight */
+[data-radix-select-viewport] [data-highlighted] {
+  background-color: #3D2901 !important; /* brand-brown */
+  color: #FBF5E7 !important;            /* brand-cream */
+}
+
+/* Radix/shadcn Select hover highlight – dark mode */
+.dark [data-radix-select-viewport] [data-highlighted] {
+  background-color: #FBF5E7 !important; /* brand-cream */
+  color: #3D2901 !important;            /* brand-brown */
+}
+
+/* default (light) */
+[data-variant] { --review-band: #3D2901; } 
+
+.dark [data-variant] { --review-band: #1573FF; }
+
+
+/* contexts (light)
+[data-variant="home"]    { --review-band: #2563eb; }
+[data-variant="search"]  { --review-band: #10b981; }
+[data-variant="profile"] { --review-band: #a855f7; }
+
+/* contexts (dark) */
+/* .dark [data-variant="home"]    { --review-band: #60a5fa; }
+.dark [data-variant="search"]  { --review-band: #34d399; }
+.dark [data-variant="profile"] { --review-band: #c084fc; } */ 
+

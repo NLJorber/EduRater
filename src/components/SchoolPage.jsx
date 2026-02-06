@@ -11,44 +11,63 @@ export default function SchoolPage({ school }) {
         ? `https://${rawWebsite.replace(/^\/+/, "")}`
         : rawWebsite;
 
+    const formatPhoneForTel = (phone) =>
+        String(phone ?? "").replace(/[^\d+]/g, "");
+
+    const formatPhoneForDisplay = (phone) =>
+        phone; 
+
+
     /* builds address lines and skips any null values */
     /* creates array of possible address data points */
     const addressLines = [school.Street, school.Locality, school.Address3, school.Town, school["County (name)"], school.Postcode]
+    
         .map((v) => (typeof v === "string" ? v.trim() : v))
         .filter(Boolean);   /* removes empty values */
 
     return (
-        <div className="display-headings bg-brand-cream dark:bg-brand-brown">
-            {/* school name large heading */}
-            <h3 className="text-2xl font-semibold text-brand-orange dark:text-brand-orange mb-4">
-                {school.EstablishmentName}
-            </h3>
+        <div className="display-headings">
 
-            {/* line underneath heading */}
-            <hr className="border-brand-brown dark:border-brand-cream mb-6" />
+            {/* school name large heading */}
+            {/* <h2 className="font-semibold text-brand-orange dark:text-brand-orange mt-16 mb-4 text-center">
+                {school.EstablishmentName}
+            </h2> */}
+
+            {/* line underneath heading
+            <hr className="border-brand-brown dark:border-brand-cream mb-6" /> */}
 
             {/* conditional address block if there are lines */}
             {addressLines.length > 0 && (
-                <div className="mb-8 text-brand-blue dark:text-brand-cream">
-                    <p className="font-semibold mb-2">Address:</p>
+                <div className="pl-15 mt-16 mb-8 text-brand-blue dark:text-brand-cream">
+                    <h3 className="font-semibold mb-2">Address:</h3>
                     {/* loops through each string in addressLines and adds <p> per line */}
                     {addressLines.map((line, i) => (
-                        <p key={i}>{line}</p>
+                        <h5 key={i}>{line}</h5>
                     ))}
+                    <h5 className=" text-brand-blue dark:text-brand-cream mt-4"><b>Local council:</b> {school["LA (name)"]}</h5>
                 </div>
             )}
 
-            {/* school website section if available */}
-            {school.SchoolWebsite && (
+            {/* contact section with local council so far */}
+            <div className="pb-4 pl-15">
+                <h3 className="font-semibold border-b text-brand-orange dark:text-brand-orange border-gray-300 dark:border-brand-lightgrey inline-block mb-3">Contact the school</h3>
+
+                {school.SchoolWebsite && (
                 <div className="text-brand-blue dark:text-brand-cream">
-                    <p className="font-semibold mb-2">School website: <a className="text-blue-400" href={websiteHref} target="_blank" rel="noopener noreferrer">{rawWebsite}</a></p>
+                    <h5 className="font-semibold mt-4 mb-2">School website: <a className="text-blue-400" href={websiteHref} target="_blank" rel="noopener noreferrer">{rawWebsite}</a></h5>
                 </div>)}
 
-            {/* contact section with local council so far */}
-            <div className="pt-4 pb-4">
-                <h3 className="font-semibold border-b text-lg text-brand-orange dark:text-brand-orange border-gray-300 dark:border-brand-lightgrey inline-block mb-3">Contact the school</h3>
-                <p className=" text-brand-azure dark:text-brand-cream"><b>Local council:</b> {school["LA (name)"]}</p>
-            </div>
+                {school.TelephoneNum && (
+                <div className="text-brand-blue dark:text-brand-cream">
+                    <h5 className="font-semibold mt-4 mb-2">Telephone:{""} <a className="text-blue-400" href={`tel:${formatPhoneForTel(school.TelephoneNum)}`} 
+                    >
+                    {formatPhoneForDisplay(school.TelephoneNum)}
+                    </a>
+                    </h5>
+                </div>)}
+
+                
+            </div>         
         </div>
     );
 }
