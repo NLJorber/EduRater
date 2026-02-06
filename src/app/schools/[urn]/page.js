@@ -15,6 +15,10 @@ import ReviewForm from "@/components/ReviewForm";
 /* import ReviewsRow to show list of reviews for the school */
 import ReviewsRow from "@/components/ReviewsRow";
 
+import CreateReviewModal from "@/components/CreateReviewModal";
+
+
+
 export default function SchoolDetailPage() {
     /* reads the route parameter from the URL */
     const { urn } = useParams();
@@ -87,7 +91,7 @@ export default function SchoolDetailPage() {
     if (error) return <div className="p-10 text-brand-orange">{error}</div>;
     if (!school) return <div className="p-10">School not found</div>;
 
-return (
+  return (
   <div className="min-h-screen p-6 bg-brand-cream dark:bg-brand-brown display-headings">
     {/* FULL-WIDTH HEADER */}
     <h2 className="mt-16 mb-4 text-center text-brand-orange dark:text-brand-orange">
@@ -104,28 +108,40 @@ return (
       </div>
 
       {/* RIGHT: 3/5 */}
-      <div>
-        <ReviewsRow schoolUrn={urn} refreshKey={refreshKey} />
-      </div>
+
+{/* RIGHT: 3/5 */}
+<div>
+  <ReviewsRow schoolUrn={urn} 
+  refreshKey={refreshKey} 
+  headerRight={
+    user ? (
+    <button
+      type="button"
+      onClick={() => setReviewing(true)}
+      className="shrink-0 rounded-md bg-brand-brown dark:bg-brand-blue px-4 py-2 font-semibold text-brand-cream hover:bg-brand-orange disabled:opacity-60"
+    >
+      Leave a Review
+    </button>
+  ) : null
+  }
+/>
+</div>
 
       {/* FULL-WIDTH BELOW BOTH COLUMNS */}
-      <div className="lg:col-span-2 pl-15">
+      <div className="lg:col-span-2 pl-16">
         {user ? (
-          <div>
-            <button
-              onClick={() => setReviewing(!reviewing)}
-              className="rounded-md bg-brand-brown mt-6 px-4 py-2 font-semibold text-brand-cream hover:bg-brand-orange disabled:opacity-60"
-            >
-              {reviewing ? "Cancel Review" : "Leave a Review"}
-            </button>
-
-            {reviewing && (
-              <ReviewForm
-                schoolUrn={urn}
-                onPosted={() => setRefreshKey((prev) => prev + 1)}
-              />
-            )}
-          </div>
+       <CreateReviewModal
+        open={reviewing}
+        onClose={() => setReviewing(false)}      
+        >
+        <ReviewForm
+          schoolUrn={urn}
+          onPosted={() => {
+            setRefreshKey((prev) => prev + 1);
+            setReviewing(false);
+          }}
+        />
+      </CreateReviewModal>
         ) : (
           <div className="mt-6 rounded-lg border border-brand-brown bg-brand-cream p-4 dark:border-brand-blue dark:bg-brand-cream">
             <p className="text-brand-brown dark:text-brand-brown">

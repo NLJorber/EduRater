@@ -10,7 +10,7 @@ import { useAuthProfile } from "@/lib/auth/useAuthProfile";
 
 /* schoolUrn: URN of the school to load reviews for
     refreshKey: when this changes, reviews are reloaded */
-export default function ReviewsRow({ schoolUrn, refreshKey = 0 }) {
+export default function ReviewsRow({ schoolUrn, refreshKey, headerRight = null }) {
     const [reviews, setReviews] = useState([]);
     const [schoolScore, setSchoolScore] = useState(null);
     const [reviewCount, setReviewCount] = useState(0);
@@ -118,17 +118,15 @@ export default function ReviewsRow({ schoolUrn, refreshKey = 0 }) {
         setLocalRefresh((prev) => prev + 1);
     };
 
+        
     return (
         <section className="mt-8">
             <div className="display-headings mb-3 flex items-end justify-between">
                 <h3 className="mt-8 font-semibold text-brand-orange dark:text-brand-orange">
                     Reviews:
                 </h3>
-                {/* {!loading && !error && (
-                    <h5 className="text-brand-brown dark:text-brand-cream">
-                        {reviewCount} total
-                    </h5>
-                )} */}
+                
+                {headerRight}
             </div>
             {!loading && !error && schoolScore !== null && (
                 <h4 className="mb-3 text-brand-brown dark:text-brand-cream">

@@ -201,8 +201,8 @@ export default function ReviewForm({
   };
 
   return (
-    <div className="my-6 pl-16 rounded-lg border border-brand-brown bg-brand-blue p-4 dark:border-brand-blue dark:bg-brand-orange">
-      <h3 className="text-lg font-semibold text-brand-cream dark:text-brand-cream">
+    <div className="my-6 pl-16 pr-16 mt-0 rounded-lg border border-brand-brown bg-brand-blue p-4 dark:border-brand-blue dark:bg-brand-blue">
+      <h3 className="mt-5 font-semibold text-brand-cream dark:text-brand-cream">
         {isEditing ? "Edit your review" : "Leave a review"}
       </h3>
 
@@ -215,13 +215,13 @@ export default function ReviewForm({
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             maxLength={200}
-            className="mt-1 w-full rounded-md border border-brand-cream px-3 py-2 dark:border-brand-cream dark:bg-brand-cream text-brand-cream dark:text-white"
+            className="mt-1 w-full rounded-md border border-brand-cream px-3 py-2 dark:border-brand-cream placeholder:text-brand-brown/30  dark:placeholder:text-brand-brown/30 dark:bg-brand-cream text-brand-brown dark:text-brand-brown"
             placeholder="Optional title"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-brand-cream dark:text-brand-cream">
+          <label className="block text-sm mt-4 font-medium text-brand-cream dark:text-brand-cream">
             Overall Rating (computed)
           </label>
 
@@ -231,14 +231,14 @@ export default function ReviewForm({
               disabled
               roundToHalf
             />
-            <span className="text-sm text-brand-cream dark:text-brand-cream">
+            {/* <span className="text-sm font-bold  text-brand-cream dark:text-brand-orange">
               {computedOverall != null
                 ? `${computedOverall} / 5`
-                : "Rate the sections to see an overall score"}
-            </span>
+                : "*Rate the sections to see an overall score"}
+            </span> */}
           </div>
-          <p className="mt-1 text-xs text-brand-cream dark:text-brand-cream">
-            Pick ratings below to calculate your overall score.
+          <p className="mt-4 text-xs font-semibold text-brand-cream dark:text-brand-orange">
+            *Pick ratings below to calculate your overall score.
           </p>
 
           {computedOverall != null ? (
@@ -256,7 +256,7 @@ export default function ReviewForm({
           <textarea
             value={body}
             onChange={(e) => setBody(e.target.value)}
-            className="mt-1 w-full rounded-md border border-brand-cream px-3 py-2 dark:border-brand-cream dark:bg-brand-cream dark:text-brand-cream placeholder:text-brand-cream/70"
+            className="mt-1 w-full rounded-md border border-brand-cream px-3 py-2 dark:border-brand-cream dark:bg-brand-cream dark:text-brand-cream placeholder:text-brand-brown/30"
             rows={5}
             maxLength={2000}
             placeholder="Write your review here..."
