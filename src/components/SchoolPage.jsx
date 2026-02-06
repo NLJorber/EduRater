@@ -38,7 +38,7 @@ export default function SchoolPage({ school }) {
 
             {/* conditional address block if there are lines */}
             {addressLines.length > 0 && (
-                <div className="pl-15 mt-16 mb-8 text-brand-blue dark:text-brand-cream">
+                <div className="pl-5 mt-16 mb-8 text-brand-blue dark:text-brand-cream">
                     <h3 className="font-semibold mb-2">Address:</h3>
                     {/* loops through each string in addressLines and adds <p> per line */}
                     {addressLines.map((line, i) => (
@@ -49,7 +49,7 @@ export default function SchoolPage({ school }) {
             )}
 
             {/* contact section with local council so far */}
-            <div className="pb-4 pl-15">
+            <div className="pb-4 pl-5">
                 <h3 className="font-semibold border-b text-brand-orange dark:text-brand-orange border-gray-300 dark:border-brand-lightgrey inline-block mb-3">Contact the school</h3>
 
                 {school.SchoolWebsite && (

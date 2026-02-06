@@ -103,14 +103,16 @@ export default function SchoolDetailPage() {
     {/* MAIN LAYOUT: 2/5 left, 3/5 right */}
     <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-10">
       {/* LEFT: 2/5 */}
-      <div>
-        <SchoolPage school={school} />
-      </div>
+
+      <div className="rounded-lg border border-brand-brown/20 bg-brand-cream p-6 shadow-sm dark:border-brand-lightgrey/30 dark:bg-brand-brown/20">
+  <SchoolPage school={school} />
+</div>
+
 
       {/* RIGHT: 3/5 */}
 
 {/* RIGHT: 3/5 */}
-<div>
+<div className="rounded-lg border border-brand-brown/20 bg-brand-cream p-6 shadow-sm dark:border-brand-lightgrey/30 dark:bg-brand-brown/20">
   <ReviewsRow schoolUrn={urn} 
   refreshKey={refreshKey} 
   headerRight={
@@ -128,7 +130,7 @@ export default function SchoolDetailPage() {
 </div>
 
       {/* FULL-WIDTH BELOW BOTH COLUMNS */}
-      <div className="lg:col-span-2 pl-16">
+      <div className="lg:col-span-2 pl-36 pr-36">
         {user ? (
        <CreateReviewModal
         open={reviewing}
@@ -143,12 +145,12 @@ export default function SchoolDetailPage() {
         />
       </CreateReviewModal>
         ) : (
-          <div className="mt-6 rounded-lg border border-brand-brown bg-brand-cream p-4 dark:border-brand-blue dark:bg-brand-cream">
-            <p className="text-brand-brown dark:text-brand-brown">
+          <div className="mt-6 rounded-lg border border-brand-brown bg-brand-cream p-4 dark:border-brand-orange dark:bg-brand-orange text-center">
+            <h5 className="text-brand-brown dark:text-brand-brown">
               You must be signed in to leave a review.
-            </p>
-            <Link href="/login" className="mt-2 inline-block font-semibold text-brand-blue">
-              Sign in
+            </h5>
+            <Link href="/login" className="mt-2 inline-block font-semibold text-brand-cream">
+              <h6 style={{ letterSpacing: "0.15em" }}>~Click to sign in~</h6>
             </Link>
           </div>
         )}
