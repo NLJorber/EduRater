@@ -15,7 +15,7 @@ export async function GET(request) {
   let reviewQuery = supabaseServer
     .from("reviews")
     .select(
-      "id, school_urn, user_id, rating_computed, title, body, created_at, review_sections(id, section_key, comment, created_at)"
+      "id, school_urn, user_id, rating_computed, title, body, created_at, review_sections(id, section_key, rating, comment, created_at)"
     )
     .is("deleted_at", null)
     .order("created_at", { ascending: false });
@@ -23,6 +23,7 @@ export async function GET(request) {
   reviewQuery = reviewQuery.eq("school_urn", Number(schoolUrn));
 
   const { data: reviews, error: reviewsError } = await reviewQuery;
+  
 
   if (reviewsError) {
     return NextResponse.json({ error: reviewsError.message }, { status: 500 });
@@ -30,6 +31,15 @@ export async function GET(request) {
 
   const cleanReviews = (reviews ?? []).filter(reviewIsClean);
 
+  const normalizedSections = (reviews ?? []).map((review) => ({
+    ...review,
+    sections: (review.review_sections ?? []).map((section) => ({
+      section_key: section.section_key,
+      rating: section.rating,
+      comment: section.comment,
+    }))
+  }));
+    
   const userIds = [
     ...new Set(
       cleanReviews.map((review) => review.user_id).filter(Boolean)
@@ -64,7 +74,7 @@ export async function GET(request) {
 
   return NextResponse.json({
     data: {
-      reviews: reviewsWithAuthors,
+      reviews: normalizedSections,
       schoolScore,
       reviewCount: cleanReviews.length,
     },

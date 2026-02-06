@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import ReviewCard from "@/components/ReviewCard";
 import ReviewForm from "@/components/ReviewForm";
 import ReportForm from "@/components/ReportForm";
+import ReviewModal from "@/components/ReviewModal";
 import { supabaseClient } from "@/lib/supabase/client";
 import { useAuthProfile } from "@/lib/auth/useAuthProfile";
 
@@ -23,6 +24,7 @@ export default function ReviewsRow({ schoolUrn, refreshKey = 0 }) {
     const { profile } = useAuthProfile();
     const [isAdmin, setIsAdmin] = useState(false);
     const canReport = Boolean(accessToken);
+    const [selectedReview, setSelectedReview] = useState(null);
 
     useEffect(() => {
         const loadSession = async () => {
@@ -171,25 +173,36 @@ export default function ReviewsRow({ schoolUrn, refreshKey = 0 }) {
             {!loading && !error && reviews.length > 0 && (
                 <div className="flex gap-4 overflow-x-auto pb-3 pr-2">
                     {reviews.map((review) => (
-                        <ReviewCard
+                        <div
                             key={review.id}
-                            review={review}
-                            showEdit={review.user_id === currentUserId}
-                            showDelete={isAdmin}
-                            showReport={canReport}
-                            onEdit={() => {
-                                setReportingReview(null);
-                                setEditingReview(review);
-                            }}
-                            onDelete={() => handleDelete(review.id)}
-                            onReport={() => {
-                                setEditingReview(null);
-                                setReportingReview(review);
-                            }}
-                        />
+                            className="min-w-[360px] flex-shrink-0 cursor-pointer"
+                            onClick={() => setSelectedReview(review)}
+                        >
+                            <ReviewCard
+                                key={review.id}
+                                review={review}
+                                showEdit={review.user_id === currentUserId}
+                                showDelete={isAdmin}
+                                showReport={canReport}
+                                onEdit={() => {
+                                    setReportingReview(null);
+                                    setEditingReview(review);
+                                }}
+                                onDelete={() => handleDelete(review.id)}
+                                onReport={() => {
+                                    setEditingReview(null);
+                                    setReportingReview(review);
+                                }}
+                            />
+                        </div>
                     ))}
                 </div>
             )}
+            <ReviewModal
+                open={Boolean(selectedReview)}
+                review={selectedReview}
+                onClose={() => setSelectedReview(null)}
+            />
         </section>
     );
 }
