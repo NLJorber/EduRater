@@ -30,6 +30,29 @@ export async function GET(request) {
 
   const cleanReviews = (reviews ?? []).filter(reviewIsClean);
 
+  const userIds = [
+    ...new Set(
+      cleanReviews.map((review) => review.user_id).filter(Boolean)
+    ),
+  ];
+
+  let authorMap = new Map();
+  if (userIds.length > 0) {
+    const { data: settings, error: settingsError } = await supabaseServer
+      .from("profile_settings")
+      .select("user_id, display_name, avatar_seed, avatar_style")
+      .in("user_id", userIds);
+
+    if (!settingsError && Array.isArray(settings)) {
+      authorMap = new Map(settings.map((row) => [row.user_id, row]));
+    }
+  }
+
+  const reviewsWithAuthors = cleanReviews.map((review) => ({
+    ...review,
+    author: authorMap.get(review.user_id) ?? null,
+  }));
+
   const reviewScores = cleanReviews
     .map((r) => r.rating_computed)
     .filter((v) => typeof v === "number");
@@ -41,7 +64,7 @@ export async function GET(request) {
 
   return NextResponse.json({
     data: {
-      reviews: cleanReviews,
+      reviews: reviewsWithAuthors,
       schoolScore,
       reviewCount: cleanReviews.length,
     },

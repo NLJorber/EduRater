@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { supabaseClient } from "@/lib/supabase/client";
 import { useAuthProfile } from "@/lib/auth/useAuthProfile";
+import ProfileAvatarPicker from "@/components/Profile";
 
 export default function ProfilePage() {
   const { session, profile, loading } = useAuthProfile();
@@ -66,6 +67,7 @@ export default function ProfilePage() {
           </div>
         ) : (
           <div className="rounded-3xl border border-brand-cream bg-brand-cream p-6">
+            <ProfileAvatarPicker session={session} />
             <div className="space-y-2 text-sm text-brand-brown">
               <p>
                 <span className="font-semibold">Email:</span>{" "}
