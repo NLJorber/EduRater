@@ -115,7 +115,8 @@ function AnimatedGroup({
   children,
   className,
   variants,
-  preset
+  preset,
+  startHidden = true,
 }) {
   const selectedVariants = preset
     ? presetVariants[preset]
@@ -125,7 +126,7 @@ function AnimatedGroup({
 
   return (
     <motion.div
-      initial='hidden'
+      initial={startHidden ? "hidden" : false}
       animate='visible'
       variants={containerVariants}
       className={cn(className)}>
