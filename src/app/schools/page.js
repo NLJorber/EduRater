@@ -339,6 +339,7 @@ export default function SchoolsPage() {
                     key={`${q}-${page}-${schools.length}`}
                     className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 items-stretch"
                     preset="scale"
+                    startHidden={false}
                 >
                     {/* loops over the array of schools returning the school and its index num */}
                     {schools.map((school) => (
