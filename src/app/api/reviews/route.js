@@ -31,15 +31,6 @@ export async function GET(request) {
 
   const cleanReviews = (reviews ?? []).filter(reviewIsClean);
 
-  const normalizedSections = (reviews ?? []).map((review) => ({
-    ...review,
-    sections: (review.review_sections ?? []).map((section) => ({
-      section_key: section.section_key,
-      rating: section.rating,
-      comment: section.comment,
-    }))
-  }));
-    
   const userIds = [
     ...new Set(
       cleanReviews.map((review) => review.user_id).filter(Boolean)
@@ -60,6 +51,11 @@ export async function GET(request) {
 
   const reviewsWithAuthors = cleanReviews.map((review) => ({
     ...review,
+    sections: (review.review_sections ?? []).map((section) => ({
+      section_key: section.section_key,
+      rating: section.rating,
+      comment: section.comment,
+    })),
     author: authorMap.get(review.user_id) ?? null,
   }));
 
@@ -74,7 +70,7 @@ export async function GET(request) {
 
   return NextResponse.json({
     data: {
-      reviews: normalizedSections,
+      reviews: reviewsWithAuthors,
       schoolScore,
       reviewCount: cleanReviews.length,
     },
