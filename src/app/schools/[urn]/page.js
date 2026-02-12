@@ -34,6 +34,13 @@ export default function SchoolDetailPage() {
     /* refresh key state so the list refreshes after posting a review */
     const [refreshKey, setRefreshKey] = useState(0);
 
+  useEffect(() => {
+    if (!urn) return;
+
+    // Force top of page whenever a new school is opened
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [urn]);
+
     /* effect to load the user and keep it updated */
     useEffect(() => {
         const loadUser = async () => {

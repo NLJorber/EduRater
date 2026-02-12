@@ -35,31 +35,32 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <main className="min-h-screen bg-brand-azure dark:bg-brand-darkgreen text-brand-white dark:text-brand-custard">
-      <div className="mx-auto flex w-full max-w-md flex-col gap-6 px-6 py-24">
+    <main className="display-headings min-h-screen bg-brand-blue dark:bg-brand-brown ">
+      <div className="mx-auto flex w-full max-w-2xl flex-col gap-6 px-6 py-45">
         <div>
-          <h1 className="text-4xl font-extrabold text-white">Reset password</h1>
-          <p className="mt-3 text-sm text-brand-white">
-            Enter your email and we will send you a reset link.
-          </p>
+          <h1 className=" font-extrabold text-brand-cream  dark:text-brand-orange">Reset password</h1>
+          <h4 className="mt-10 text-brand-white">
+            It happens to us all. <br></br> Enter your email for a reset link.
+          </h4>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <label className="block text-sm font-bold text-brand-custard">
+          <label className="block text-sm font-bold text-brand-cream">
             Email
             <input
               type="email"
               required
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              className="mt-2 w-full rounded-2xl border dark:border-brand-lightgrey px-4 py-3 text-sm dark:placeholder:text-brand-midgrey dark:focus:border-brand-lightgrey focus:outline-none"
+              className="mt-2 w-full rounded-2xl border dark:border-brand-cream px-4 py-3 text-sm dark:placeholder:text-brand-orange/30 dark:focus:border-brand-lightgrey focus:outline-none"
               placeholder="you@school.edu"
             />
           </label>
 
           <button
             type="submit"
-            className="w-full rounded-full px-4 py-3 text-sm font-semibold text-brand-white dark:text-brand-custard transition hover:text-brand-azure dark:hover:text-brand-darkblue bg-brand-minty dark:bg-brand-darkblue hover:bg-brand-custard"
+            className="block mx-auto rounded-full border px-4 py-3 text-sm font-semibold text-brand-cream dark:text-brand-cream transition hover:text-brand-cream dark:hover:text-brand-cream bg-brand-blue dark:bg-brand-blue dark:hover:bg-brand-brown dark:hover:text-brand-orange
+           dark:border-brand-blue dark:hover:border-brand-orange"
           >
             Send reset link
           </button>
@@ -67,8 +68,8 @@ export default function ForgotPasswordPage() {
 
         {status.type !== "idle" ? (
           <p
-            className={`text-sm ${
-              status.type === "error" ? "text-red-600" : "text-slate-600"
+            className={`mt-6 italic text-sm ${
+              status.type === "error" ? "text-brand-orange" : "text-brand-cream"
             }`}
           >
             {status.message}
@@ -77,7 +78,7 @@ export default function ForgotPasswordPage() {
 
         <a
           href="/login"
-          className="text-sm font-semibold text-brand-custard hover:text-brand-minty"
+          className="font-semibold text-brand-blue hover:text-brand-orange"
         >
           Back to sign in
         </a>

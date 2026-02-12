@@ -70,17 +70,17 @@ export default function ResetPasswordPage() {
   };
 
   return (
-    <main className="min-h-screen bg-brand-azure dark:bg-brand-darkgreen text-brand-white dark:text-brand-custard">
-      <div className="mx-auto flex w-full max-w-md flex-col gap-6 px-6 py-24">
+    <main className="display-headings min-h-screen bg-brand-blue dark:bg-brand-brown text-brand-cream dark:text-brand-orange">
+      <div className="mx-auto flex w-full max-w-xl flex-col gap-6 px-6 py-24">
         <div>
-          <h1 className="text-4xl font-extrabold text-white">Set new password</h1>
-          <p className="mt-3 text-sm text-brand-white">
+          <h1 className="font-extrabold text-cream">Set a new password</h1>
+          <h4 className="mt-10 font-bold text-brand-cream dark:text-brand-cream">
             Choose a strong password you have not used before.
-          </p>
+          </h4>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <label className="block text-sm font-bold text-brand-custard">
+          <label className="block text-sm font-bold text-brand-brown dark:text-brand-orange">
             New password
             <input
               type="password"
@@ -88,12 +88,12 @@ export default function ResetPasswordPage() {
               minLength={8}
               value={password}
               onChange={(event) => setPassword(event.target.value)}
-              className="mt-2 w-full rounded-2xl border dark:border-brand-lightgrey px-4 py-3 text-sm dark:placeholder:text-brand-midgrey dark:focus:border-brand-lightgrey focus:outline-none"
+              className="mt-2 w-full rounded-2xl border border-brand-cream dark:border-brand-cream px-4 py-3 text-sm placeholder:text-brand-cream/40 dark:placeholder:text-brand-orange/30 dark:focus:border-brand-lightgrey focus:outline-none"
               placeholder="At least 8 characters"
               disabled={!ready}
             />
           </label>
-          <label className="block text-sm font-bold text-brand-custard">
+          <label className="block text-sm font-bold text-brand-brown dark:text-brand-orange">
             Confirm password
             <input
               type="password"
@@ -101,7 +101,7 @@ export default function ResetPasswordPage() {
               minLength={8}
               value={confirm}
               onChange={(event) => setConfirm(event.target.value)}
-              className="mt-2 w-full rounded-2xl border dark:border-brand-lightgrey px-4 py-3 text-sm dark:placeholder:text-brand-midgrey dark:focus:border-brand-lightgrey focus:outline-none"
+              className="mt-2 w-full rounded-2xl border dark:border-brand-cream px-4 py-3 text-sm placeholder:text-brand-cream/40 dark:placeholder:text-brand-orange/30 dark:focus:border-brand-lightgrey focus:outline-none"
               placeholder="Re-enter your password"
               disabled={!ready}
             />
@@ -109,7 +109,7 @@ export default function ResetPasswordPage() {
 
           <button
             type="submit"
-            className="w-full rounded-full px-4 py-3 text-sm font-semibold text-brand-white dark:text-brand-custard transition hover:text-brand-azure dark:hover:text-brand-darkblue bg-brand-minty dark:bg-brand-darkblue hover:bg-brand-custard"
+            className="block mx-auto rounded-full px-4 py-3 text-sm font-semibold text-brand-orange dark:text-brand-cream transition hover:text-brand-blue dark:hover:text-brand-brown bg-brand-cream dark:bg-brand-brown hover:bg-brand-cream"
             disabled={!ready}
           >
             Update password
@@ -119,7 +119,7 @@ export default function ResetPasswordPage() {
         {status.type !== "idle" ? (
           <p
             className={`text-sm ${
-              status.type === "error" ? "text-red-600" : "text-slate-600"
+              status.type === "error" ? "text-brand-orange" : "text-brand-cream"
             }`}
           >
             {status.message}

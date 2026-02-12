@@ -60,6 +60,12 @@ export default function SchoolsPage() {
     const [scoresByUrn, setScoresByUrn] = useState({});
 
     useEffect(() => {
+  // Ensure each navigation to a new results state starts at the top
+  window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+}, [q, phase, radiusKm, page]);
+
+
+    useEffect(() => {
         let cancelled = false;
 
         const loadScores = async () => {
