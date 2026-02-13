@@ -117,7 +117,7 @@ export default function NavBar() {
               </li>
             
             <li>
-              <Link href="#" onClick={closeMenu} className="block py-2 px-3 font-bold text-brand-blue hover:text-brand-orange dark:text-brand-cream dark:hover:text-brand-orange">
+              <Link href="/aboutus" onClick={closeMenu} className="block py-2 px-3 font-bold text-brand-blue hover:text-brand-orange dark:text-brand-cream dark:hover:text-brand-orange">
                 About Us
               </Link>
             </li>
