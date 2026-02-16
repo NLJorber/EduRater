@@ -135,7 +135,7 @@ export default function ReportedReviewsRow() {
                     {/* map each reported review row to a ReviewCard component inside a div */}
                     {rows.map((r) => (
                         <div key={r.id} className="min-w-[360px] shrink-0">
-                            <div className="text-xs text-slate-600">
+                            <div className="text-xs text-brand-cream">
                                 <b>Reason:</b> {r.reason || "No reason provided"} <br />
                                 <b>Reported:</b> {new Date(r.created_at).toLocaleString()}
                             </div>
@@ -148,7 +148,7 @@ export default function ReportedReviewsRow() {
                                         className="group block rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
                                         aria-label="View school review profile"
                                     >
-                                        <div className="mb-2 text-xs text-slate-600">
+                                        <div className="mb-2 text-xs text-brand-cream">
                                             Go to school page
                                         </div>
                                     </Link>
