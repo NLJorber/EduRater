@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import dynamic from "next/dynamic";
@@ -30,6 +30,20 @@ const SchoolsMap = dynamic(() => import("@/components/SchoolsMap"), { ssr: false
 import SchoolCard from "@/components/School";
 
 export default function SchoolsPage() {
+    return (
+        <Suspense
+            fallback={
+                <div className="display-headings min-h-screen text-brand-orange dark:text-brand-cream bg-brand-cream dark:bg-brand-brown p-4 md:px-32 py-6">
+                    <p>Loading schools...</p>
+                </div>
+            }
+        >
+            <SchoolsPageContent />
+        </Suspense>
+    );
+}
+
+function SchoolsPageContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
 
@@ -432,5 +446,5 @@ export default function SchoolsPage() {
                 </div>
             )}
         </div>
-    )
+    );
 }
