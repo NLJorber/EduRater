@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { DM_Serif_Display } from "next/font/google";
 import "./globals.css";
 import NavBar from "@/components/NavBar";
+import Footer from "@/components/Footer";
 import "leaflet/dist/leaflet.css"
 import { ThemeProvider } from "@/components/themeProvider"
 
@@ -41,12 +42,13 @@ export default function RootLayout({ children }) {
           disableTransitionOnChange
         >
         <NavBar />
-<div
-  className="bg-brand-cream dark:bg-brand-brown"
-  style={{ paddingTop: "var(--nav-h)" }}
->
-  {children}
-</div>
+        <div
+          className="bg-brand-cream dark:bg-brand-brown"
+          style={{ paddingTop: "var(--nav-h)" }}
+        >
+          {children}
+        </div>
+        <Footer />
         </ThemeProvider>
       </body>
     </html>
