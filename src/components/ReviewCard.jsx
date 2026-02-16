@@ -27,12 +27,12 @@ export default function ReviewCard({
       <div
         aria-hidden="true"
         className="w-10 rounded-l-lg"
-        style={{ backgroundColor: "var(--review-band, #f97316)" }}
+        style={{ backgroundColor: "var(--review-band, #3D2901)" }}
       />
 
       {/* The bordered card stays exactly the same */}
       <div className="min-w-[280px] max-w-[280px] rounded-r-lg border-4 border-brand-brown bg-brand-orange/20
-     p-4 dark:border-brand-brown dark:bg-blue-300">
+     p-4 dark:border-brand-cream dark:bg-blue-300">
         <div className="mb-3 flex items-center gap-3">
           <div className="h-10 w-10 overflow-hidden rounded-full bg-brand-cream text-brand-orange">
             {avatarUrl ? (
@@ -44,7 +44,7 @@ export default function ReviewCard({
             )}
           </div>
           <div>
-            <p className="text-sm font-semibold text-brand-cream dark:text-brand-brown">
+            <p className="text-sm font-semibold text-brand-brown dark:text-brand-brown">
               {displayName}
             </p>
           </div>
@@ -61,11 +61,11 @@ export default function ReviewCard({
           />
         </div>
             
-            <h3 className="text-base font-semibold text-brand-cream dark:text-brand-brown line-clamp-2">
+            <h3 className="text-base font-semibold text-brand-brown dark:text-brand-brown line-clamp-2">
                     {review.title || "Anonymous Review"}
             </h3>
 
-            <p className="mt-3 text-sm text-brand-cream dark:text-brand-brown line-clamp-5">
+            <p className="mt-3 text-sm text-brand-brown dark:text-brand-brown line-clamp-5">
                 {review.body}
             </p>
 
@@ -75,7 +75,7 @@ export default function ReviewCard({
                         <button
                             type="button"
                             onClick={onEdit}
-                            className="text-brand-cream hover:text-blue-700"
+                            className="text-brand-brown hover:text-blue-700"
                         >
                             Edit
                         </button>

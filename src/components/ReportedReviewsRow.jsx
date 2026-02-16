@@ -107,9 +107,9 @@ export default function ReportedReviewsRow() {
     };
 
     return (
-        <section className="mt-10">
+        <section className="display-headings mt-10">
             <div className="mb-3 flex items-end justify-between">
-                <h2 className="text-lg text-brand-cream font-semibold">Reported reviews</h2>
+                <h3 className=" text-brand-cream font-semibold">Reported reviews</h3>
 
                 {/* show X reports only when you have a stable result */}
                 {!loading && !error && (
@@ -148,7 +148,7 @@ export default function ReportedReviewsRow() {
                                         className="group block rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
                                         aria-label="View school review profile"
                                     >
-                                        <div className="mb-2 text-xs text-brand-cream">
+                                        <div className="mb-2 text-xs text-brand-cream hover:text-brand-orange">
                                             Go to school page
                                         </div>
                                     </Link>
