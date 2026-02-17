@@ -81,25 +81,25 @@ export default function ReportForm({
     };
 
     return (
-        <div className="my-6 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-900">
+        <div className="my-6 rounded-lg border border-brand-brown/30 bg-brand-orange/10 p-4 dark:border-brand-orange dark:bg-brand-orange/10">
             <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-black dark:text-white">Report review</h3>
+                <h4 className="font-semibold text-brand-brown dark:text-brand-cream">Report review</h4>
 
                 {/* cancel button calls onCancel when clicked
                     type = "button" so it doesn't submit the form */}
-                <button
+                {/* <button
                 type="button"
                 onClick={onCancel}
-                className="text-sm font-semibold text-gray-600 hover:text-black dark:text-gray-300 dark:hover:text-white"
+                className="text-sm font-semibold text-brand-brown hover:text-brand-orange dark:text-gray-300 dark:hover:text-white"
                 >
                 Cancel
-                </button>
+                </button> */}
             </div>
 
             {/* connecting onSubmit=handleSubmit means clicking submit report triggers handleSubmit */}
             <form onSubmit={handleSubmit} className="mt-4 space-y-3">
                 <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
+                <label className="block text-sm font-medium text-brand-brown dark:text-brand-cream">
                     Reason (required)
                 </label>
 
@@ -107,7 +107,7 @@ export default function ReportForm({
                 <textarea
                     value={reason}
                     onChange={(e) => setReason(e.target.value)}
-                    className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 dark:border-gray-700 dark:bg-black dark:text-white"
+                    className="mt-1 w-full rounded-md border border-brand-brown/50 px-3 py-2 dark:border-brand-cream/50 dark:bg-brand-orange/20 text-brand-brown dark:text-brand-cream"
                     placeholder="Explain why you're reporting this review..."
                     rows={4}
                     required /* makes the textarea required */
@@ -120,7 +120,7 @@ export default function ReportForm({
                     <button
                         type="submit"
                         disabled={status.type === "loading"}
-                        className="rounded-md bg-red-600 px-4 py-2 font-semibold text-white hover:bg-red-700 disabled:opacity-60"
+                        className="rounded-md bg-brand-brown px-4 py-2 font-semibold text-brand-cream hover:bg-brand-orange dark:text-brand-blue hover:dark:text-brand-cream dark:bg-brand-cream disabled:opacity-60"
                     >
                         Submit report
                     </button>
@@ -129,7 +129,7 @@ export default function ReportForm({
                     <button
                         type="button"
                         onClick={onCancel}
-                        className="rounded-md border border-gray-300 px-4 py-2 font-semibold hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800"
+                        className="rounded-md border border-brand-blue bg-brand-blue text-brand-cream px-4 py-2 font-semibold hover:bg-brand-orange hover:border-brand-orange  dark:border-brand-blue dark:hover:bg-brand-orange "
                     >
                         Cancel
                     </button>
@@ -139,7 +139,7 @@ export default function ReportForm({
                 {status.type !== "idle" && (
                 <p
                     className={`text-sm ${
-                    status.type === "error" ? "text-red-600" : "text-gray-600 dark:text-gray-300"
+                    status.type === "error" ? "text-brand-orange" : "text-brand-blue dark:text-brand-cream"
                     }`}
                 >
                     {status.message}

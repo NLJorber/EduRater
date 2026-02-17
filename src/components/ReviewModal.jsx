@@ -74,13 +74,13 @@ return (
       />
 
       {/* modal panel */}
-      <div className="relative z-10 w-[min(720px,92vw)] h-[40vh] min-h-[300px] rounded-2xl bg-brand-cream dark:bg-blue-900 p-6 shadow-xl flex flex-col">
+      <div className="relative z-10 w-[min(720px,92vw)] h-[40vh] min-h-[300px] rounded-2xl border border-4 border-brand-blue bg-brand-cream dark:bg-brand-blue p-6 shadow-xl flex flex-col">
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
-            <h3 className="text-xl font-semibold text-slate-900 dark:text-white">
+            <h4 className=" font-semibold text-brand-brown dark:text-brand-cream">
               {review.title || "Review"}
-            </h3>
-            <p className="text-sm text-slate-500 dark:text-slate-300">
+            </h4>
+            <p className="text-sm text-brand-brown dark:text-brand-cream">
               {new Date(review.created_at).toLocaleString()}
             </p>
           </div>
@@ -88,7 +88,7 @@ return (
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/10"
+            className="rounded-lg px-3 py-2 text-sm font-semibold text-brand-brown hover:text-brand-cream hover:bg-brand-orange dark:text-brand-cream dark:hover:bg-brand-brown"
           >
             ✕
           </button>
@@ -109,12 +109,12 @@ return (
         className="absolute inset-0"
       >
         {/* the grey scroll box stays fixed size */}
-        <div className="h-full overflow-y-auto rounded-xl border border-slate-200 p-4 dark:border-slate-400">
+        <div className="h-full overflow-y-auto rounded-xl border border-brand-blue p-4 dark:border-brand-cream">
           {step === 0 ? (
             <>
               <div className="flex items-center justify-between gap-4">
-                <p className="font-semibold text-slate-900 dark:text-white">Main Review</p>
-                <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">
+                <p className="font-semibold text-brand-brown dark:text-brand-cream">Main Review</p>
+                <p className="text-sm font-semibold text-brand-brown dark:text-brand-cream">
                   Overall:{" "}
                   {review.rating_computed != null
                     ? `${Number(review.rating_computed).toFixed(1)} / 5`
@@ -123,34 +123,34 @@ return (
               </div>
 
               {review.body ? (
-                <p className="mt-3 whitespace-pre-wrap text-slate-800 dark:text-slate-100">
+                <p className="mt-3 whitespace-pre-wrap text-brand-brown dark:text-brand-cream">
                   {review.body}
                 </p>
               ) : (
-                <p className="mt-3 text-sm text-slate-500 dark:text-slate-300">No main comment.</p>
+                <p className="mt-3 text-sm text-brand-brown dark:text-brand-cream">No main comment.</p>
               )}
             </>
           ) : hasActiveSection ? (
             <>
               <div className="flex items-center justify-between gap-4">
-                <p className="font-semibold text-slate-900 dark:text-white">
+                <p className="font-semibold text-brand-brown dark:text-brand-cream">
                   {prettySectionName(activeSection.section_key)}
                 </p>
-                <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">
+                <p className="text-sm font-semibold text-brand-brown dark:text-brand-cream">
                   {activeSection.rating ?? "—"} / 5
                 </p>
               </div>
 
               {activeSection.comment ? (
-                <p className="mt-3 whitespace-pre-wrap text-slate-800 dark:text-slate-100">
+                <p className="mt-3 whitespace-pre-wrap text-brand-brown dark:text-brand-cream">
                   {activeSection.comment}
                 </p>
               ) : (
-                <p className="mt-2 text-sm text-slate-400">No comment</p>
+                <p className="mt-2 text-sm text-brand-cream">No comment</p>
               )}
             </>
           ) : (
-            <p className="text-sm text-slate-500 dark:text-slate-300">
+            <p className="text-sm text-brand-brown dark:text-brand-cream">
               No category breakdown available for this review.
             </p>
           )}
@@ -169,12 +169,12 @@ return (
               type="button"
               onClick={goPrev}
               disabled={step === 0}
-              className="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 disabled:opacity-40 dark:border-slate-700 dark:text-slate-200"
+              className="rounded-full border border-brand-brown px-4 py-2 text-sm font-semibold text-brand-brown disabled:opacity-40 dark:border-brand-cream dark:text-brand-cream"
             >
               &lt;
             </button>
 
-            <p className="text-sm text-slate-500 dark:text-slate-300">
+            <p className="text-sm text-brand-brown dark:text-brand-cream">
               {step + 1} / {totalSteps}
             </p>
 
@@ -182,7 +182,7 @@ return (
               type="button"
               onClick={goNext}
               disabled={step === totalSteps - 1}
-              className="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 disabled:opacity-40 dark:border-slate-700 dark:text-slate-200"
+              className="rounded-full border border-brand-brown px-4 py-2 text-sm font-semibold text-brand-brown disabled:opacity-40 dark:border-brand-cream dark:text-brand-cream"
             >
               &gt;
             </button>
