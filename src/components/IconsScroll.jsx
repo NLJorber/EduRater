@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export default function IconsScroll({
   size = 220,
@@ -30,13 +30,20 @@ export default function IconsScroll({
     return n % 2 === 1 ? n : n - 1;
   }, [count]);
 
-  const seedRef = useRef(Math.random() * 1e9);
-  const rand = useMemo(() => mulberry32(seedRef.current), []);
-  const [mounted, setMounted] = useState(false);
+const [seed, setSeed] = useState(0);
+const [mounted, setMounted] = useState(false);
 
-  useEffect(() => setMounted(true), []);
+useEffect(() => {
+  setSeed(Math.floor(Math.random() * 1e9));
+  setMounted(true);
+}, []);
+
+const rand = useMemo(() => mulberry32(seed), [seed]);
+
 
   const items = useMemo(() => {
+  if (!mounted || seed === 0) return [];
+
     const corners = [
       { id: "tl", x: 0, y: 0, vx: 1, vy: 1 },
       { id: "tr", x: 1, y: 0, vx: -1, vy: 1 },
@@ -99,7 +106,7 @@ export default function IconsScroll({
         fill,
       };
     });
-  }, [rand, oddCount, driftPx, driftSeconds, wanderPx, blobs, colors]);
+  }, [mounted, seed, rand, oddCount, driftPx, driftSeconds, wanderPx, blobs, colors]);
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ opacity, "--blobSize": `clamp(280px, 36vw, ${size}px)`, }}>
@@ -159,7 +166,7 @@ export default function IconsScroll({
       `}</style>
 
       <div className="corner-field">
-        {mounted &&
+        {mounted && seed !== 0 &&
           items.map((it) => {
             const half = size / 2;
 

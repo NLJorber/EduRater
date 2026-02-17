@@ -41,16 +41,7 @@ export default function Home() {
     )
   }
 
-  const icons = [
-    "/icons/Book.png",
-    "/icons/Flask.png",
-    "/icons/Division.png",
-    "/icons/Paintbrush.png",
-    "/icons/Pi.png",
-    "/icons/Plus.png",
-    "/icons/Atom.png",
-    "/icons/Sodium.png"
-  ];
+
 
   useEffect(() => {
     const term = q.trim();
@@ -108,23 +99,33 @@ export default function Home() {
     <main className="h-[calc(100vh-5rem)] flex flex-col overflow-hidden overflow-x-hidden">
       <header className="display-headings relative w-full h-[48svh] flex items-center justify-center  bg-brand-blue overflow-hidden">
         <IconsScroll
-          icons={icons}
           size={400}
           magnetOffset={magnetOffset}
-          colors={["#f0c2a8", "#3D2901"]}
+          colors={["var(--color-brand-orange)", "var(--color-brand-brown)"]}
         />
 
-        <div className="relative z-10 px-6 text-center">
+        <div className="relative z-10 px-6 pt-4 text-center">
           <h1 className="font-extrabold text-brand-cream dark:text-brand-cream">
             Welcome to <br />
             <span className="text-brand-cream dark:text-brand-cream">EduRater</span>
           </h1>
+          <h3 className="text-brand-cream font-semibold z-10 px-6 pt-4 text-center">
+            Search, rate and review any school in Britain
+          </h3>
         </div>
       </header>
 
       {/* SEARCH AREA */}
+
+                <div className="display-headings text-brand-brown dark:text-brand-cream pl-140 pr-140 text-center">
+            <h4 className="pt-12  font-semibold w-full">
+              Look up any school name, postcode, city or town below.
+            </h4>
+            <p className="pt-2 ">You can adjust the range, choose whether you want to search primary, secondary or nursery, or leave blank.</p>
+          </div>
+
       <section className="flex-1 min-h-0 w-full bg-brand-cream dark:bg-brand-brown flex items-start justify-center px-6 overflow-y-auto">
-        <div className="w-full max-w-lg py-12 min-h-0">
+        <div className="w-full max-w-lg py-12 pt-8 min-h-0">
           <form
             className="w-full flex flex-col gap-3"
             onSubmit={(e) => {
@@ -132,10 +133,48 @@ export default function Home() {
               onSearch();
             }}
           >
-            <div className="flex flex-col gap-2 sm:flex-row rounded-md border border-brand-brown px-4 py-2 text-brand-blue bg-brand-cream dark:bg-brand-brown dark:border-brand-cream dark:text-brand-orange ">
-              <div className="flex items-center justify-between text-sm font-semibold">
-                <span>Range {radiusKm} km</span>
+ 
+
+
+          <div className="flex flex-col gap-4 rounded-md border border-brand-brown bg-brand-blue px-4 py-4 dark:bg-brand-cream dark:border-brand-cream">
+
+            {/* ---------- SEARCH BAR + BUTTON ---------- */}
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <input
+                type="text"
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                placeholder="Search for a school, postcode or area..."
+                className="w-full rounded-md border bg-brand-cream border-brand-brown px-4 py-2 text-brand-blue placeholder:text-brand-brown/50 dark:placeholder:text-brand-orange/50 focus:border-brand-blue focus:outline-none focus:ring-2 focus:ring-brand-blue dark:focus:border-brand-orange dark:focus:ring-brand-orange dark:border-brand-cream dark:bg-brand-brown dark:text-brand-orange"
+              />
+
+              <MagnetizeButton
+                particleCount={14}
+                attractRadius={52}
+                onMagnet={({ x, y, active }) => {
+                  if (!active) {
+                    setMagnetOffset({ x: 0, y: 0 });
+                    return;
+                  }
+                  setMagnetOffset({ x: x * 0.12, y: y * 0.12 });
+                }}
+              >
+                <button
+                  type="button"
+                  onClick={onSearch}
+                  className="rounded-md px-6 py-3 bg-brand-brown dark:bg-brand-orange text-brand-cream dark:text-brand-brown font-bold hover:bg-brand-orange dark:hover:bg-brand-orange dark:hover:text-brand-cream focus:outline-none focus:ring-2"
+                >
+                  Search
+                </button>
+              </MagnetizeButton>
+            </div>
+
+            {/* ---------- RANGE + PHASE CONTROLS ---------- */}
+            <div className="flex flex-col gap-2 sm:flex-row items-center">
+              <div className="text-sm font-semibold whitespace-nowrap text-brand-cream dark:text-brand-brown">
+                Range {radiusKm} km
               </div>
+
               <input
                 type="range"
                 min="1"
@@ -145,95 +184,50 @@ export default function Home() {
                 onChange={(e) => setRadiusKm(Number(e.target.value))}
                 className="w-full custom-range"
               />
-              <div className="w-full sm:w-44">
 
-              <Select value={phase} onValueChange={setPhase}>
-                <SelectTrigger
-                  className="
-                    h-12 min-h-12 w-full
-                    rounded-md border border-brand-brown
-                    bg-brand-cream dark:bg-brand-brown
-                    px-4
-                    text-base text-brand-blue dark:text-brand-orange
-                    focus:outline-none focus:ring-2 focus:ring-brand-blue
-                    dark:border-brand-cream 
-                    dark:focus:border-brand-orange dark:focus:ring-brand-orange
-                  "
-                >
-                  <SelectValue placeholder="All phases" />
-                </SelectTrigger>
-
-                <SelectContent
-                  className="
-                    rounded-md border border-brand-brown dark:border-brand-cream
-                    bg-brand-cream dark:bg-brand-brown
-                  "
-                >
-                  <SelectItem value="all">All phases</SelectItem>
-                  <SelectItem value="primary">Primary</SelectItem>
-                  <SelectItem value="secondary">Secondary</SelectItem>
-                  <SelectItem value="nursery">Nursery</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-            
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <input
-                type="text"
-                value={q}
-                onChange={(e) => setQ(e.target.value)}   /* update q state on input change */
-                placeholder="Search for schools..."
-                className="w-full rounded-md border border-brand-brown px-4 py-2 text-brand-blue placeholder:text-brand-brown focus:border-brand-blue focus:outline-none focus:ring-2 focus:ring-brand-blue dark:focus:border-brand-orange dark:focus:ring-brand-orange bg-brand-cream dark:bg-brand-brown dark:border-brand-cream dark:text-brand-orange dark:placeholder-brand-cream"
-              />
-              <MagnetizeButton
-                particleCount={14}
-                attractRadius={52}
-                onMagnet={({ x, y, active }) => {
-                  if (!active) {
-                    setMagnetOffset({ x: 0, y: 0 });
-                    return;
-                  }
-                  setMagnetOffset({
-                    x: x * 0.12,
-                    y: y * 0.12,
-                  });
-                }}
-              >
-                <button
-                  type="button"
-                  onClick={onSearch}
-                  className="self-center rounded-md px-6 py-3 bg-brand-brown dark:bg-brand-cream text-brand-cream dark:text-brand-brown font-bold hover:bg-brand-orange dark:hover:bg-brand-blue hover:text-white dark:hover:text-brand-cream focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                >
-                  Search
-                </button>
-              </MagnetizeButton>
-            </div>
-            
-            {suggestionLoading && (
-              <p className="text-sm text-brand-brown dark:text-brand-cream">Loading suggestions...</p>
-            )}
-
-            {suggestions.length > 0 && (
-              <div className="flex align-center bg-brand-brown dark:bg-brand-cream p-4 rounded-md border border-brand-brown dark:border-brand-cream">
-                <div className="divide-y divide-brand-cream/30 dark:divide-brand-blue/30">
-                  {suggestions.map((suggestion) => (
-                    <Link
-                      key={suggestion.URN}
-                      href={`/schools/${suggestion.URN}`}
-                      className="block focus:outline-none hover:scale-[1.01] transition"
-                    >
-                      <RecommendationCard key={suggestion.URN} school={suggestion} />
-                    </Link>
-                  ))}
-                </div>
+              <div className="w-full sm:w-44 border rounded-lg text-brand-brown dark:text-brand-cream bg-brand-cream dark:bg-brand-brown border-brand-orange">
+                <Select value={phase} onValueChange={setPhase}>
+                  <SelectTrigger className="h-12 w-full">
+                    <SelectValue placeholder="All phases" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-brand-cream dark:bg-brand-brown border border-brand-orange rounded-lg text-brand-brown dark:text-brand-cream">
+                    <SelectItem value="all">All phases</SelectItem>
+                    <SelectItem value="primary">Primary</SelectItem>
+                    <SelectItem value="secondary">Secondary</SelectItem>
+                    <SelectItem value="nursery">Nursery</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
-            )}  
-          </form>
-        </div>
-      </section>
+            </div>
+
+          </div>
+
+          {/* ---------- SUGGESTIONS ---------- */}
+          {suggestionLoading && (
+            <p className="text-sm text-brand-brown dark:text-brand-cream">
+              Loading suggestions...
+            </p>
+          )}
+
+          {suggestions.length > 0 && (
+            <div className="bg-brand-brown dark:bg-brand-cream p-4 rounded-md">
+              {suggestions.map((suggestion) => (
+                <Link
+                  key={suggestion.URN}
+                  href={`/schools/${suggestion.URN}`}
+                >
+                  <RecommendationCard school={suggestion} />
+                </Link>
+              ))}
+            </div>
+          )}
+        </form>
 
 
-    </main>
-  );
-}
+                </div>
+              </section>
+
+
+            </main>
+          );
+        }
