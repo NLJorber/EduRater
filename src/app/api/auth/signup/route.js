@@ -6,6 +6,7 @@ const supabaseUrl = process.env.SUPABASE_URL;
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const resendApiKey = process.env.RESEND_API_KEY;
 const emailFrom = process.env.RESEND_FROM_EMAIL;
+const fallbackFromEmail = "onboarding@resend.dev";
 
 function getOrigin(request) {
   const envUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL;
@@ -22,12 +23,14 @@ export async function POST(request) {
     );
   }
 
-  if (!resendApiKey || !emailFrom) {
+  if (!resendApiKey) {
     return NextResponse.json(
       { error: "Email delivery configuration is incomplete." },
       { status: 500 }
     );
   }
+
+  const senderEmail = emailFrom || fallbackFromEmail;
 
   let payload;
   try {
@@ -107,7 +110,7 @@ export async function POST(request) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: emailFrom,
+      from: senderEmail,
       to: [email],
       subject: "Confirm your EduRater account",
       html,
