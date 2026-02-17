@@ -16,12 +16,12 @@ export default function Footer() {
           "md:flex-row md:items-center md:justify-between"
         )}
       >
-        {/* LEFT: Copyright */}
+     
         <div className="text-sm font-semibold text-brand-blue dark:text-brand-cream">
           © {year} EduRater. All rights reserved.
         </div>
 
-        {/* CENTER: Navigation */}
+      
         <ul className="flex flex-col gap-2 text-sm md:flex-row md:gap-6">
           
           <li>

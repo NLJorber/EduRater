@@ -109,16 +109,15 @@ export default function Home() {
       <header className="display-headings relative w-full h-[48svh] flex items-center justify-center  bg-brand-blue overflow-hidden">
         <IconsScroll
           icons={icons}
-          size={44}
-          rows={7}
-          speed={300}
+          size={400}
           magnetOffset={magnetOffset}
+          colors={["#f0c2a8", "#3D2901"]}
         />
 
         <div className="relative z-10 px-6 text-center">
-          <h1 className="font-extrabold text-brand-brown dark:text-white">
+          <h1 className="font-extrabold text-brand-cream dark:text-brand-cream">
             Welcome to <br />
-            <span className="text-brand-cream dark:text-brand-orange">EduRater</span>
+            <span className="text-brand-cream dark:text-brand-cream">EduRater</span>
           </h1>
         </div>
       </header>
