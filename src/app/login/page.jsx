@@ -49,28 +49,24 @@ export default function LoginPage() {
       return;
     }
 
-    const response = await fetch("/api/auth/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const { error } = await supabaseClient.auth.signUp({
+      email: normalizedEmail,
+      password,
+      options: {
+        emailRedirectTo: getRedirectUrl(),
+        data: {
+          display_name: normalizedName,
+        },
       },
-      body: JSON.stringify({
-        email: normalizedEmail,
-        password,
-        displayName: normalizedName,
-      }),
     });
 
-    const body = await response.json().catch(() => ({}));
-
-    if (!response.ok) {
-      setError(body.error || "Could not create account.");
+    if (error) {
+      setError(error.message);
       return;
     }
 
     setMessage(
-      body.message ||
-        "If the email can be registered, we sent a verification link. If you already have an account, sign in or reset your password."
+      "If the email can be registered, we sent a verification link. If you already have an account, sign in or reset your password."
     );
   };
 
