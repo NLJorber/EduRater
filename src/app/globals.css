@@ -275,7 +275,7 @@ pre {
   }
 
   input.custom-range::-webkit-slider-runnable-track {
-    background: #e6d5b8 !important;
+    background: #f0c2a8 !important;
     height: 6px;
     border-radius: 9999px;
   }
@@ -295,7 +295,7 @@ pre {
     -webkit-appearance: none !important;
     appearance: none !important;
     margin-top: -6px;
-    background: #FF7B00 !important;
+    background: #5c3a1e !important;
     width: 18px;
     height: 18px;
     border-radius: 9999px;
