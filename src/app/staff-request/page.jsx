@@ -294,7 +294,7 @@ export default function StaffRequestPage() {
                     value={fullName}
                     onChange={(event) => setFullName(event.target.value)}
                     className="mt-2 w-full rounded-2xl border border-brand-brown px-4 py-3 text-sm focus:border-slate-400 focus:outline-none"
-                    placeholder="Willy Wonka"
+                    placeholder="Mrs Smith"
                     required
                   />
                 </label>
@@ -314,7 +314,7 @@ export default function StaffRequestPage() {
                 <label className="block text-sm font-medium text-brand-brown">
                   School email {!session ? "(required)" : "(optional)"}
                   <input
-                    type="email"
+                    type="Email"
                     value={schoolEmail}
                     onChange={(event) => setSchoolEmail(event.target.value)}
                     className="mt-2 w-full rounded-2xl border border-brand-brown px-4 py-3 text-sm focus:border-brand-blue focus:outline-none"
@@ -337,7 +337,7 @@ export default function StaffRequestPage() {
 
               {!session ? (
                 <p className="mt-4 text-xs text-brand-orange">
-                  You can submit without an account, but we need a school email
+                  You can submit without an account, but we will need a school email
                   to contact you.
                 </p>
               ) : null}

@@ -152,7 +152,7 @@ export default function StaffSchoolCharts({ days = 90 }) {
 
   return (
     <div className="space-y-6">
-      <section className="rounded-3xl border border-brand-blue dark:border-brand-cream bg-brand-cream p-6">
+      <section className="rounded-3xl border border-brand-blue dark:border-brand-orange bg-brand-cream p-6">
         <div className="flex flex-wrap items-start justify-between gap-4 border-b border-slate-200 pb-4">
           <div className="space-y-1">
             <h2 className="text-lg text-brand-brown font-semibold">
@@ -227,7 +227,7 @@ export default function StaffSchoolCharts({ days = 90 }) {
         )}
       </section>
 
-      <section className="rounded-3xl border border-brand-blue dark:border-brand-cream bg-brand-cream p-6">
+      <section className="rounded-3xl border border-brand-blue dark:border-brand-orange bg-brand-cream p-6">
         <div className="space-y-1 border-b border-slate-200 pb-4">
           <h3 className="text-lg text-brand-brown font-semibold">
             Section comparison

@@ -203,13 +203,13 @@ export default function AdminDashboardPage() {
 
         {/* while not logged in and not checking auth, show sign in prompt */}
         {!authLoading && !session && (
-          <p className="text-sm text-brand-orange">
+          <p className="text-sm text-brand-brown">
             Please <Link href="/login">sign in</Link> to continue.
           </p>
         )}
 
         {/* if not checking auth and logged in, show error message if any */}
-        {error && <p className="text-sm text-brand-orange">{error}</p>}
+        {error && <p className="text-sm text-red-500">{error}</p>}
         
         {/* if logged in and no error, show the admin dashboard content */}
         {!authLoading && session && !error && (
@@ -225,9 +225,9 @@ export default function AdminDashboardPage() {
               else show the data table
             */}
             {dataLoading ? (
-              <p className="text-sm text-brand-cream">Loading review counts...</p>
+              <p className="text-sm text-brand-brown">Loading review counts...</p>
             ) : rows.length === 0 ? (
-              <p className="text-sm text-brand-cream">
+              <p className="text-sm text-brand-brown">
                 No schools have reviews yet.
               </p>
             ) : (
