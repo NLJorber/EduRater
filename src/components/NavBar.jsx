@@ -59,7 +59,7 @@ export default function NavBar() {
           className="flex items-center space-x-3"
         >
           <Image
-            src="/EduRaterLogo.png"
+            src="/icons/EduiconPale.png"
             alt="Edurater logo"
             width={70}
             height={70}
