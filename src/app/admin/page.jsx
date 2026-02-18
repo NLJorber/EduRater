@@ -275,7 +275,7 @@ export default function AdminDashboardPage() {
         )}
 
         {!authLoading && session && !error && (
-          <div className="rounded-3xl border border-brand-brown bg-brand-cream p-6">
+          <div className="rounded-3xl border border-brand-blue bg-brand-cream p-6">
             <div className="flex items-center justify-between gap-4">
               <div>
                 <h2 className="text-lg text-brand-brown font-semibold">Staff requests</h2>
@@ -286,7 +286,7 @@ export default function AdminDashboardPage() {
               <button
                 type="button"
                 onClick={() => setStaffRefresh((prev) => prev + 1)}
-                className="rounded-md border border-brand-blue hover:border-brand-orange bg-brand-blue px-4 py-2 text-sm font-semibold text-brand-cream hover:bg-brand-orange"
+                className="rounded-full border border-brand-brown hover:border-brand-blue bg-brand-brown px-4 py-2 text-sm font-semibold text-brand-cream hover:bg-brand-blue"
               >
                 Refresh
               </button>
@@ -312,20 +312,20 @@ export default function AdminDashboardPage() {
                     className="rounded-2xl border border-slate-200 bg-white p-4"
                   >
                     <div className="flex flex-wrap items-center justify-between gap-3">
-                      <div className="space-y-1 text-sm text-slate-700">
+                      <div className="space-y-1 text-sm text-brand-brown">
                         <p className="font-semibold">{request.full_name}</p>
                         <p>{request.position}</p>
-                        <p className="text-slate-500">
+                        <p className="text-brand-brown/50">
                           {request.school_email || "No email provided"}
                         </p>
-                        <p className="text-slate-500">
+                        <p className="text-brand-brown/50">
                           School:{" "}
                           {request.schools?.name ?? request.school_id}
                           {request.schools?.domain
                             ? ` (${request.schools.domain})`
                             : ""}
                         </p>
-                        <p className="text-xs text-slate-400">
+                        <p className="text-xs text-brand-brown/50">
                           Submitted:{" "}
                           {new Date(request.created_at).toLocaleString()}
                         </p>
@@ -336,7 +336,7 @@ export default function AdminDashboardPage() {
                           onClick={() =>
                             handleStaffUpdate(request.id, "approved")
                           }
-                          className="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800"
+                          className="rounded-full bg-brand-blue px-4 py-2 text-sm font-semibold text-brand-cream hover:bg-brand-brown"
                         >
                           Approve
                         </button>

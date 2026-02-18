@@ -17,7 +17,7 @@ import { supabaseClient } from "@/lib/supabase/client";
 const CHART_COLOR = "#1573ff";
 const PIE_COLORS = [
   "#1573ff",
-  "#FF7B00",
+  "#FBF5E7",
   "#2E7D32",
   "#7B1FA2",
   "#00838F",

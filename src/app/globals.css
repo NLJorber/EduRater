@@ -126,6 +126,15 @@ pre {
     letter-spacing: 0.02em;
   }
 
+   input.custom-range {
+    width: 100%;
+    max-width: 100%;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    background: transparent !important;
+    height: 46px;
+  }
+
   .display-headings h1 {
     font-size: clamp(3rem, 8.6vw, 5.5rem);
     line-height: 1;

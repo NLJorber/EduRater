@@ -96,7 +96,7 @@ export default function Home() {
   }, [q, phase, radiusKm]);
 
   return (
-    <main className="h-[calc(100vh-5rem)] flex flex-col overflow-hidden overflow-x-hidden">
+    <main className="min-h-screen flex flex-col overflow-x-hidden">
       <header className="display-headings relative w-full h-[48svh] flex items-center justify-center  bg-brand-blue overflow-hidden">
         <IconsScroll
           size={400}
@@ -117,14 +117,14 @@ export default function Home() {
 
       {/* SEARCH AREA */}
 
-                <div className="display-headings text-brand-brown dark:text-brand-cream pl-140 pr-140 text-center">
+                <div className="display-headings text-brand-brown dark:text-brand-cream text-center">
             <h4 className="pt-12  font-semibold w-full">
               Look up any school name, postcode, city or town below.
             </h4>
             <p className="pt-2 ">You can adjust the range, choose whether you want to search primary, secondary or nursery, or leave blank.</p>
           </div>
 
-      <section className="flex-1 min-h-0 w-full bg-brand-cream dark:bg-brand-brown flex items-start justify-center px-6 overflow-y-auto">
+      <section className="flex-1 min-h-0 w-full bg-brand-cream dark:bg-brand-brown flex items-start justify-center px-6 ">
         <div className="w-full max-w-lg py-12 pt-8 min-h-0">
           <form
             className="w-full flex flex-col gap-3"
@@ -139,15 +139,16 @@ export default function Home() {
           <div className="flex flex-col gap-4 rounded-md border border-brand-brown bg-brand-blue px-4 py-4 dark:bg-brand-cream dark:border-brand-cream">
 
             {/* ---------- SEARCH BAR + BUTTON ---------- */}
-            <div className="flex flex-col gap-3 sm:flex-row">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center min-w-0">
               <input
                 type="text"
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
                 placeholder="Search for a school, postcode or area..."
-                className="w-full rounded-md border bg-brand-cream border-brand-brown px-4 py-2 text-brand-blue placeholder:text-brand-brown/50 dark:placeholder:text-brand-orange/50 focus:border-brand-blue focus:outline-none focus:ring-2 focus:ring-brand-blue dark:focus:border-brand-orange dark:focus:ring-brand-orange dark:border-brand-cream dark:bg-brand-brown dark:text-brand-orange"
+                className="w-full sm:flex-1 min-w-0 rounded-md border bg-brand-cream border-brand-brown px-4 py-2 text-brand-blue placeholder:text-brand-brown/50 dark:placeholder:text-brand-orange/50 focus:border-brand-blue focus:outline-none focus:ring-2 focus:ring-brand-blue dark:focus:border-brand-orange dark:focus:ring-brand-orange dark:border-brand-cream dark:bg-brand-brown dark:text-brand-orange"
               />
-
+             
+             <div className="w-full sm:w-auto shrink-0 flex justify-center sm:justify-start">
               <MagnetizeButton
                 particleCount={14}
                 attractRadius={52}
@@ -168,10 +169,10 @@ export default function Home() {
                 </button>
               </MagnetizeButton>
             </div>
-
+          </div>
             {/* ---------- RANGE + PHASE CONTROLS ---------- */}
-            <div className="flex flex-col gap-2 sm:flex-row items-center">
-              <div className="text-sm font-semibold whitespace-nowrap text-brand-cream dark:text-brand-brown">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center min-w-0">
+              <div className="text-sm font-semibold whitespace-nowrap text-brand-orange dark:text-brand-brown -mb-4 sm:mb-0">
                 Range {radiusKm} km
               </div>
 
@@ -182,7 +183,7 @@ export default function Home() {
                 step="1"
                 value={radiusKm}
                 onChange={(e) => setRadiusKm(Number(e.target.value))}
-                className="w-full custom-range"
+                className="w-full sm:flex-1 min-w-0 custom-range"
               />
 
               <div className="w-full sm:w-44 border rounded-lg text-brand-brown dark:text-brand-cream bg-brand-cream dark:bg-brand-brown border-brand-orange">

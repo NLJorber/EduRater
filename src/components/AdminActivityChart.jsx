@@ -11,8 +11,20 @@ import {
 } from "recharts";
 
 const METRICS = [
-  { key: "reviews", label: "Reviews", color: "#1573ff" },
-  { key: "users", label: "New users", color: "#FF7B00" },
+  {
+    key: "reviews",
+    label: "Reviews",
+    color: "#1573ff", // line color
+    activeClass: "bg-brand-blue text-brand-cream",
+    inactiveClass: "text-brand-brown hover:bg-brand-blue hover:text-brand-cream",
+  },
+  {
+    key: "users",
+    label: "New users",
+    color: "#f0c2a8", // line color
+    activeClass: "bg-brand-orange text-brand-brown",
+    inactiveClass: "text-brand-brown hover:bg-brand-orange",
+  },
 ];
 
 function formatShortDate(value) {
@@ -110,10 +122,9 @@ export default function AdminActivityChart({ accessToken, days = 90 }) {
               type="button"
               onClick={() => setActiveMetric(metric.key)}
               className={`px-4 py-2 text-sm font-semibold transition ${
-                activeMetric === metric.key
-                  ? "bg-brand-brown text-brand-cream"
-                  : "text-brand-brown hover:bg-brand-orange"
-              }`}
+            activeMetric === metric.key ? metric.activeClass : metric.inactiveClass
+          }`}
+
             >
               <span className="block text-xs uppercase tracking-wide opacity-70">
                 {metric.label}
