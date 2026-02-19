@@ -10,6 +10,13 @@ import RecommendationCard from "@/components/Recommendation";
 import Link from "next/link";
 import { MagnetizeButton } from "@/components/ui/magnetize-button";
 
+
+
+/* import ReviewsRow to show list of reviews for the school */
+import ReviewsRow from "@/components/ReviewsRow";
+
+
+
 import {
   Select,
   SelectContent,
@@ -27,6 +34,13 @@ export default function Home() {
   const [error, setError] = useState("");
   const [magnetOffset, setMagnetOffset] = useState({ x: 0, y: 0 });
   const router = useRouter();
+
+  const [selectedUrn, setSelectedUrn] = useState(null);
+
+  // define these too (you reference them currently)
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [reviewing, setReviewing] = useState(false);
+  const user = null; // replace with your auth user
 
   const onSearch = () => {
     const term = q.trim();
@@ -112,6 +126,9 @@ export default function Home() {
           <h3 className="text-brand-cream font-semibold z-10 px-6 pt-4 text-center">
             Search, rate and review any school in Britain
           </h3>
+          <p className="text-brand-cream pt-5">
+              Request a school staff account to see school reviews and unique statistics in your specialist dashboard 
+          </p>
         </div>
       </header>
 
@@ -203,32 +220,43 @@ export default function Home() {
 
           </div>
 
-          {/* ---------- SUGGESTIONS ---------- */}
-          {suggestionLoading && (
-            <p className="text-sm text-brand-brown dark:text-brand-cream">
-              Loading suggestions...
-            </p>
-          )}
 
-          {suggestions.length > 0 && (
-            <div className="bg-brand-brown dark:bg-brand-cream p-4 rounded-md">
-              {suggestions.map((suggestion) => (
-                <Link
-                  key={suggestion.URN}
-                  href={`/schools/${suggestion.URN}`}
-                >
-                  <RecommendationCard school={suggestion} />
-                </Link>
-              ))}
+            <div className="rounded-lg border border-brand-brown/20 bg-brand-cream p-6 shadow-sm dark:border-brand-lightgrey/30 dark:bg-brand-brown/20">
+              <ReviewsRow mode="recent" limit={10} />
             </div>
-          )}
-        </form>
 
 
-                </div>
-              </section>
 
+          {/* ---------- SUGGESTIONS ---------- */}
+            {suggestionLoading && (
+              <p className="text-sm text-brand-brown dark:text-brand-cream">
+                Loading suggestions...
+              </p>
+            )}
 
-            </main>
-          );
-        }
+            {error && (
+              <p className="text-sm text-brand-orange">
+                {error}
+              </p>
+            )}
+
+         {suggestions.length > 0 && (
+          <div className="bg-brand-brown dark:bg-brand-cream p-4 rounded-md">
+            {suggestions.map((suggestion) => (
+              <button
+                key={suggestion.URN}
+                type="button"
+                onClick={() => setSelectedUrn(suggestion.URN)}
+                className="w-full text-left"
+              >
+                <RecommendationCard school={suggestion} />
+              </button>
+            ))}
+          </div>
+        )}
+       </form>
+      </div>
+     </section>
+    </main>
+   );
+  }
