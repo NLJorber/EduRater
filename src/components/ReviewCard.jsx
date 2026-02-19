@@ -21,6 +21,17 @@ export default function ReviewCard({
         )}`
       : null;
     const initial = displayName.trim().charAt(0).toUpperCase() || "U";
+
+    const isHome = variant === "home";
+
+    const cardClassName = isHome
+      ? "min-w-[320px] max-w-[320px] rounded-r-xl border-4 border-brand-brown bg-brand-cream/90 p-5 dark:border-brand-cream dark:bg-blue-200"
+      : "min-w-[280px] max-w-[280px] rounded-r-lg border-4 border-brand-brown bg-brand-orange/20 p-4 dark:border-brand-cream dark:bg-blue-300";
+
+    const bandClassName = isHome
+      ? "w-8 rounded-l-xl"
+      : "w-10 rounded-l-lg";
+
     return (
     <div data-variant={variant} className="flex shrink-0">
       {/* Outside band */}
@@ -30,7 +41,7 @@ export default function ReviewCard({
         style={{ backgroundColor: "var(--review-band, #3D2901)" }}
       />
 
-      {/* The bordered card stays exactly the same */}
+     {/* The bordered card stays exactly the same */}
       <div className="min-w-[280px] max-w-[280px] rounded-r-lg border-4 border-brand-brown bg-brand-orange/20
      p-4 dark:border-brand-cream dark:bg-blue-300">
         <div className="mb-3 flex items-center gap-3">

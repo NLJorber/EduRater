@@ -91,7 +91,6 @@ export async function GET(request) {
 
   const { data: reviews, error: reviewsError } = await reviewQuery;
   
-
   if (reviewsError) {
     return NextResponse.json({ error: reviewsError.message }, { status: 500 });
   }

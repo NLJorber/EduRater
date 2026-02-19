@@ -220,13 +220,10 @@ export default function Home() {
 
           </div>
 
-
-            <div className="rounded-lg border border-brand-brown/20 bg-brand-cream p-6 shadow-sm dark:border-brand-lightgrey/30 dark:bg-brand-brown/20">
-              <ReviewsRow mode="recent" limit={10} />
-            </div>
-
-
-
+              <section className="relative left-1/2 right-1/2 -mx-[50vw] w-screen mt-10">
+                <ReviewsRow mode="recent" limit={10} cardVariant="home" showTitle={false} />
+              </section>
+          
           {/* ---------- SUGGESTIONS ---------- */}
             {suggestionLoading && (
               <p className="text-sm text-brand-brown dark:text-brand-cream">
