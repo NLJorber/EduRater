@@ -86,19 +86,19 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="display-headings min-h-screen bg-brand-blue dark:bg-brand-brown text-brand-white dark:text-brand-custard">
+    <main className="display-headings min-h-screen dark:bg-brand-brown text-brand-white dark:text-brand-custard">
       <div className="mx-auto flex w-full max-w-md flex-col gap-6 px-2 py-20">
         <div>
-          <h2 className="font-extrabold text-brand-cream dark:text-brand-cream">
+          <h2 className="font-extrabold text-brand-brown dark:text-brand-cream">
           Welcome to <br />
           <span className="text-brand-brown dark:text-brand-orange ">EduRater</span>
         </h2>
-          <h3 className="text-brand-cream dark:text-brand-cream text-3xl font-semibold mt-10 mb-4">
+          <h3 className="text-brand-brown dark:text-brand-cream text-3xl font-semibold mt-10 mb-4">
             {mode === "sign-in"
               ? "Sign in to continue"
               : "Create your account"}
           </h3>
-          <p className="text-sm text-brand-cream">
+          <p className="text-sm text-brand-brown">
             Use Google or email/password. Email signups require verification.
           </p>
         </div>
@@ -107,34 +107,36 @@ export default function LoginPage() {
           <button
             type="button"
             onClick={handleGoogleSignIn}
-            className="rounded-full border border-brand-cream hover:border-brand-brown dark:border-brand-cream dark:hover:border-brand-orange bg-brand-cream dark:bg-brand-cream hover:bg-brand-brown dark:hover:bg-brand-orange px-4 py-3 text-sm text-brand-brown dark:text-brand-blue  hover:text-brand-cream dark:hover:text-brand-cream font-semibold transition"
+            className="rounded-full border border-brand-orange hover:border-brand-brown dark:border-brand-cream dark:hover:border-brand-orange bg-brand-orange dark:bg-brand-cream hover:bg-brand-brown dark:hover:bg-brand-orange px-4 py-3 text-sm text-brand-brown dark:text-brand-blue  hover:text-brand-cream dark:hover:text-brand-cream font-semibold transition"
           >
             Continue with Google
           </button>
         ) : null}
 
         {mode === "sign-in" ? (
-          <div className="flex items-center gap-3 text-xs uppercase tracking-[0.3em] text-brand-cream">
-            <span className="h-px flex-1 bg-brand-cream" />
+          <div className="flex items-center gap-3 text-xs uppercase tracking-[0.3em] text-brand-brown">
+            <span className="h-px flex-1 bg-brand-orange" />
             or
-            <span className="h-px flex-1 bg-brand-cream" />
+            <span className="h-px flex-1 bg-brand-orange" />
           </div>
         ) : null}
 
         {mode === "sign-in" ? (
           <form className="space-y-4" onSubmit={handleEmailSignIn}>
-            <label className="block text-sm font-bold text-brand-cream dark:text-brand-orange">
+            <label className="block text-sm font-bold text-brand-brown dark:text-brand-orange ">
               Email
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
-                className="mt-2 w-full rounded-2xl border dark:border-brand-cream px-4 py-3 text-sm placeholder:text-brand-lightgrey dark:placeholder:text-brand-midgrey dark:focus:border-brand-cream focus:outline-none"
+                className="mt-2 w-full rounded-2xl border border-brand-brown/50 bg-brand-cream 
+                focus:bg-brand-cream
+                dark:border-brand-cream  px-4 py-3 text-sm placeholder:text-brand-orange dark:placeholder:text-brand-midgrey dark:focus:border-brand-cream focus:outline-none"
                 placeholder="you@school.edu"
               />
             </label>
-            <label className="block text-sm font-bold text-brand-cream dark:text-brand-orange">
+            <label className="block text-sm font-bold text-brand-brown dark:text-brand-orange">
               Password
               <input
                 type="password"
@@ -142,14 +144,15 @@ export default function LoginPage() {
                 minLength={8}
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
-                className="mt-2 w-full rounded-2xl border dark:border-brand-lightgrey px-4 py-3 text-sm placeholder:text-brand-lightgrey dark:placeholder:text-brand-midgrey dark:focus:border-brand-lightgrey focus:outline-none"
+                className="mt-2 w-full rounded-2xl border border-brand-brown/50 bg-brand-cream 
+                focus:bg-brand-cream dark:border-brand-lightgrey px-4 py-3 text-sm placeholder:text-brand-orange dark:placeholder:text-brand-orange/20 dark:focus:border-brand-lightgrey focus:outline-none"
                 placeholder="At least 8 characters"
               />
             </label>
             <div className="text-right">
               <a
                 href="/forgot-password"
-                className="text-xs font-semibold text-brand-cream hover:text-brand-brown dark:hover:text-brand-blue "
+                className="text-xs font-semibold text-brand-brown hover:text-brand-orange dark:hover:text-brand-orange "
               >
                 Forgot password?
               </a>
@@ -157,7 +160,7 @@ export default function LoginPage() {
 
             <button
               type="submit"
-              className="w-full rounded-full px-4 py-3 text-sm font-semibold text-brand-cream dark:text-brand-cream transition hover:text-brand-cream dark:hover:text-brand-cream bg-brand-orange dark:bg-brand-orange hover:bg-brand-blue"
+              className="w-full rounded-full px-4 py-3 text-sm font-semibold text-brand-cream dark:text-brand-cream transition hover:text-brand-brown dark:hover:text-brand-cream bg-brand-blue dark:bg-brand-orange hover:bg-brand-orange"
             >
               Sign in
             </button>
@@ -250,7 +253,7 @@ export default function LoginPage() {
           <p>Teacher or school staff?</p>
           <a
             href="/staff-request"
-            className="mt-2 inline-flex items-center justify-center rounded-full border px-4 py-2 text-xs font-semibold text-brand-cream transition dark:bg-brand-blue hover:bg-brand-orange dark:hover:border-brand-orange dark:hover:text-brand-orange dark:hover:bg-brand-brown"
+            className="mt-2 inline-flex items-center justify-center rounded-full border px-4 py-2 text-xs font-semibold text-brand-cream transition dark:bg-brand-blue hover:bg-brand-orange dark:hover:border-brand-orange dark:hover:text-brand-orange dark:hover:bg-brand-orange"
           >
             Request staff access
           </a>

@@ -38,12 +38,12 @@ export default function ProfilePage() {
   }, [session?.access_token]);
 
   return (
-    <main className="display-headings min-h-screen bg-brand-blue text-brand-cream">
+    <main className="display-headings min-h-screen text-brand-brown dark:text-brand-cream ">
       <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 px-6 py-16">
         <div className="space-y-2">
           
           <h2 className="font-semibold">Your account</h2>
-          <h4 className="text-brand-cream">
+          <h4 className="text-brand-brown dark:text-brand-cream">
             Manage your account and access staff tools.
           </h4>
         </div>
@@ -54,8 +54,8 @@ export default function ProfilePage() {
             Loading profile...
           </div>
         ) : !isSignedIn ? (
-          <div className="rounded-3xl border border-brand-cram bg-brand-cream p-6">
-            <p className="text-sm text-brand-blue">
+          <div className="rounded-3xl border border-brand-blue dark:border-brand-orange bg-brand-cream p-6">
+            <p className="text-sm font-semibold text-brand-blue">
               You are not signed in.
             </p>
             <Link
@@ -66,9 +66,9 @@ export default function ProfilePage() {
             </Link>
           </div>
         ) : (
-          <div className="rounded-3xl border border-brand-cream bg-brand-cream p-6">
+          <div className="rounded-3xl border border-brand-cream bg-brand-blue p-6">
             <ProfileAvatarPicker session={session} />
-            <div className="space-y-2 text-sm text-brand-brown">
+            <div className="space-y-2 text-sm text-brand-cream">
               <p>
                 <span className="font-semibold">Email:</span>{" "}
                 {session?.user?.email}
@@ -82,19 +82,18 @@ export default function ProfilePage() {
             <div className="mt-6 flex flex-wrap gap-3">
               <Link
                 href="/staff-request"
-                className="rounded-full border border-brand-brown px-4 py-2 text-sm font-semibold text-brand-brown 
-                hover:border-brand-blue hover:bg-brand-blue hover:text-brand-white"
+                className="rounded-full border border-brand-brown px-4 py-2 text-sm font-semibold text-brand-cream bg-brand-brown 
+                hover:border-brand-blue hover:bg-brand-cream hover:text-brand-blue"
               >
                 Staff request
               </Link>
               {canSeeStaff ? (
                 <Link
                   href="/staff"
-                  className="rounded-full border border-brand-brown px-4 py-2 text-sm font-semibold text-brand-brown  
-                  
+                  className="rounded-full border px-4 py-2 text-sm font-semibold border-brand-brown bg-brand-brown  text-brand-cream
                   hover:border-brand-orange
-                  hover:bg-brand-orange
-                  hover:text-brand-cream"
+                  hover:bg-brand-cream
+                  hover:text-brand-blue"
                 >
                   Staff tools
                 </Link>
@@ -102,11 +101,10 @@ export default function ProfilePage() {
               {isAdmin ? (
                 <Link
                   href="/admin"
-                  className="rounded-full border border-brand-brown px-4 py-2 text-sm font-semibold text-brand-brown 
-                  
-                  hover:border-brand-blue
-                  hover:bg-brand-blue
-                  hover:text-brand-cream"
+                  className="rounded-full border border-brand-brown px-4 py-2 text-sm font-semibold text-brand-cream bg-brand-brown 
+                  hover:border-brand-orange
+                  hover:bg-brand-cream
+                  hover:text-brand-blue"
                 >
                   Admin dashboard
                 </Link>
@@ -114,7 +112,7 @@ export default function ProfilePage() {
               <button
                 type="button"
                 onClick={handleSignOut}
-                className="rounded-full bg-brand-orange px-4 py-2 text-sm font-semibold text-brand-cream hover:bg-brand-brown"
+                className="rounded-full bg-brand-orange px-4 py-2 text-sm font-semibold text-brand-brown hover:bg-brand-cream hover:text-brand-blue"
               >
                 Sign out
               </button>

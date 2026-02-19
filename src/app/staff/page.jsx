@@ -94,7 +94,10 @@ export default function StaffPage() {
           ) : null}
 
           {schoolUrn ? <StaffSchoolCharts /> : null}
-          {schoolUrn ? <ReviewsRow schoolUrn={schoolUrn} /> : null}
+          {schoolUrn ? (
+            <ReviewsRow schoolUrn={schoolUrn} schoolId={profile.school_id} />
+          ) : null}
+
         </RoleGate>
       </div>
     </main>

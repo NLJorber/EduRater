@@ -7,10 +7,11 @@ import ReportForm from "@/components/ReportForm";
 import ReviewModal from "@/components/ReviewModal";
 import { supabaseClient } from "@/lib/supabase/client";
 import { useAuthProfile } from "@/lib/auth/useAuthProfile";
+import Link from "next/link";
 
 /* schoolUrn: URN of the school to load reviews for
     refreshKey: when this changes, reviews are reloaded */
-export default function ReviewsRow({ schoolUrn, refreshKey, headerRight = null }) {
+export default function ReviewsRow({ schoolUrn, schoolId, refreshKey, headerRight = null }) {
     const [reviews, setReviews] = useState([]);
     const [schoolScore, setSchoolScore] = useState(null);
     const [reviewCount, setReviewCount] = useState(0);
@@ -122,7 +123,7 @@ export default function ReviewsRow({ schoolUrn, refreshKey, headerRight = null }
     return (
         <section className="mt-8">
             <div className="display-headings mb-3 flex items-end justify-between">
-                <h3 className="mt-8 font-semibold text-brand-orange dark:text-brand-orange">
+                <h3 className="mt-8 font-semibold text-brand-blue dark:text-brand-orange">
                     Reviews:
                 </h3>
                 
@@ -154,7 +155,13 @@ export default function ReviewsRow({ schoolUrn, refreshKey, headerRight = null }
 
             {!loading && !error && reviews.length === 0 && (
                 <p className="text-sm text-brand-blue dark:text-brand-cream">
-                    No reviews yet. Be the first to leave a review!
+                    No reviews yet. {""}
+                    <Link
+                    href={`/schools/${schoolUrn}`}
+                    className="underline font-semibold hover:text-brand-orange"
+                    >
+                    Be the first to leave a review!
+                    </Link>
                 </p>
             )}
 
