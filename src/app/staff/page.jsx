@@ -6,6 +6,7 @@ import ReviewsRow from "@/components/ReviewsRow";
 import StaffSchoolCharts from "@/components/StaffSchoolCharts";
 import { supabaseClient } from "@/lib/supabase/client";
 import { useAuthProfile } from "@/lib/auth/useAuthProfile";
+import Link from "next/link";
 
 export default function StaffPage() {
   const { profile, loading: profileLoading } = useAuthProfile();
@@ -84,7 +85,10 @@ export default function StaffPage() {
           {schoolName ? (
             <div className="rounded-3xl border border-brand-blue dark:border-brand-orange bg-brand-cream p-6">
               <p className="text-sm text-brand-brown">
-                Showing reviews for <span className="font-semibold">{schoolName}</span>.
+                Showing reviews for {" "}
+                <Link 
+                  href={`/schools/${schoolUrn}`}
+                  className="font-semibold hover:text-brand-blue">{schoolName}</Link>.
               </p>
             </div>
           ) : null}
