@@ -11,7 +11,7 @@ export default function AboutPage() {
 
 
 
-          <h4 className="mt-6 px-10"> thank you for coming to find out more. We are three people who created Edurater because of our shared experiences. We know what it's like to seek out the best routes for ourselves and our children, while feeling like some of the vital knowledge is hard to access at open days or during official events.</h4>
+          <h4 className="mt-6 px-10"> thank you for coming to find out more. We are three people who created Edurater because of our shared experiences. We know what it&apos;s like to seek out the best routes for ourselves and our children, while feeling like some of the vital knowledge is hard to access at open days or during official events.</h4>
 
           <div className="border rounded-md border-brand-blue dark:border-brand-cream mt-10 py-3 bg-brand-orange/20 dark:border-bg-cream/20 text-center">
           <h3 className="text-brand-blue dark:text-brand-orange px-10">Edurater exists to fill that gap.
@@ -31,7 +31,7 @@ export default function AboutPage() {
       </blockquote>
 
 
-      <h5 className="text-brand-blue dark:text-brand-orange mt-6 px-5 text-center pb-10">If you have suggestions or would like to see a feature we don't currently have, please contact us!</h5>
+      <h5 className="text-brand-blue dark:text-brand-orange mt-6 px-5 text-center pb-10">If you have suggestions or would like to see a feature we don&apos;t currently have, please contact us!</h5>
 
     <div className="flex items-center justify-center pb-10">
     <Image

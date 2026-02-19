@@ -375,3 +375,11 @@ pre {
 .dark [data-variant="search"]  { --review-band: #34d399; }
 .dark [data-variant="profile"] { --review-band: #c084fc; } */ 
 
+/* Hide scrollbars but keep scrolling */
+.scrollbar-none {
+  scrollbar-width: none;       /* Firefox */
+  -ms-overflow-style: none;    /* IE/Edge legacy */
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;               /* Chrome/Safari */
+}
