@@ -74,8 +74,10 @@ export default function ReviewCard({
                     {showEdit ? (
                         <button
                             type="button"
-                            onClick={onEdit}
-                            className="text-brand-brown hover:text-blue-700"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                onEdit?.();
+                              }}
                         >
                             Edit
                         </button>
@@ -83,7 +85,10 @@ export default function ReviewCard({
                     {showDelete ? (
                         <button
                             type="button"
-                            onClick={onDelete}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                onDelete?.();
+                              }}
                             className="text-brand-brown hover:text-brand-cream dark:text-brand-brown dark:hover:text-brand-cream"
                         >
                             Delete
@@ -92,7 +97,10 @@ export default function ReviewCard({
                     {showReport ? (
                         <button
                             type="button"
-                            onClick={onReport}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onReport?.();
+                            }}
                             className="text-brand-brown hover:text-brand-orange/40"
                         >
                             Report
