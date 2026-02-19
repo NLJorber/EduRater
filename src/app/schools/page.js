@@ -328,9 +328,9 @@ function SchoolsPageContent() {
                 </div>
             </div>
 
-            {loading && <p className="mt-4 text-brand-orange">Loading…</p>}
+            {loading && <p className="mt-4 text-brand-blue dark:text-brand-orange">Loading…</p>}
 
-            {error && <p className="mt-4 text-brand-orange">{error}</p>}
+            {error && <p className="mt-4 text-brand-blue dark:text-brand-orange">{error}</p>}
 
             {/* renders no results if no schools were found */}
             {!loading && !error && schools.length === 0 && q && (

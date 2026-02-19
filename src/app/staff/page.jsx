@@ -75,7 +75,7 @@ export default function StaffPage() {
         </div>
 
         <RoleGate allowedRoles={["staff_verified", "admin"]}>
-          <div className="rounded-3xl border border-brand-blue dark:border-brand-orange bg-brand-cream p-6">
+          <div className="rounded-3xl pb-8">
             <p className="text-sm text-brand-brown">
               You are cleared to access staff features. This is where moderation
               tools and official replies will live.
@@ -84,12 +84,12 @@ export default function StaffPage() {
 
           {schoolName ? (
             <div className="rounded-3xl border border-brand-blue dark:border-brand-orange bg-brand-cream p-6">
-              <p className="text-sm text-brand-brown">
+              <h5 className="text-brand-brown">
                 Showing reviews for {" "}
                 <Link 
                   href={`/schools/${schoolUrn}`}
-                  className="font-semibold hover:text-brand-blue">{schoolName}</Link>.
-              </p>
+                  className="font-semibold text-brand-blue hover:text-brand-orange">{schoolName}</Link>
+              </h5>
             </div>
           ) : null}
 

@@ -5,12 +5,79 @@ import { reviewIsClean } from "@/lib/moderation/bannedWords";
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
+
+  const sort = searchParams.get("sort");
+  const limitRaw = searchParams.get("limit");
+  const limit = Number.isFinite(Number(limitRaw)) ? Number(limitRaw) : 10;
+
+  // RECENT REVIEWS (no school_urn required)
+  if (sort === "recent") {
+    const { data: reviews, error: reviewsError } = await supabaseServer
+      .from("reviews")
+      .select(
+        "id, school_urn, user_id, rating_computed, title, body, created_at, review_sections(id, section_key, rating, comment, created_at)"
+      )
+      .is("deleted_at", null)
+      .order("created_at", { ascending: false })
+      .limit(limit);
+
+    if (reviewsError) {
+      return NextResponse.json({ error: reviewsError.message }, { status: 500 });
+    }
+
+    const cleanReviews = (reviews ?? []).filter(reviewIsClean);
+
+    const userIds = [
+      ...new Set(cleanReviews.map((review) => review.user_id).filter(Boolean)),
+    ];
+
+    let authorMap = new Map();
+    if (userIds.length > 0) {
+      const { data: settings, error: settingsError } = await supabaseServer
+        .from("profile_settings")
+        .select("user_id, display_name, avatar_seed, avatar_style")
+        .in("user_id", userIds);
+
+      if (!settingsError && Array.isArray(settings)) {
+        authorMap = new Map(settings.map((row) => [row.user_id, row]));
+      }
+    }
+
+    const reviewsWithAuthors = cleanReviews.map((review) => ({
+      ...review,
+      sections: (review.review_sections ?? []).map((section) => ({
+        section_key: section.section_key,
+        rating: section.rating,
+        comment: section.comment,
+      })),
+      author: authorMap.get(review.user_id) ?? null,
+    }));
+
+    return NextResponse.json({
+      data: {
+        reviews: reviewsWithAuthors,
+        schoolScore: null, // not applicable across many schools
+        reviewCount: cleanReviews.length,
+      },
+    });
+  }
+
+
   const schoolUrn =
     searchParams.get("school_urn") ?? searchParams.get("schoolUrn");
 
   if (!schoolUrn) {
     return NextResponse.json({ error: "Missing school_urn." }, { status: 400 });
   }
+
+  const schoolUrnNum = Number(schoolUrn);
+  if (!Number.isFinite(schoolUrnNum)) {
+    return NextResponse.json(
+      { error: `Invalid school_urn: ${schoolUrn}` },
+      { status: 400 }
+    );
+  }
+
 
   let reviewQuery = supabaseServer
     .from("reviews")
@@ -20,7 +87,7 @@ export async function GET(request) {
     .is("deleted_at", null)
     .order("created_at", { ascending: false });
 
-  reviewQuery = reviewQuery.eq("school_urn", Number(schoolUrn));
+  reviewQuery = reviewQuery.eq("school_urn", schoolUrn);
 
   const { data: reviews, error: reviewsError } = await reviewQuery;
   

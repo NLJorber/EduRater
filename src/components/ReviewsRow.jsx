@@ -11,7 +11,13 @@ import Link from "next/link";
 
 /* schoolUrn: URN of the school to load reviews for
     refreshKey: when this changes, reviews are reloaded */
-export default function ReviewsRow({ schoolUrn, schoolId, refreshKey, headerRight = null }) {
+export default function ReviewsRow({
+  mode = "school",          // "school" | "recent"
+  schoolUrn,
+  limit = 10,               // only used for mode="recent"
+  refreshKey,
+  headerRight = null,
+}) {
     const [reviews, setReviews] = useState([]);
     const [schoolScore, setSchoolScore] = useState(null);
     const [reviewCount, setReviewCount] = useState(0);
@@ -67,12 +73,19 @@ export default function ReviewsRow({ schoolUrn, schoolId, refreshKey, headerRigh
 
     useEffect(() => {
         const load = async () => {
-            if (!schoolUrn) return;
+            if (mode === "school" && !schoolUrn) return;
 
             setLoading(true);
             setError("");
+
+            const url =
+                mode === "recent"
+                    ? `/api/reviews?sort=recent&limit=${encodeURIComponent(limit)}`
+                    : `/api/reviews?school_urn=${encodeURIComponent(schoolUrn)}`;
+
+                    
             
-            const res = await fetch(`/api/reviews?school_urn=${encodeURIComponent(schoolUrn)}`);
+            const res = await fetch(url);
             const body = await res.json();
 
             if (!res.ok) {
@@ -84,14 +97,24 @@ export default function ReviewsRow({ schoolUrn, schoolId, refreshKey, headerRigh
                 return;
             }
 
-            setReviews(body.data?.reviews || []);
-            setSchoolScore(body.data?.schoolScore ?? null);
-            setReviewCount(body.data?.reviewCount ?? 0);
-            setLoading(false);
-        };
+            if (mode === "recent") {
+                // Recent mode: no school score; reviewCount is just number returned (or API can provide it)
+                const list = body.data?.reviews || body.data || [];
+                setReviews(list);
+                setSchoolScore(null);
+                setReviewCount(body.data?.reviewCount ?? list.length);
+                } else {
+                // School mode: keep existing behavior
+                setReviews(body.data?.reviews || []);
+                setSchoolScore(body.data?.schoolScore ?? null);
+                setReviewCount(body.data?.reviewCount ?? 0);
+                }
+
+                setLoading(false);
+            };
 
         load();
-    }, [schoolUrn, refreshKey, localRefresh]);
+    }, [mode, schoolUrn, limit, refreshKey, localRefresh]);
 
     const handleDelete = async (reviewId) => {
         if (!accessToken) {
@@ -137,33 +160,41 @@ export default function ReviewsRow({ schoolUrn, schoolId, refreshKey, headerRigh
 
             {loading && <p className="text-sm text-brand-cream dark:text-brand-cream">Loading reviews...</p>}
 
-            {editingReview ? (
-                <ReviewForm
-                    schoolUrn={schoolUrn}
-                    reviewId={editingReview.id}
-                    initialData={editingReview}
-                    onCancel={() => setEditingReview(null)}
-                    onPosted={() => {
-                        setEditingReview(null);
-                        setLocalRefresh((prev) => prev + 1);
-                    }}
-                />
+            {mode === "school" && editingReview ? (
+            <ReviewForm
+                schoolUrn={schoolUrn}
+                reviewId={editingReview.id}
+                initialData={editingReview}
+                onCancel={() => setEditingReview(null)}
+                onPosted={() => {
+                setEditingReview(null);
+                setLocalRefresh((prev) => prev + 1);
+                }}
+            />
             ) : null}
+
 
             {loading && <p className="text-sm text-brand-cream dark:text-brand-cream">Loading reviews...</p>}
             {error && <p className="text-sm text-brand-orange">{error}</p>}
 
             {!loading && !error && reviews.length === 0 && (
-                <p className="text-sm text-brand-blue dark:text-brand-cream">
-                    No reviews yet. {""}
+            <p className="text-sm text-brand-blue dark:text-brand-cream">
+                {mode === "recent" ? (
+                "No reviews yet."
+                ) : (
+                <>
+                    No reviews yet.{" "}
                     <Link
                     href={`/schools/${schoolUrn}`}
                     className="underline font-semibold hover:text-brand-orange"
                     >
                     Be the first to leave a review!
                     </Link>
-                </p>
+                </>
+                )}
+            </p>
             )}
+
 
             {reportingReview ? (
                 <ReportForm
