@@ -35,10 +35,10 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <main className="display-headings min-h-screen bg-brand-blue dark:bg-brand-brown ">
+    <main className="display-headings min-h-screen  ">
       <div className="mx-auto flex w-full max-w-2xl flex-col gap-6 px-6 py-30">
         <div>
-          <h1 className=" font-extrabold text-brand-cream  dark:text-brand-orange">Reset password</h1>
+          <h1 className=" font-extrabold text-brand-brown  dark:text-brand-orange">Reset password</h1>
           <h4 className="mt-10 text-brand-white">
             It happens to us all. <br></br> Enter your email for a reset link.
           </h4>

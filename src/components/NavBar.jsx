@@ -72,7 +72,13 @@ export default function NavBar() {
         <button
           type="button"
           onClick={() => setMenuOpen((open) => !open)}
-          className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-base hover:bg-neutral-secondary-soft focus:ring-2 focus:ring-neutral-tertiary"
+          className="md:hidden inline-flex items-center justify-center w-10 h-10 
+          rounded-md
+          hover:bg-brand-orange
+          dark:hover:text-brand-brown
+          focus-visible:ring-2 
+          focus-visible:ring-neutral-tertiary
+          focus-visible:rounded-md"
           aria-expanded={menuOpen}
           aria-label="Toggle menu"
         >

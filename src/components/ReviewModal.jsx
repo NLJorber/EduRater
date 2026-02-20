@@ -69,12 +69,12 @@ return (
       <button
         type="button"
         aria-label="Close modal"
-        className="absolute inset-0 bg-black/60"
+        className="absolute inset-0 bg-brand-black/80"
         onClick={onClose}
       />
 
       {/* modal panel */}
-      <div className="relative z-10 w-[min(720px,92vw)] h-[40vh] min-h-[300px] rounded-2xl border border-4 border-brand-blue bg-brand-cream dark:bg-brand-blue p-6 shadow-xl flex flex-col">
+      <div className="relative z-10 w-[min(720px,92vw)] h-[40vh] min-h-[300px] rounded-2xl border border-4 border-brand-blue bg-brand-cream dark:bg-brand-blue dark:border-brand-cream p-6 shadow-xl flex flex-col">
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
             <h4 className=" font-semibold text-brand-brown dark:text-brand-cream">
@@ -109,12 +109,12 @@ return (
         className="absolute inset-0"
       >
         {/* the grey scroll box stays fixed size */}
-        <div className="h-full overflow-y-auto rounded-xl border border-brand-blue p-4 dark:border-brand-cream">
+        <div className="h-full overflow-y-auto rounded-xl border border-brand-blue p-4 dark:border-brand-cream dark:bg-brand-brown bg-brand-blue ">
           {step === 0 ? (
             <>
               <div className="flex items-center justify-between gap-4">
-                <p className="font-semibold text-brand-brown dark:text-brand-cream">Main Review</p>
-                <p className="text-sm font-semibold text-brand-brown dark:text-brand-cream">
+                <p className="font-semibold text-brand-cream">Main Review</p>
+                <p className="text-sm font-semibold text-brand-cream">
                   Overall:{" "}
                   {review.rating_computed != null
                     ? `${Number(review.rating_computed).toFixed(1)} / 5`
@@ -123,26 +123,26 @@ return (
               </div>
 
               {review.body ? (
-                <p className="mt-3 whitespace-pre-wrap text-brand-brown dark:text-brand-cream">
+                <p className="mt-3 whitespace-pre-wrap text-brand-cream">
                   {review.body}
                 </p>
               ) : (
-                <p className="mt-3 text-sm text-brand-brown dark:text-brand-cream">No main comment.</p>
+                <p className="mt-3 text-sm text-brand-cream">No main comment.</p>
               )}
             </>
           ) : hasActiveSection ? (
             <>
               <div className="flex items-center justify-between gap-4">
-                <p className="font-semibold text-brand-brown dark:text-brand-cream">
+                <p className="font-semibold text-brand-cream">
                   {prettySectionName(activeSection.section_key)}
                 </p>
-                <p className="text-sm font-semibold text-brand-brown dark:text-brand-cream">
+                <p className="text-sm font-semibold text-brand-cream">
                   {activeSection.rating ?? "—"} / 5
                 </p>
               </div>
 
               {activeSection.comment ? (
-                <p className="mt-3 whitespace-pre-wrap text-brand-brown dark:text-brand-cream">
+                <p className="mt-3 whitespace-pre-wrap text-brand-cream">
                   {activeSection.comment}
                 </p>
               ) : (
@@ -169,7 +169,7 @@ return (
               type="button"
               onClick={goPrev}
               disabled={step === 0}
-              className="rounded-full border border-brand-brown px-4 py-2 text-sm font-semibold text-brand-brown disabled:opacity-40 dark:border-brand-cream dark:text-brand-cream"
+              className="rounded-full border border-2 border-brand-brown px-4 py-2 text-sm font-semibold text-brand-brown disabled:opacity-40 dark:border-brand-cream dark:text-brand-cream dark:bg-brand-brown hover:bg-brand-orange dark:hover:border-brand-brown dark:hover:text-brand-brown"
             >
               &lt;
             </button>
@@ -182,7 +182,7 @@ return (
               type="button"
               onClick={goNext}
               disabled={step === totalSteps - 1}
-              className="rounded-full border border-brand-brown px-4 py-2 text-sm font-semibold text-brand-brown disabled:opacity-40 dark:border-brand-cream dark:text-brand-cream"
+              className="rounded-full border border-2 border-brand-brown px-4 py-2 text-sm font-semibold text-brand-brown disabled:opacity-40 dark:border-brand-cream dark:text-brand-cream dark:bg-brand-brown hover:bg-brand-orange dark:hover:border-brand-brown dark:hover:text-brand-brown"
             >
               &gt;
             </button>
