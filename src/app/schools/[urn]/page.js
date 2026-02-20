@@ -94,18 +94,18 @@ export default function SchoolDetailPage() {
         if (urn) load();    /* prevents the API call if urn is missing */
     }, [urn]);
 
-    if (loading) return <div className="min-h-screen p-10 bg-brand-cream dark:bg-brand-brown">Loading...</div>; 
-    if (error) return <div className="p-10 text-brand-orange">{error}</div>;
+    if (loading) return <div className="min-h-screen p-10 bg-brand-brown dark:bg-brand-cream">Loading...</div>; 
+    if (error) return <div className="p-10 text-brand-blue">{error}</div>;
     if (!school) return <div className="p-10">School not found</div>;
 
   return (
   <div className="min-h-screen p-6 bg-brand-cream dark:bg-brand-brown display-headings">
     {/* FULL-WIDTH HEADER */}
-    <h2 className="mt-16 mb-4 text-center text-brand-orange dark:text-brand-orange">
+    <h2 className="pt-16 pb-10 text-center font-bold text-brand-brown dark:text-brand-orange">
       {school.EstablishmentName}
     </h2>
 
-    <hr className="border-brand-brown dark:border-brand-cream mb-6" />
+    <hr className="border-brand-orange dark:border-brand-cream pb-20" />
 
     {/* MAIN LAYOUT: 2/5 left, 3/5 right */}
     <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-10">
@@ -152,11 +152,11 @@ export default function SchoolDetailPage() {
         />
       </CreateReviewModal>
         ) : (
-          <div className="mt-6 rounded-lg border border-brand-brown bg-brand-cream p-4 dark:border-brand-orange dark:bg-brand-orange text-center">
+          <div className="mt-6 rounded-lg border shadow-sm border-brand-brown/20 bg-brand-cream p-4 dark:border-brand-orange dark:bg-brand-orange text-center">
             <h5 className="text-brand-brown dark:text-brand-brown">
               You must be signed in to leave a review.
             </h5>
-            <Link href="/login" className="mt-2 inline-block font-semibold text-brand-cream">
+            <Link href="/login" className="mt-2 inline-block font-semibold text-brand-brown hover:text-brand-blue">
               <h6 style={{ letterSpacing: "0.15em" }}>~Click to sign in~</h6>
             </Link>
           </div>

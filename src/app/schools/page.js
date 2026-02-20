@@ -235,7 +235,7 @@ function SchoolsPageContent() {
     };
 
     return (
-        <div className="display-headings min-h-screen text-brand-orange dark:text-brand-cream bg-brand-cream dark:bg-brand-brown p-4 md:px-32 py-6">
+        <div className="display-headings min-h-screen text-brand-brown dark:text-brand-cream bg-brand-cream dark:bg-brand-brown p-4 md:px-32 py-16">
             
             {/* heading showing "Schools in (current query)" */}
             <h2 className="font-bold !tracking-normal !leading-snug">
