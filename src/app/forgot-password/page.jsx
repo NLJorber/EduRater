@@ -35,41 +35,47 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <main className="display-headings min-h-screen  ">
+    <main className="display-headings min-h-screen">
       <div className="mx-auto flex w-full max-w-2xl flex-col gap-6 px-6 py-30">
         <div>
-          <h1 className=" font-extrabold text-brand-brown  dark:text-brand-orange">Reset password</h1>
-          <h4 className="mt-10 text-brand-white">
-            It happens to us all. <br></br> Enter your email for a reset link.
-          </h4>
+          <h1 className=" font-extrabold text-brand-brown dark:text-brand-orange">Reset password</h1>
+          <h3 className="pt-12 text-brand-brown dark:text-brand-cream font-bold">
+            Enter your email for a reset link
+            </h3>
+            
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <label className="block text-sm font-bold text-brand-cream">
+        <form onSubmit={handleSubmit} className="space-y-4 pt-8">
+          
+          <label className="block text-md font-bold text-brand-brown dark:text-brand-cream">
+            
             Email
             <input
               type="email"
               required
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              className="mt-2 w-full rounded-2xl border dark:border-brand-cream px-4 py-3 text-sm dark:placeholder:text-brand-orange/30 dark:focus:border-brand-lightgrey focus:outline-none"
+              className="mt-2 w-full rounded-2xl px-4 py-3 text-sm border border-brand-brown text-brand-brown font-medium dark:border-brand-cream bg-brand-cream placeholder:text-brand-orange dark:placeholder:text-brand-orange dark:focus:border-brand-orange focus:outline-none"
               placeholder="you@school.edu"
             />
           </label>
 
+          <div className="pt-4">
           <button
             type="submit"
-            className="block mx-auto rounded-full border px-4 py-3 text-sm font-semibold text-brand-cream dark:text-brand-cream transition hover:text-brand-cream dark:hover:text-brand-cream bg-brand-blue dark:bg-brand-blue dark:hover:bg-brand-brown dark:hover:text-brand-orange
+            className="block w-full mx-auto rounded-full border px-4 py-3 text-sm font-semibold text-brand-cream dark:text-brand-cream transition hover:text-brand-cream bg-brand-blue hover:bg-brand-orange dark:bg-brand-blue dark:hover:bg-brand-brown dark:hover:text-brand-orange
            dark:border-brand-blue dark:hover:border-brand-orange"
           >
+            
             Send reset link
           </button>
+          </div>
         </form>
 
         {status.type !== "idle" ? (
           <p
             className={`mt-6 italic text-sm ${
-              status.type === "error" ? "text-brand-orange" : "text-brand-cream"
+              status.type === "error" ? "text-brand-blue" : "text-brand-cream"
             }`}
           >
             {status.message}
@@ -78,7 +84,7 @@ export default function ForgotPasswordPage() {
 
         <a
           href="/login"
-          className="font-semibold text-brand-cream hover:text-brand-orange"
+          className="font-semibold text-brand-brown dark:text-brand-cream hover:text-brand-orange"
         >
           Back to sign in
         </a>
