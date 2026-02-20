@@ -264,7 +264,7 @@ export default function ReviewsRow({
         onMouseLeave={stopHoverScroll}
 
         onClick={() => scrollByCards(-1)}
-        className="absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full border border-brand-brown bg-brand-cream/90 px-3 py-2 text-sm font-semibold text-brand-brown shadow hover:bg-brand-cream dark:border-brand-cream dark:bg-blue-900/80 dark:text-brand-cream"
+        className="absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full border border-brand-brown bg-brand-cream/90 px-3 py-2 text-sm font-semibold text-brand-brown shadow hover:bg-brand-orange dark:border-brand-cream dark:bg-brand-blue/80 dark:hover:border-brand-brown dark:hover:text-brand-brown dark:hover:bg-brand-orange dark:text-brand-cream opacity-80"
         aria-label="Scroll reviews left"
       >
         ←
@@ -275,7 +275,7 @@ export default function ReviewsRow({
         onMouseLeave={stopHoverScroll}
 
         onClick={() => scrollByCards(1)}
-        className="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full border border-brand-brown bg-brand-cream/90 px-3 py-2 text-sm font-semibold text-brand-brown shadow hover:bg-brand-cream dark:border-brand-cream dark:bg-blue-900/80 dark:text-brand-cream"
+        className="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full border border-brand-brown bg-brand-cream/90 px-3 py-2 text-sm font-semibold text-brand-brown shadow hover:bg-brand-orange dark:border-brand-cream dark:bg-brand-blue/80 dark:hover:bg-brand-orange dark:hover:text-brand-brown dark:hover:border-brand-brown dark:text-brand-cream opacity-80"
         aria-label="Scroll reviews right"
       >
         →

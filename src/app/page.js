@@ -110,8 +110,8 @@ export default function Home() {
   }, [q, phase, radiusKm]);
 
   return (
-    <main className="min-h-screen flex flex-col overflow-x-hidden">
-      <header className="display-headings relative w-full h-[48svh] flex items-center justify-center  bg-brand-blue overflow-hidden">
+    <main className="min-h-screen flex flex-col overflow-x-hidden overflow-y-visible">
+      <header className="display-headings relative w-full h-[48svh] flex items-center justify-center  bg-brand-blue overflow-x-hidden">
         <IconsScroll
           size={400}
           magnetOffset={magnetOffset}

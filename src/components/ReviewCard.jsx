@@ -33,19 +33,32 @@ export default function ReviewCard({
       : "w-10 rounded-l-lg";
 
     return (
-    <div data-variant={variant} className="flex shrink-0">
-      {/* Outside band */}
-      <div
-        aria-hidden="true"
-        className="w-10 rounded-l-lg"
-        style={{ backgroundColor: "var(--review-band, #3D2901)" }}
-      />
+    <div data-variant={variant} className="flex shrink-0 overflow-y-visible">
 
      {/* The bordered card stays exactly the same */}
-      <div className="min-w-[280px] max-w-[280px] rounded-r-lg border-4 border-brand-brown bg-brand-orange/20
-     p-4 dark:border-brand-cream dark:bg-blue-300">
+      <div className="
+      min-w-70 max-w-70
+          rounded-lg
+          border-2
+          border-brand-brown/30
+          dark:border-brand-blue/30
+          backdrop-blur-lg
+          bg-linear-to-r
+          from-brand-orange/60
+          via-brand-cream/60
+          to-brand-orange
+          p-4
+          shadow-sm
+          dark:from-blue-300
+          dark:via-blue-200
+          dark:to-blue-400
+          transition-all duration-200
+          hover:shadow-lg
+          
+        "
+      >   
         <div className="mb-3 flex items-center gap-3">
-          <div className="h-10 w-10 overflow-hidden rounded-full bg-brand-cream text-brand-orange">
+          <div className="h-10 w-10 overflow-hidden rounded-full bg-brand-cream text-brand-brown">
             {avatarUrl ? (
               <img src={avatarUrl} alt="" className="h-full w-full" />
             ) : (
@@ -76,12 +89,12 @@ export default function ReviewCard({
                     {review.title || "Anonymous Review"}
             </h3>
 
-            <p className="mt-3 text-sm text-brand-brown dark:text-brand-brown line-clamp-5">
+            <p className="mt-3 text-sm text-brand-brown dark:text-brand-brown/80 leading-relaxed line-clamp-5">
                 {review.body}
             </p>
 
             {(showEdit || showDelete || showReport) ? (
-                <div className="mt-4 flex gap-3 text-sm font-semibold">
+                <div className="mt-4 flex gap-3 text-sm font-semibold text-brand-brown hover:text-brand-blue dark:text-brand-blue dark:hover:text-brand-brown">
                     {showEdit ? (
                         <button
                             type="button"
@@ -100,7 +113,7 @@ export default function ReviewCard({
                                 e.stopPropagation();
                                 onDelete?.();
                               }}
-                            className="text-brand-brown hover:text-brand-cream dark:text-brand-brown dark:hover:text-brand-cream"
+                            className="text-brand-brown hover:text-brand-blue dark:text-brand-blue dark:hover:text-brand-brown"
                         >
                             Delete
                         </button>
@@ -112,7 +125,7 @@ export default function ReviewCard({
                               e.stopPropagation();
                               onReport?.();
                             }}
-                            className="text-brand-brown hover:text-brand-orange/40"
+                            className="text-brand-brown hover:text-brand-blue dark:text-brand-blue dark:hover:text-brand-brown"
                         >
                             Report
                         </button>
