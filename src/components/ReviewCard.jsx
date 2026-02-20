@@ -33,7 +33,7 @@ export default function ReviewCard({
       : "w-10 rounded-l-lg";
 
     return (
-    <div data-variant={variant} className="flex shrink-0 overflow-y-visible">
+    <div data-variant={variant} className="flex shrink-0 overflow-y-visible ">
 
      {/* The bordered card stays exactly the same */}
       <div className="
@@ -54,7 +54,7 @@ export default function ReviewCard({
           dark:to-blue-400
           transition-all duration-200
           hover:shadow-lg
-          
+          cursor-pointer
         "
       >   
         <div className="mb-3 flex items-center gap-3">

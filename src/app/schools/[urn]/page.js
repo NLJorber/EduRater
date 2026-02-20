@@ -122,12 +122,13 @@ export default function SchoolDetailPage() {
 <div className="rounded-lg border border-brand-brown/20 bg-brand-cream p-6 shadow-sm dark:border-brand-lightgrey/30 dark:bg-brand-brown/20">
   <ReviewsRow schoolUrn={urn} 
   refreshKey={refreshKey} 
+  enableHoverScroll
   headerRight={
     user ? (
     <button
       type="button"
       onClick={() => setReviewing(true)}
-      className="shrink-0 rounded-md bg-brand-brown dark:bg-brand-blue px-4 py-2 font-semibold text-brand-cream hover:bg-brand-orange disabled:opacity-60"
+      className="shrink-0 rounded-md bg-brand-brown dark:bg-brand-blue px-4 py-2 font-semibold text-brand-cream hover:bg-brand-orange hover:text-brand-brown disabled:opacity-60"
     >
       Leave a Review
     </button>
