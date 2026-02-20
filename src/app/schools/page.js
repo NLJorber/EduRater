@@ -289,15 +289,7 @@ function SchoolsPageContent() {
                                 <SelectItem value="nursery">Nursery</SelectItem>
                             </SelectContent>
                     </Select>
-                    </div>
-
-                    {/* <span className="
-                        pointer-events-none
-                        absolute right-3 top-1/2 -translate-y-1/2
-                         text-brand-brown dark:text-brand-cream
-                        ">
-    ▾               </span> */}
-                    
+                    </div>                   
 
                     <button
                     type="submit"
