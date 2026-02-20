@@ -74,7 +74,7 @@ return (
       />
 
       {/* modal panel */}
-      <div className="relative z-10 w-[min(720px,92vw)] h-[40vh] min-h-[300px] rounded-2xl border border-4 border-brand-blue bg-brand-cream dark:bg-brand-blue dark:border-brand-cream p-6 shadow-xl flex flex-col">
+      <div className="relative z-10 w-[min(720px,92vw)] h-[40vh] min-h-[300px] rounded-2xl border border-4 border-brand-blue bg-brand-cream dark:bg-brand-brown dark:border-brand-cream p-6 shadow-xl flex flex-col">
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
             <h4 className=" font-semibold text-brand-brown dark:text-brand-cream">
@@ -88,7 +88,7 @@ return (
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg px-3 py-2 text-sm font-semibold text-brand-brown hover:text-brand-cream hover:bg-brand-orange dark:text-brand-cream dark:hover:bg-brand-brown"
+            className="rounded-lg px-3 py-2 text-sm font-semibold text-brand-brown hover:text-brand-cream hover:bg-brand-orange dark:text-brand-cream dark:hover:bg-brand-orange dark:hover:text-brand-brown"
           >
             ✕
           </button>
@@ -109,12 +109,12 @@ return (
         className="absolute inset-0"
       >
         {/* the grey scroll box stays fixed size */}
-        <div className="h-full overflow-y-auto rounded-xl border border-brand-blue p-4 dark:border-brand-cream dark:bg-brand-brown bg-brand-blue ">
+        <div className="h-full overflow-y-auto rounded-xl border p-4  bg-brand-orange ">
           {step === 0 ? (
             <>
               <div className="flex items-center justify-between gap-4">
-                <p className="font-semibold text-brand-cream">Main Review</p>
-                <p className="text-sm font-semibold text-brand-cream">
+                <p className="font-semibold text-brand-brown">Main Review</p>
+                <p className="text-sm font-semibold text-brand-brown">
                   Overall:{" "}
                   {review.rating_computed != null
                     ? `${Number(review.rating_computed).toFixed(1)} / 5`
@@ -123,34 +123,34 @@ return (
               </div>
 
               {review.body ? (
-                <p className="mt-3 whitespace-pre-wrap text-brand-cream">
+                <p className="mt-3 whitespace-pre-wrap text-brand-brown">
                   {review.body}
                 </p>
               ) : (
-                <p className="mt-3 text-sm text-brand-cream">No main comment.</p>
+                <p className="mt-3 text-sm text-brand-brown">No main comment.</p>
               )}
             </>
           ) : hasActiveSection ? (
             <>
               <div className="flex items-center justify-between gap-4">
-                <p className="font-semibold text-brand-cream">
+                <p className="font-semibold text-brand-brown">
                   {prettySectionName(activeSection.section_key)}
                 </p>
-                <p className="text-sm font-semibold text-brand-cream">
+                <p className="text-sm font-semibold text-brand-brown">
                   {activeSection.rating ?? "—"} / 5
                 </p>
               </div>
 
               {activeSection.comment ? (
-                <p className="mt-3 whitespace-pre-wrap text-brand-cream">
+                <p className="mt-3 whitespace-pre-wrap text-brand-brown">
                   {activeSection.comment}
                 </p>
               ) : (
-                <p className="mt-2 text-sm text-brand-cream">No comment</p>
+                <p className="mt-2 text-sm text-brand-brown">No comment</p>
               )}
             </>
           ) : (
-            <p className="text-sm text-brand-brown dark:text-brand-cream">
+            <p className="text-sm text-brand-brown dark:text-brand-brown">
               No category breakdown available for this review.
             </p>
           )}
@@ -161,7 +161,6 @@ return (
 </div>
 
 
-
         {/* NAV FOOTER */}
         {totalSteps > 1 ? (
           <div className="mt-6 flex items-center justify-center gap-4">
@@ -169,7 +168,7 @@ return (
               type="button"
               onClick={goPrev}
               disabled={step === 0}
-              className="rounded-full border border-2 border-brand-brown px-4 py-2 text-sm font-semibold text-brand-brown disabled:opacity-40 dark:border-brand-cream dark:text-brand-cream dark:bg-brand-brown hover:bg-brand-orange dark:hover:border-brand-brown dark:hover:text-brand-brown"
+              className="rounded-full border border-2 border-brand-brown px-4 py-2 text-sm font-semibold text-brand-brown disabled:opacity-40 dark:border-brand-cream dark:text-brand-cream dark:bg-brand-brown hover:bg-brand-orange dark:hover:bg-brand-orange dark:hover:border-brand-cream dark:hover:text-brand-brown"
             >
               &lt;
             </button>
@@ -182,7 +181,7 @@ return (
               type="button"
               onClick={goNext}
               disabled={step === totalSteps - 1}
-              className="rounded-full border border-2 border-brand-brown px-4 py-2 text-sm font-semibold text-brand-brown disabled:opacity-40 dark:border-brand-cream dark:text-brand-cream dark:bg-brand-brown hover:bg-brand-orange dark:hover:border-brand-brown dark:hover:text-brand-brown"
+              className="rounded-full border-2 border-brand-brown px-4 py-2 text-sm font-semibold text-brand-brown disabled:opacity-40 dark:border-brand-cream dark:text-brand-cream dark:bg-brand-brown hover:bg-brand-orange dark:hover:border-brand-cream dark:hover:text-brand-brown"
             >
               &gt;
             </button>
