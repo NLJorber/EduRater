@@ -12,7 +12,7 @@ export default function RoleGate({
   fallback = null,
 }) {
   return (
-    <Suspense fallback={<p className="text-sm text-slate-600">Checking access...</p>}>
+    <Suspense fallback={<p className="text-sm text-brand-blue dark:text-brand-orange">Checking access...</p>}>
       <RoleGateContent
         allowedRoles={allowedRoles}
         fallback={fallback}
@@ -87,13 +87,16 @@ function RoleGateContent({
   }, [allowedRoles, session?.access_token]);
 
   if (loading) {
-    return <p className="text-sm text-slate-600">Checking access...</p>;
+    return <p className="text-sm text-brand-blue dark:text-brand-orange">Checking access...</p>;
   }
 
   if (!session) {
     return (
-      <p className="text-sm text-slate-600">
-        Please <Link href="/login">sign in</Link> to continue.
+      <p className="text-sm text-brand-brown dark:text-brand-orange">
+        Please  
+        <span className="text-brand-blue dark:text-brand-cream hover:text-brand-orange dark:hover:text-brand-blue font-bold">
+        <Link href="/login"> sign in</Link>
+        </span> to continue.
       </p>
     );
   }
@@ -113,11 +116,11 @@ function RoleGateContent({
     return (
       fallback ?? (
         <div className="space-y-3">
-          <p className="text-sm text-slate-600">
+          <p className="text-sm text-brand-blue dark:text-brand-orange">
             Your account does not have access to this section.
           </p>
           {debugAccess ? (
-            <div className="rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
+            <div className="rounded-lg border border-red-500 bg-slate-50 p-3 text-xs text-slate-700">
               <div>role: {profile?.role ?? "null"}</div>
               <div>isAdmin: {String(isAdminRole)}</div>
               <div>hasApprovedStaffRequest: {String(hasApprovedStaffRequest)}</div>

@@ -175,30 +175,30 @@ export default function StaffRequestPage() {
   const filteredSchools = useMemo(() => schools, [schools]);
 
   return (
-    <main className="display-headings min-h-screen bg-brand-cream dark:bg-brand-brown text-brand-blue dark:text-brand-cream">
+    <main className="display-headings min-h-screen text-brand-brown dark:text-brand-cream">
       <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 px-6 py-16">
         <div className="space-y-2">
           
-          <h2 className=" font-semibold mt-10">Request staff access</h2>
-          <h5 className="text-brand-brown">
-            Use your school email when possible. We auto-approve matching
+          <h2 className=" font-bold mt-10">Request staff access</h2>
+          <h4 className="font-bold text-brand-brown dark:text-brand-cream pt-8">
+            Use your school email where possible. We auto-approve matching
             domains.
-          </h5>
+          </h4>
         </div>
 
         {!canRequest ? (
-            <div className="rounded-3xl border border-brand-brown bg-slate-50 p-6">
-              <p className="text-sm text-slate-700">
+            <div className="rounded-3xl border border-brand-brown/50 bg-brand-orange p-6">
+              <p className="text-sm text-brand-blue/50">
                 Your account already has staff access.
               </p>
             </div>
           ) : (
             <form
               onSubmit={handleSubmit}
-              className="rounded-3xl border border-brand-brown bg-brand-cream p-6"
+              className="rounded-3xl border border-brand-brown/50 bg-brand-cream p-6"
             >
               <div className="space-y-4">
-                <label className="block text-sm font-medium text-brand-brown">
+                <label className="block text-sm font-bold text-brand-brown">
                   School
                   <div className="relative mt-2">
                     <input
@@ -213,7 +213,7 @@ export default function StaffRequestPage() {
                       onBlur={() =>
                         setTimeout(() => setIsSchoolMenuOpen(false), 150)
                       }
-                      className="w-full rounded-2xl border border-brand-brown px-4 py-3 text-sm focus:border-brand-blue focus:outline-none"
+                      className="w-full rounded-2xl px-4 py-3 text-sm border font-medium border-brand-brown/50 bg-brand-cream placeholder:text-brand-orange placeholder:opacity-100  focus:border-brand-blue/50 focus:outline-none"
                       placeholder="Search by school name or domain"
                       aria-label="Search schools"
                       role="combobox"
@@ -224,7 +224,7 @@ export default function StaffRequestPage() {
                     {isSchoolMenuOpen ? (
                       <div
                         id="school-search-options"
-                        className="absolute z-10 mt-2 max-h-64 w-full overflow-y-auto rounded-2xl border border-brand-brown bg-brand-orange shadow-lg"
+                        className="absolute z-10 mt-2 max-h-64 w-full overflow-y-auto rounded-2xl border  border-brand-orange bg-brand-cream shadow-lg"
                       >
                         {schoolsLoading ? (
                           <div className="px-4 py-3 text-sm text-brand-blue">
@@ -235,7 +235,7 @@ export default function StaffRequestPage() {
                             {schoolsError}
                           </div>
                         ) : schoolQuery.trim() === "" ? (
-                          <div className="px-4 py-3 text-sm text-brand-brown">
+                          <div className="px-4 py-3 text-sm font-light text-brand-brown">
                             Start typing to search for your school.
                           </div>
                         ) : filteredSchools.length === 0 ? (
@@ -255,7 +255,7 @@ export default function StaffRequestPage() {
                                 );
                                 setIsSchoolMenuOpen(false);
                               }}
-                              className="w-full px-4 py-3 text-left text-sm text-brand-brown hover:bg-brand-blue"
+                              className="w-full px-4 py-3 text-left text-sm text-brand-brown hover:bg-brand-orange"
                             >
                               {school.name}
                               {school.domain ? ` (${school.domain})` : ""}
@@ -268,7 +268,7 @@ export default function StaffRequestPage() {
                 </label>
 
                 {!schoolsLoading && !schoolsError && schools.length === 0 ? (
-                  <p className="text-xs text-brand-orange">
+                  <p className="text-xs text-brand-blue/50">
                     No schools are available yet. An admin needs to load schools
                     into the database.
                   </p>
@@ -287,56 +287,56 @@ export default function StaffRequestPage() {
                   </p>
                 ) : null}
 
-                <label className="block text-sm font-medium text-brand-brown">
+                <label className="block text-sm font-bold text-brand-brown">
                   Full name
                   <input
                     type="text"
                     value={fullName}
                     onChange={(event) => setFullName(event.target.value)}
-                    className="mt-2 w-full rounded-2xl border border-brand-brown px-4 py-3 text-sm focus:border-slate-400 focus:outline-none"
+                    className="mt-2 w-full rounded-2xl border font-medium bg-brand-cream placeholder:text-brand-orange placeholder:opacity-100 border-brand-brown/50 px-4 py-3 text-sm focus:border-brand-blue/50 focus:outline-none"
                     placeholder="Mrs Smith"
                     required
                   />
                 </label>
 
-                <label className="block text-sm font-medium text-brand-brown">
+                <label className="block text-sm font-bold text-brand-brown">
                   Position
                   <input
                     type="text"
                     value={position}
                     onChange={(event) => setPosition(event.target.value)}
-                    className="mt-2 w-full rounded-2xl border border-brand-brown px-4 py-3 text-sm focus:border-brand-blue focus:outline-none"
+                    className="mt-2 w-full rounded-2xl border font-medium border-brand-brown/50 px-4 py-3 text-sm focus:border-brand-blue/50 bg-brand-cream placeholder:text-brand-orange placeholder:opacity-100 focus:outline-none"
                     placeholder="Teacher, Head of Department, etc."
                     required
                   />
                 </label>
 
-                <label className="block text-sm font-medium text-brand-brown">
+                <label className="block text-sm font-bold text-brand-brown">
                   School email {!session ? "(required)" : "(optional)"}
                   <input
                     type="Email"
                     value={schoolEmail}
                     onChange={(event) => setSchoolEmail(event.target.value)}
-                    className="mt-2 w-full rounded-2xl border border-brand-brown px-4 py-3 text-sm focus:border-brand-blue focus:outline-none"
+                    className="mt-2 w-full rounded-2xl border font-medium border-brand-brown/50 px-4 py-3 text-sm focus:border-brand-blue/50 bg-brand-cream placeholder:text-brand-orange placeholder:opacity-100 focus:outline-none"
                     placeholder="you@school.edu"
                     required={!session}
                   />
                 </label>
 
-                <label className="block text-sm font-medium text-brand-brown">
+                <label className="block text-sm font-bold text-brand-brown">
                   Evidence (optional)
                   <textarea
                     value={evidence}
                     onChange={(event) => setEvidence(event.target.value)}
                     rows={4}
-                    className="mt-2 w-full rounded-2xl border border-brand-brown px-4 py-3 text-sm focus:border-brand-blue focus:outline-none"
+                    className="mt-2 w-full rounded-2xl border font-medium border-brand-brown/50 px-4 py-3 text-sm focus:border-brand-blue/50 bg-brand-cream  placeholder:text-brand-orange placeholder:opacity-100 focus:outline-none"
                     placeholder="Share any proof that you work at this school."
                   />
                 </label>
               </div>
 
               {!session ? (
-                <p className="mt-4 text-xs text-brand-orange">
+                <p className="mt-4 text-xs text-brand-blue/50">
                   You can submit without an account, but we will need a school email
                   to contact you.
                 </p>
@@ -345,7 +345,7 @@ export default function StaffRequestPage() {
               <button
                 type="submit"
                 disabled={status.type === "loading"}
-                className="mt-6 rounded-full bg-brand-blue px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-orange disabled:cursor-not-allowed disabled:opacity-70"
+                className="mt-6 rounded-full bg-brand-orange px-5 py-3 text-sm font-semibold text-brand-brown transition hover:bg-brand-blue hover:text-brand-cream disabled:cursor-not-allowed disabled:opacity-70"
               >
                 Submit request
               </button>
@@ -355,7 +355,7 @@ export default function StaffRequestPage() {
         {status.type !== "idle" ? (
           <p
             className={`text-sm ${
-              status.type === "error" ? "text-brand-orange" : "text-brand-blue"
+              status.type === "error" ? "text-brand-blue" : "text-brand-brown/50"
             }`}
           >
             {status.message}
@@ -363,21 +363,21 @@ export default function StaffRequestPage() {
         ) : null}
 
         {!authLoading && session ? (
-          <div className="rounded-3xl border border-brand-brown dark:border-brand-cream p-6">
-            <h2 className="text-lg font-semibold">Your requests</h2>
+          <div className="display-headings rounded-3xl border border-brand-brown/50 dark:border-brand-cream p-6">
+            <h4 className="font-bold text-brand-brown dark:text-brand-cream">Your requests:</h4>
             {requests.length === 0 ? (
               <p className="mt-2 text-sm text-brand-brown dark:text-brand-cream">
                 No staff requests yet.
               </p>
             ) : (
-              <ul className="mt-4 space-y-3 text-sm text-brand-cream">
+              <ul className="mt-4 space-y-3 text-m font-medium text-brand-brown">
                 {requests.map((request) => (
-                  <li key={request.id} className="rounded-2xl bg-brand-blue p-4">
+                  <li key={request.id} className="rounded-2xl bg-brand-orange pt-4 pb-4 pl-6 py-4">
                     <p>
                       Status:{" "}
-                      <span className="font-semibold">{request.status}</span>
+                      <span className="font-semibold pl-2">{request.status}</span>
                     </p>
-                    <p className="text-xs text-brand-cream">
+                    <p className="text-brand-brown pt-2">
                       Submitted:{" "}
                       {new Date(request.created_at).toLocaleString()}
                     </p>

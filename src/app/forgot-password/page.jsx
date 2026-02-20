@@ -55,7 +55,7 @@ export default function ForgotPasswordPage() {
               required
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              className="mt-2 w-full rounded-2xl px-4 py-3 text-sm border border-brand-brown text-brand-brown font-medium dark:border-brand-cream bg-brand-cream placeholder:text-brand-orange dark:placeholder:text-brand-orange dark:focus:border-brand-orange focus:outline-none"
+              className="mt-2 w-full rounded-2xl px-4 py-3 text-sm border border-brand-brown/50 text-brand-brown font-medium dark:border-brand-cream bg-brand-cream placeholder:text-brand-orange dark:placeholder:text-brand-brown/50 dark:focus:border-brand-orange focus:outline-none"
               placeholder="you@school.edu"
             />
           </label>
@@ -75,7 +75,7 @@ export default function ForgotPasswordPage() {
         {status.type !== "idle" ? (
           <p
             className={`mt-6 italic text-sm ${
-              status.type === "error" ? "text-brand-blue" : "text-brand-cream"
+              status.type === "error" ? "text-brand-blue" : "text-brand-brown"
             }`}
           >
             {status.message}

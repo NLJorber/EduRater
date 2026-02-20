@@ -35,7 +35,7 @@ export default function Modal({ open, onClose, title, children }) {
 
 
       {/* Backdrop */}
-      <div className="fixed inset-0 bg-black/50" />
+      <div className="fixed inset-0 bg-black/70" />
 
       {/* Panel */}
       <div className="relative mx-auto mt-24 w-[min(92vw,720px)] max-h-[80vh] overflow-hidden rounded-lg bg-brand-cream dark:bg-brand-brown p-6 shadow-lg">

@@ -70,11 +70,11 @@ export default function ResetPasswordPage() {
   };
 
   return (
-    <main className="display-headings min-h-screen bg-brand-blue dark:bg-brand-brown text-brand-cream dark:text-brand-orange">
+    <main className="display-headings min-h-screen text-brand-brown dark:text-brand-orange">
       <div className="mx-auto flex w-full max-w-xl flex-col gap-6 px-6 py-24">
         <div>
           <h1 className="font-extrabold text-cream">Set a new password</h1>
-          <h4 className="mt-10 font-bold text-brand-cream dark:text-brand-cream">
+          <h4 className="mt-10 font-bold text-brand-brown dark:text-brand-cream">
             Choose a strong password you have not used before.
           </h4>
         </div>
@@ -88,7 +88,7 @@ export default function ResetPasswordPage() {
               minLength={8}
               value={password}
               onChange={(event) => setPassword(event.target.value)}
-              className="mt-2 w-full rounded-2xl border border-brand-cream dark:border-brand-cream px-4 py-3 text-sm placeholder:text-brand-cream/40 dark:placeholder:text-brand-orange/30 dark:focus:border-brand-lightgrey focus:outline-none"
+              className="mt-2 w-full rounded-2xl border border-brand-brown/50 dark:border-brand-cream bg-brand-cream px-4 py-3 text-sm placeholder:text-brand-orange dark:placeholder:text-brand-brown/50 dark:focus:border-brand-lightgrey focus:outline-none"
               placeholder="At least 8 characters"
               disabled={!ready}
             />
@@ -101,19 +101,21 @@ export default function ResetPasswordPage() {
               minLength={8}
               value={confirm}
               onChange={(event) => setConfirm(event.target.value)}
-              className="mt-2 w-full rounded-2xl border dark:border-brand-cream px-4 py-3 text-sm placeholder:text-brand-cream/40 dark:placeholder:text-brand-orange/30 dark:focus:border-brand-lightgrey focus:outline-none"
+              className="mt-2 w-full rounded-2xl border border-brand-brown/50 dark:border-brand-cream px-4 py-3 text-sm bg-brand-cream  placeholder:text-brand-orange dark:placeholder:text-brand-brown/50 dark:focus:border-brand-lightgrey focus:outline-none"
               placeholder="Re-enter your password"
               disabled={!ready}
             />
           </label>
 
+          <div className="pt-4">
           <button
             type="submit"
-            className="block mx-auto rounded-full px-4 py-3 text-sm font-semibold text-brand-orange dark:text-brand-cream transition hover:text-brand-blue dark:hover:text-brand-brown bg-brand-cream dark:bg-brand-brown hover:bg-brand-cream"
+            className="block mx-auto rounded-full px-4 py-3 text-sm font-semibold bg-brand-blue dark:bg-brand-orange  text-brand-cream dark:text-brand-brown transition hover:text-brand-cream dark:hover:text-brand-cream  hover:bg-brand-orange dark:hover:bg-brand-blue"
             disabled={!ready}
           >
             Update password
           </button>
+          </div>
         </form>
 
         {status.type !== "idle" ? (
