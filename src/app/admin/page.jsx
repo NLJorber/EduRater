@@ -227,7 +227,7 @@ export default function AdminDashboardPage() {
             {dataLoading ? (
               <p className="text-sm text-brand-brown">Loading review counts...</p>
             ) : rows.length === 0 ? (
-              <p className="text-sm text-brand-brown">
+              <p className="text-sm text-brand-brown dark:text-brand-cream">
                 No schools have reviews yet.
               </p>
             ) : (
@@ -275,33 +275,33 @@ export default function AdminDashboardPage() {
         )}
 
         {!authLoading && session && !error && (
-          <div className="rounded-3xl border border-brand-blue bg-brand-cream p-6">
+          <div className="rounded-3xl border border-brand-brown/50 dark:border-brand-orange bg-brand-cream dark:bg-brand-brown p-6">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <h2 className="text-lg text-brand-brown font-semibold">Staff requests</h2>
-                <p className="text-sm font-medium mt-1 text-brand-brown">
+                <h2 className="text-lg text-brand-brown dark:text-brand-cream font-semibold">Staff requests</h2>
+                <p className="text-sm font-medium mt-1 text-brand-brown dark:text-brand-cream">
                   Review pending staff access requests:
                 </p>
               </div>
               <button
                 type="button"
                 onClick={() => setStaffRefresh((prev) => prev + 1)}
-                className="rounded-full border border-brand-brown hover:border-brand-blue bg-brand-brown px-4 py-2 text-sm font-semibold text-brand-cream hover:bg-brand-blue"
+                className="rounded-full border border-brand-brown dark:border-brand-orange hover:border-brand-blue bg-brand-brown dark:bg-brand-orange px-4 py-2 text-sm font-semibold text-brand-cream dark:text-brand-brown hover:bg-brand-blue hover:text-brand-cream"
               >
                 Refresh
               </button>
             </div>
 
             {staffError ? (
-              <p className="mt-4 text-sm text-red-600">{staffError}</p>
+              <p className="mt-4 text-sm text-brand-blue dark:text-brand-orange">{staffError}</p>
             ) : null}
 
             {staffLoading ? (
-              <p className="mt-6 text-sm text-brand-blue">
+              <p className="mt-6 text-sm text-brand-blue dark:text-brand-orange">
                 Loading staff requests...
               </p>
             ) : staffRequests.length === 0 ? (
-              <p className="mt-5 text-sm font-medium text-brand-blue">
+              <p className="mt-5 text-sm font-medium text-brand-blue dark:text-brand-orange">
                 No pending staff requests.
               </p>
             ) : (
@@ -309,23 +309,23 @@ export default function AdminDashboardPage() {
                 {staffRequests.map((request) => (
                   <div
                     key={request.id}
-                    className="rounded-2xl border border-slate-200 bg-white p-4"
+                    className="rounded-2xl border border-brand-brown/50 bg-brand-cream dark:bg-brand-brown dark:border-brand-orange  p-4"
                   >
                     <div className="flex flex-wrap items-center justify-between gap-3">
-                      <div className="space-y-1 text-sm text-brand-brown">
+                      <div className="space-y-1 text-sm text-brand-brown dark:text-brand-cream">
                         <p className="font-semibold">{request.full_name}</p>
                         <p>{request.position}</p>
-                        <p className="text-brand-brown/50">
+                        <p className="text-brand-brown/50 dark:text-brand-cream">
                           {request.school_email || "No email provided"}
                         </p>
-                        <p className="text-brand-brown/50">
+                        <p className="text-brand-brown/50 dark:text-brand-cream">
                           School:{" "}
                           {request.schools?.name ?? request.school_id}
                           {request.schools?.domain
                             ? ` (${request.schools.domain})`
                             : ""}
                         </p>
-                        <p className="text-xs text-brand-brown/50">
+                        <p className="text-xs text-brand-brown/50 dark:text-brand-cream">
                           Submitted:{" "}
                           {new Date(request.created_at).toLocaleString()}
                         </p>
@@ -336,7 +336,7 @@ export default function AdminDashboardPage() {
                           onClick={() =>
                             handleStaffUpdate(request.id, "approved")
                           }
-                          className="rounded-full bg-brand-blue px-4 py-2 text-sm font-semibold text-brand-cream hover:bg-brand-brown"
+                          className="rounded-full border border-brand-brown dark:border-brand-orange bg-brand-brown dark:bg-brand-orange px-4 py-2 text-sm font-semibold text-brand-cream dark:text-brand-brown hover:bg-brand-orange hover:text-brand-brown hover:border-brand-orange  dark:hover:bg-brand-blue dark:hover:border-brand-blue dark:hover:text-brand-cream"
                         >
                           Approve
                         </button>
@@ -345,19 +345,19 @@ export default function AdminDashboardPage() {
                           onClick={() =>
                             handleStaffUpdate(request.id, "rejected")
                           }
-                          className="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100"
+                          className="rounded-full border border-brand-brown dark:border-brand-orange bg-brand-brown dark:bg-brand-orange px-4 py-2 text-sm font-semibold text-brand-cream dark:text-brand-brown hover:bg-brand-orange hover:text-brand-brown hover:border-brand-orange  dark:hover:bg-brand-blue dark:hover:border-brand-blue dark:hover:text-brand-cream"
                         >
                           Reject
                         </button>
                       </div>
                     </div>
                     {request.evidence ? (
-                      <p className="mt-3 text-sm text-slate-600">
+                      <p className="mt-3 text-sm text-brand-blue dark:text-brand-orange">
                         Evidence: {request.evidence}
                       </p>
                     ) : null}
                     {!request.user_id ? (
-                      <p className="mt-2 text-xs text-amber-600">
+                      <p className="mt-2 text-xs text-brand-blue dark:text-brand-orange">
                         Guest request (no linked account).
                       </p>
                     ) : null}

@@ -46,36 +46,36 @@ export default function SchoolCard({ school, score }) {
 
     return (
         <SpotlightCard
-            className="display-headings group h-full w-full rounded-2xl border border-brand-brown/80 dark:border-brand-blue bg-gradient-to-b from-brand-blue via-brand-blue to-[#0f5fd1] dark:from-brand-cream dark:via-brand-cream dark:to-[#efe3bf] p-5 sm:p-6 shadow-[0_10px_30px_rgba(0,0,0,0.15)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(0,0,0,0.2)]"
+            className="display-headings group h-full w-full rounded-2xl border border-brand-brown/80 dark:border-brand-cream bg-gradient-to-b from-brand-blue via-brand-blue to-[#0f5fd1] dark:from-brand-cream dark:via-brand-cream dark:to-brand-orange p-5 sm:p-6 shadow-[0_10px_30px_rgba(0,0,0,0.15)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(0,0,0,0.2)]"
             spotlightColor="rgba(255, 255, 255, 0.26)"
         >
             <div className="flex h-full flex-col">
                 <div className="mb-4 flex items-center justify-between gap-3">
-                    <span className="inline-flex items-center rounded-full border border-brand-cream/50 bg-brand-cream/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-brand-cream dark:border-brand-blue/30 dark:bg-brand-blue/10 dark:text-brand-blue">
+                    <span className="inline-flex items-center rounded-full border border-brand-cream/50 bg-brand-cream/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-brand-cream dark:border-brand-orange/30 dark:bg-brand-orange/30 dark:text-brand-brown">
                         {phase}
                     </span>
-                    <span className="inline-flex items-center rounded-full bg-brand-cream px-3 py-1 text-xs font-bold text-brand-blue dark:bg-brand-blue dark:text-brand-cream">
+                    <span className="inline-flex items-center rounded-full bg-brand-cream px-3 py-1 text-xs font-bold text-brand-blue dark:bg-brand-brown dark:text-brand-cream">
                         {scoreLabel}
                     </span>
                 </div>
 
-                <div className="rounded-xl border border-brand-cream/25 bg-brand-cream/10 p-4 dark:border-brand-blue/25 dark:bg-brand-blue/5">
+                <div className="rounded-xl border border-brand-cream/25 bg-brand-cream/10 p-4 dark:border-brand-orange dark:bg-brand-orange/50">
                     <div className="flex items-start gap-3">
                         {logoUrl ? (
                             <img
                                 src={logoUrl}
                                 alt={`${school.EstablishmentName} logo`}
-                                className="h-12 w-12 rounded-full bg-white p-1 object-contain ring-2 ring-brand-cream/40 dark:ring-brand-blue/30"
+                                className="h-12 w-12 rounded-full bg-cream p-1 object-contain ring-2 ring-brand-cream/40 dark:ring-brand-cream"
                                 loading="lazy"
                                 decoding="async"
                             />
                         ) : (
-                            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-cream text-lg font-semibold text-brand-blue ring-2 ring-brand-cream/40 dark:bg-brand-blue dark:text-brand-cream dark:ring-brand-blue/30">
+                            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-cream text-lg font-semibold text-brand-blue ring-2 ring-brand-cream/40 dark:bg-brand-brown dark:text-brand-cream dark:ring-brand-brown/30">
                                 {initial}
                             </div>
                         )}
                         <div className="min-w-0">
-                            <h2 className="line-clamp-2 text-lg font-extrabold leading-tight text-brand-cream dark:text-brand-blue">
+                            <h2 className="line-clamp-2 text-lg font-extrabold leading-tight text-brand-cream dark:text-brand-brown">
                                 {school.EstablishmentName}
                             </h2>
                             <p className="mt-1 text-sm font-medium text-brand-cream/85 dark:text-brand-brown">
