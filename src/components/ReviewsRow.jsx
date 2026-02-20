@@ -20,6 +20,7 @@ export default function ReviewsRow({
   cardVariant = "default",
   showTitle = true,
   sectionClassName = "",
+  enableHoverScroll = false,
 }) {
     const [reviews, setReviews] = useState([]);
     const [schoolScore, setSchoolScore] = useState(null);
@@ -38,35 +39,74 @@ export default function ReviewsRow({
 
     const scrollerRef = useRef(null);
     const hoverScrollRef = useRef(null);
+    
+    const [showArrows, setShowArrows] = useState(false);
+    const [canScrollLeft, setCanScrollLeft] = useState(false);
+    const [canScrollRight, setCanScrollRight] = useState(false);
 
-    const startHoverScroll = (dir) => {
-        if (hoverScrollRef.current) return;
+   const updateArrowState = () => {
+  const el = scrollerRef.current;
+  if (!el) return;
 
-            hoverScrollRef.current = setInterval(() => {
-            scrollerRef.current?.scrollBy({
-            left: dir * 6, // speed (px per tick)
-            behavior: "auto",
-        });
-        }, 16); // ~60fps
-    };
+  const overflow = el.scrollWidth - el.clientWidth;
+  const hasOverflow = overflow > 2; // tolerate rounding
 
-        const stopHoverScroll = () => {
-        if (hoverScrollRef.current) {
-            clearInterval(hoverScrollRef.current);
-            hoverScrollRef.current = null;
-        }
-        };
+  const left = Math.round(el.scrollLeft);
+  const maxLeft = Math.round(overflow);
 
-    const scrollByCards = (dir) => {
-    const el = scrollerRef.current;
-    if (!el) return;
+  setShowArrows(hasOverflow);
 
-    // scroll by ~1 card (adjust if you change card width)
-    const amount = Math.min(520, el.clientWidth * 0.8) * dir;
-    el.scrollBy({ left: amount, behavior: "smooth" });
-    };
+  // tolerate fractional scrollLeft + momentum scrolling
+  setCanScrollLeft(left > 2);
+  setCanScrollRight(left < maxLeft - 2);
+};
 
+        
 
+const scrollByCards = (dir) => {
+  const el = scrollerRef.current;
+  if (!el) return;
+
+  const amount = Math.min(520, el.clientWidth * 0.8) * dir;
+  const maxLeft = el.scrollWidth - el.clientWidth;
+  const next = Math.max(0, Math.min(maxLeft, el.scrollLeft + amount));
+
+  el.scrollTo({ left: next, behavior: "smooth" });
+
+  requestAnimationFrame(updateArrowState);
+  setTimeout(updateArrowState, 150);
+  setTimeout(updateArrowState, 450);
+};
+
+const hoverScrollEnabled = cardVariant === "home" || enableHoverScroll;
+
+const startHoverScroll = (dir) => {
+  if (!hoverScrollEnabled) return;
+  if (hoverScrollRef.current) return;
+
+  hoverScrollRef.current = setInterval(() => {
+    scrollerRef.current?.scrollBy({ left: dir * 6, behavior: "auto" });
+  }, 16);
+};
+
+const stopHoverScroll = () => {
+  if (!hoverScrollEnabled) return;
+
+  if (hoverScrollRef.current) {
+    clearInterval(hoverScrollRef.current);
+    hoverScrollRef.current = null;
+  }
+};
+
+useEffect(() => {
+  return () => {
+    if (hoverScrollRef.current) {
+      clearInterval(hoverScrollRef.current);
+      hoverScrollRef.current = null;
+    }
+  };
+}, []);
+    
     useEffect(() => {
         const loadSession = async () => {
             const { data } = await supabaseClient.auth.getSession();
@@ -85,6 +125,27 @@ export default function ReviewsRow({
 
         return () => sub.subscription.unsubscribe();
     }, []);
+
+    useEffect(() => {
+  const el = scrollerRef.current;
+  if (!el) return;
+
+  // Initial calculation (after reviews render)
+  updateArrowState();
+
+  // Update on scroll
+  const onScroll = () => updateArrowState();
+  el.addEventListener("scroll", onScroll, { passive: true });
+
+  // Update on resize (container width changes)
+  const ro = new ResizeObserver(() => updateArrowState());
+  ro.observe(el);
+
+  return () => {
+    el.removeEventListener("scroll", onScroll);
+    ro.disconnect();
+  };
+}, [reviews, cardVariant]);
 
     useEffect(() => {
         const checkAdmin = async () => {
@@ -178,24 +239,30 @@ export default function ReviewsRow({
 
         
     return (
-        <section className={"sectionClassName"}>
-            {showTitle ? (
-            <div className="display-headings mb-3 flex items-end justify-between">
-                <h3 className="mt-8 font-semibold text-brand-blue dark:text-brand-orange">
-                    Reviews:
-                </h3>
-                {headerRight}
+        <section className={`${sectionClassName} px-6`}>
+            {mode === "school" && !loading && !error && schoolScore !== null ? (
+                <div className="mt-16 mb-3 flex items-center justify-between">
+                    <h2 className="text-5xl mb-3 font-bold text-brand-brown dark:text-brand-orange">
+                        School score: {schoolScore.toFixed(1)} / 5
+                    </h2>
+                <div className="shrink-0">{headerRight}</div>
             </div>
-            ) : (
-                headerRight ? (
-                    <div className="mb-3 flex items-end justify-end">{headerRight}</div>
-                ) : null
-            )}
-            {!loading && !error && schoolScore !== null && (
-                <h4 className="mb-3 text-brand-brown dark:text-brand-cream">
-                    School score: {schoolScore.toFixed(1)} / 5
-                </h4>
-            )}
+        ) : (
+            headerRight ? (
+                <div className="mt-16 mb-3 flex items-center justify-end">
+                    <div className="shrink-0">{headerRight}</div>
+                </div>
+            ) : null
+        )}
+
+            {showTitle ? (
+    <h3 className="mb-3 mt-4 text-brand-blue dark:text-brand-white">
+      Reviews:
+    </h3>
+  ) : null}
+                
+            
+              
 
             {loading && <p className="text-sm text-brand-cream dark:text-brand-cream">Loading reviews...</p>}
 
@@ -245,74 +312,90 @@ export default function ReviewsRow({
                 />
             ) : null}
 
-            {!loading && !error && reviews.length > 0 && (
-                <div className={cardVariant === "home" ? "relative" : ""}>
-  {/* Edge fades (home only) */}
-  {cardVariant === "home" ? (
-    <>
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-brand-cream to-transparent dark:from-blue-950" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-brand-cream to-transparent dark:from-blue-950" />
-    </>
-  ) : null}
+{!loading && !error && reviews.length > 0 && (
+  <div className={cardVariant === "home" ? "relative" : ""}>
+    {/* Edge fades (home only) */}
+    {cardVariant === "home" ? (
+      <>
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-brand-cream to-transparent dark:from-brand-brown" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-brand-cream to-transparent dark:from-brand-brown" />
+      </>
+    ) : null}
 
-  {/* Scroll buttons (home only) */}
-  {cardVariant === "home" ? (
-    <>
-      <button
-        type="button"
-        onMouseEnter={() => startHoverScroll(-1)}
-        onMouseLeave={stopHoverScroll}
+    {/* ✅ New: relative wrapper around just the scroller */}
+    <div className={showArrows ? "relative" : ""}>
+      {/* Scroll buttons */}
+      {showArrows ? (
+        <>
+          <button
+            type="button"
+            onMouseEnter={hoverScrollEnabled ? () => startHoverScroll(-1) : undefined}
+            onMouseLeave={hoverScrollEnabled ? stopHoverScroll : undefined}
+            onClick={() => scrollByCards(-1)}
+            // disabled={!canScrollLeft}
+            className={[
+  "pointer-events-auto cursor-pointer",
+  "absolute left-2 top-1/2 z-50 -translate-y-1/2",
+  "rounded-full border border-brand-brown",
+  "bg-brand-cream/90 px-3 py-2 text-sm font-semibold text-brand-brown",
+  "shadow transition-all duration-200 ease-out",
+  "hover:scale-110 hover:shadow-lg hover:bg-brand-orange hover:text-brand-brown",
+  "active:scale-110 active:shadow-lg",
+  "dark:border-brand-cream dark:bg-brand-blue/80 dark:text-brand-cream",
+  "dark:hover:bg-brand-orange dark:hover:text-brand-brown dark:hover:border-brand-brown",
+  canScrollLeft ? "opacity-80" : "opacity-30",
+].join(" ")}
+          >
+            ←
+          </button>
 
-        onClick={() => scrollByCards(-1)}
-        className="absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full border border-brand-brown bg-brand-cream/90 px-3 py-2 text-sm font-semibold text-brand-brown shadow hover:bg-brand-orange dark:border-brand-cream dark:bg-brand-blue/80 dark:hover:border-brand-brown dark:hover:text-brand-brown dark:hover:bg-brand-orange dark:text-brand-cream opacity-80"
-        aria-label="Scroll reviews left"
-      >
-        ←
-      </button>
-      <button
-        type="button"
-        onMouseEnter={() => startHoverScroll(1)}
-        onMouseLeave={stopHoverScroll}
+          <button
+            type="button"
+            onMouseEnter={hoverScrollEnabled ? () => startHoverScroll(1) : undefined}
+            onMouseLeave={hoverScrollEnabled ? stopHoverScroll : undefined}
+            onClick={() => scrollByCards(1)}
+            disabled={!canScrollRight}
+            className={[
+  "pointer-events-auto cursor-pointer",
+  "absolute right-2 top-1/2 z-50 -translate-y-1/2",
+  "rounded-full border border-brand-brown",
+  "bg-brand-cream/90 px-3 py-2 text-sm font-semibold text-brand-brown",
+  "shadow transition-all duration-200 ease-out",
+  "hover:scale-110 hover:shadow-lg hover:bg-brand-orange hover:text-brand-brown",
+  "active:scale-110 active:shadow-lg",
+  "dark:border-brand-cream dark:bg-brand-blue/80 dark:text-brand-cream",
+  "dark:hover:bg-brand-orange dark:hover:text-brand-brown dark:hover:border-brand-brown",
+  canScrollRight ? "opacity-80" : "opacity-30",
+].join(" ")}
+          >
+            →
+          </button>
+        </>
+      ) : null}
 
-        onClick={() => scrollByCards(1)}
-        className="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full border border-brand-brown bg-brand-cream/90 px-3 py-2 text-sm font-semibold text-brand-brown shadow hover:bg-brand-orange dark:border-brand-cream dark:bg-brand-blue/80 dark:hover:bg-brand-orange dark:hover:text-brand-brown dark:hover:border-brand-brown dark:text-brand-cream opacity-80"
-        aria-label="Scroll reviews right"
-      >
-        →
-      </button>
-    </>
-  ) : null}
-
-  <div
-    ref={scrollerRef}
-    className={
-      cardVariant === "home"
-        ? [
-            "flex gap-6 overflow-x-auto",
-            "px-12 pb-4",                  // prevents edge cut-off + leaves room for arrows
-            "scroll-smooth",               // animated scrolling
-            "snap-x snap-mandatory",       // professional snapping
-            "scrollbar-none",              // hide scrollbar (utility added below)
-            "overscroll-x-contain",
-            "[-webkit-overflow-scrolling:touch]",
-          ].join(" ")
-        : "flex gap-4 overflow-x-auto pb-3 pr-2"
-    }
-    style={{
-      scrollPaddingLeft: cardVariant === "home" ? "3rem" : undefined,
-      scrollPaddingRight: cardVariant === "home" ? "3rem" : undefined,
-    }}
-  >
-    {reviews.map((review) => (
+      {/* Scroller */}
       <div
-        key={review.id}
+        ref={scrollerRef}
         className={
           cardVariant === "home"
-            ? "flex-shrink-0 snap-start"
-            : "min-w-[360px] flex-shrink-0"
+            ? [
+                "flex gap-6 overflow-x-auto",
+                "px-12 pb-4",
+                "scroll-smooth",
+                "snap-x snap-mandatory",
+                "scrollbar-none",
+                "overscroll-x-contain",
+                "[-webkit-overflow-scrolling:touch]",
+              ].join(" ")
+            : "flex gap-4 overflow-x-auto pb-3 pr-2 scrollbar-none"
         }
-        onClick={() => setSelectedReview(review)}
       >
+        {reviews.map((review) => (
+          <div
+            key={review.id}
+            className={cardVariant === "home" ? "flex-shrink-0 snap-start" : "min-w-[360px] flex-shrink-0"}
+            onClick={() => setSelectedReview(review)}
+          >
         <ReviewCard
           review={review}
           variant={cardVariant}
@@ -329,13 +412,12 @@ export default function ReviewsRow({
             setReportingReview(review);
           }}
         />
+         </div>
+        ))}
       </div>
-    ))}
+    </div>
   </div>
-</div>
-
-               
-            )}
+)}
             <ReviewModal
                 open={Boolean(selectedReview)}
                 review={selectedReview}
