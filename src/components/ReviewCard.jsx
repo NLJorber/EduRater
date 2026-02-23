@@ -26,6 +26,7 @@ export default function ReviewCard({
     const initial = displayName.trim().charAt(0).toUpperCase() || "U";
 
     const isHome = variant === "home";
+    const schoolName = review?.school_name ?? null;
 
     const cardClassName = isHome
       ? "min-w-[320px] max-w-[320px] rounded-r-xl border-4 border-brand-brown bg-brand-cream/90 p-5 dark:border-brand-cream dark:bg-blue-200"
@@ -91,6 +92,11 @@ export default function ReviewCard({
             <h3 className="text-base font-semibold text-brand-brown dark:text-brand-brown line-clamp-2">
                     {review.title || "Anonymous Review"}
             </h3>
+            {isHome && schoolName ? (
+              <p className="mt-1 text-xs font-semibold text-brand-blue/80 dark:text-brand-brown/70 line-clamp-1">
+                {schoolName}
+              </p>
+            ) : null}
 
             <p className="mt-3 text-sm text-brand-brown dark:text-brand-brown/80 leading-relaxed line-clamp-5">
                 {review.body}

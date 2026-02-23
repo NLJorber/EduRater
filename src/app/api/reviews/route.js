@@ -25,7 +25,7 @@ export async function GET(request) {
     const { data: reviews, error: reviewsError } = await supabaseServer
       .from("reviews")
       .select(
-        "id, school_urn, user_id, rating_computed, title, body, created_at, review_sections(id, section_key, rating, comment, created_at)"
+        "id, school_urn, user_id, rating_computed, title, body, created_at, review_sections(id, section_key, rating, comment, created_at), \"School data\"(EstablishmentName)"
       )
       .is("deleted_at", null)
       .order("created_at", { ascending: false })
@@ -78,17 +78,22 @@ export async function GET(request) {
       }
     }
 
-    const reviewsWithAuthors = cleanReviews.map((review) => ({
-      ...review,
-      helpful_count: helpfulCountMap.get(review.id) || 0,
-      helpful_voted: helpfulVotedSet.has(review.id),
-      sections: (review.review_sections ?? []).map((section) => ({
-        section_key: section.section_key,
-        rating: section.rating,
-        comment: section.comment,
-      })),
-      author: authorMap.get(review.user_id) ?? null,
-    }));
+    const reviewsWithAuthors = cleanReviews.map((review) => {
+      const { ["School data"]: schoolData, ...rest } = review;
+      const schoolName = schoolData?.EstablishmentName ?? null;
+      return {
+        ...rest,
+        school_name: schoolName,
+        helpful_count: helpfulCountMap.get(review.id) || 0,
+        helpful_voted: helpfulVotedSet.has(review.id),
+        sections: (review.review_sections ?? []).map((section) => ({
+          section_key: section.section_key,
+          rating: section.rating,
+          comment: section.comment,
+        })),
+        author: authorMap.get(review.user_id) ?? null,
+      };
+    });
 
     const shuffle = (items, seed) => {
       if (!seed) return items;
@@ -166,7 +171,7 @@ export async function GET(request) {
   let reviewQuery = supabaseServer
     .from("reviews")
     .select(
-      "id, school_urn, user_id, rating_computed, title, body, created_at, review_sections(id, section_key, rating, comment, created_at)"
+      "id, school_urn, user_id, rating_computed, title, body, created_at, review_sections(id, section_key, rating, comment, created_at), \"School data\"(EstablishmentName)"
     )
     .is("deleted_at", null)
     .order("created_at", { ascending: false });
@@ -224,17 +229,22 @@ export async function GET(request) {
     }
   }
 
-  const reviewsWithAuthors = cleanReviews.map((review) => ({
-    ...review,
-    helpful_count: helpfulCountMap.get(review.id) || 0,
-    helpful_voted: helpfulVotedSet.has(review.id),
-    sections: (review.review_sections ?? []).map((section) => ({
-      section_key: section.section_key,
-      rating: section.rating,
-      comment: section.comment,
-    })),
-    author: authorMap.get(review.user_id) ?? null,
-  }));
+  const reviewsWithAuthors = cleanReviews.map((review) => {
+    const { ["School data"]: schoolData, ...rest } = review;
+    const schoolName = schoolData?.EstablishmentName ?? null;
+    return {
+      ...rest,
+      school_name: schoolName,
+      helpful_count: helpfulCountMap.get(review.id) || 0,
+      helpful_voted: helpfulVotedSet.has(review.id),
+      sections: (review.review_sections ?? []).map((section) => ({
+        section_key: section.section_key,
+        rating: section.rating,
+        comment: section.comment,
+      })),
+      author: authorMap.get(review.user_id) ?? null,
+    };
+  });
 
   const reviewScores = cleanReviews
     .map((r) => r.rating_computed)
