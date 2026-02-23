@@ -221,7 +221,13 @@ export default function Home() {
           </div>
 
               <section className="relative left-1/2 right-1/2 -mx-[50vw] w-screen mt-10">
-                <ReviewsRow mode="recent" limit={10} cardVariant="home" showTitle={false} />
+                <ReviewsRow
+                  mode="recent"
+                  limit={10}
+                  helpfulThreshold={2}
+                  cardVariant="home"
+                  showTitle={false}
+                />
               </section>
           
           {/* ---------- SUGGESTIONS ---------- */}

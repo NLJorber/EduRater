@@ -9,9 +9,19 @@ export async function GET(request) {
   const sort = searchParams.get("sort");
   const limitRaw = searchParams.get("limit");
   const limit = Number.isFinite(Number(limitRaw)) ? Number(limitRaw) : 10;
+  const helpfulThresholdRaw = searchParams.get("helpfulThreshold");
+  const helpfulThreshold = Number.isFinite(Number(helpfulThresholdRaw))
+    ? Number(helpfulThresholdRaw)
+    : 2;
+  const randomSeed = searchParams.get("randomSeed");
+  const randomSalt =
+    typeof randomSeed === "string" && randomSeed.trim()
+      ? randomSeed.trim()
+      : null;
+  const { user: requestUser } = await getUserFromRequest(request);
 
   // RECENT REVIEWS (no school_urn required)
-  if (sort === "recent") {
+  if (sort === "recent" || sort === "helpful") {
     const { data: reviews, error: reviewsError } = await supabaseServer
       .from("reviews")
       .select(
@@ -19,7 +29,7 @@ export async function GET(request) {
       )
       .is("deleted_at", null)
       .order("created_at", { ascending: false })
-      .limit(limit);
+      .limit(sort === "recent" ? limit : Math.max(limit * 3, 30));
 
     if (reviewsError) {
       return NextResponse.json({ error: reviewsError.message }, { status: 500 });
@@ -29,6 +39,9 @@ export async function GET(request) {
 
     const userIds = [
       ...new Set(cleanReviews.map((review) => review.user_id).filter(Boolean)),
+    ];
+    const reviewIds = [
+      ...new Set(cleanReviews.map((review) => review.id).filter(Boolean)),
     ];
 
     let authorMap = new Map();
@@ -43,8 +56,32 @@ export async function GET(request) {
       }
     }
 
+    let helpfulCountMap = new Map();
+    let helpfulVotedSet = new Set();
+
+    if (reviewIds.length > 0) {
+      const { data: helpfulRows } = await supabaseServer
+        .from("review_helpful_votes")
+        .select("review_id, user_id")
+        .in("review_id", reviewIds);
+
+      if (Array.isArray(helpfulRows)) {
+        for (const row of helpfulRows) {
+          helpfulCountMap.set(
+            row.review_id,
+            (helpfulCountMap.get(row.review_id) || 0) + 1
+          );
+          if (requestUser?.id && row.user_id === requestUser.id) {
+            helpfulVotedSet.add(row.review_id);
+          }
+        }
+      }
+    }
+
     const reviewsWithAuthors = cleanReviews.map((review) => ({
       ...review,
+      helpful_count: helpfulCountMap.get(review.id) || 0,
+      helpful_voted: helpfulVotedSet.has(review.id),
       sections: (review.review_sections ?? []).map((section) => ({
         section_key: section.section_key,
         rating: section.rating,
@@ -52,6 +89,53 @@ export async function GET(request) {
       })),
       author: authorMap.get(review.user_id) ?? null,
     }));
+
+    const shuffle = (items, seed) => {
+      if (!seed) return items;
+      let h = 2166136261;
+      for (let i = 0; i < seed.length; i += 1) {
+        h ^= seed.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+      }
+      let t = h >>> 0;
+      const rand = () => {
+        t += 0x6d2b79f5;
+        let r = t;
+        r = Math.imul(r ^ (r >>> 15), r | 1);
+        r ^= r + Math.imul(r ^ (r >>> 7), r | 61);
+        return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
+      };
+      const arr = items.slice();
+      for (let i = arr.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(rand() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    };
+
+    if (sort === "helpful") {
+      const helpful = reviewsWithAuthors
+        .filter((r) => (r.helpful_count ?? 0) >= helpfulThreshold)
+        .sort((a, b) => (b.helpful_count ?? 0) - (a.helpful_count ?? 0));
+
+      const rest = reviewsWithAuthors.filter(
+        (r) => (r.helpful_count ?? 0) < helpfulThreshold
+      );
+      const randomized = randomSalt ? shuffle(rest, randomSalt) : rest;
+
+      const combined = [
+        ...helpful.slice(0, limit),
+        ...randomized.filter((r) => !helpful.find((h) => h.id === r.id)),
+      ].slice(0, limit);
+
+      return NextResponse.json({
+        data: {
+          reviews: combined,
+          schoolScore: null,
+          reviewCount: combined.length,
+        },
+      });
+    }
 
     return NextResponse.json({
       data: {
@@ -102,6 +186,9 @@ export async function GET(request) {
       cleanReviews.map((review) => review.user_id).filter(Boolean)
     ),
   ];
+  const reviewIds = [
+    ...new Set(cleanReviews.map((review) => review.id).filter(Boolean)),
+  ];
 
   let authorMap = new Map();
   if (userIds.length > 0) {
@@ -115,8 +202,32 @@ export async function GET(request) {
     }
   }
 
+  let helpfulCountMap = new Map();
+  let helpfulVotedSet = new Set();
+
+  if (reviewIds.length > 0) {
+    const { data: helpfulRows } = await supabaseServer
+      .from("review_helpful_votes")
+      .select("review_id, user_id")
+      .in("review_id", reviewIds);
+
+    if (Array.isArray(helpfulRows)) {
+      for (const row of helpfulRows) {
+        helpfulCountMap.set(
+          row.review_id,
+          (helpfulCountMap.get(row.review_id) || 0) + 1
+        );
+        if (requestUser?.id && row.user_id === requestUser.id) {
+          helpfulVotedSet.add(row.review_id);
+        }
+      }
+    }
+  }
+
   const reviewsWithAuthors = cleanReviews.map((review) => ({
     ...review,
+    helpful_count: helpfulCountMap.get(review.id) || 0,
+    helpful_voted: helpfulVotedSet.has(review.id),
     sections: (review.review_sections ?? []).map((section) => ({
       section_key: section.section_key,
       rating: section.rating,

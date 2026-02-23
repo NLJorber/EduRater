@@ -15,6 +15,7 @@ export default function ReviewsRow({
   mode = "school",          // "school" | "recent"
   schoolUrn,
   limit = 10,               // only used for mode="recent"
+  helpfulThreshold = 2,
   refreshKey,
   headerRight = null,
   cardVariant = "default",
@@ -36,6 +37,7 @@ export default function ReviewsRow({
     const [isAdmin, setIsAdmin] = useState(false);
     const canReport = Boolean(accessToken);
     const [selectedReview, setSelectedReview] = useState(null);
+    const [randomSeed, setRandomSeed] = useState("");
 
     const scrollerRef = useRef(null);
     const hoverScrollRef = useRef(null);
@@ -127,6 +129,12 @@ useEffect(() => {
     }, []);
 
     useEffect(() => {
+        if (!randomSeed) {
+            setRandomSeed(`${Date.now()}-${Math.random().toString(36).slice(2, 8)}`);
+        }
+    }, [randomSeed]);
+
+    useEffect(() => {
   const el = scrollerRef.current;
   if (!el) return;
 
@@ -175,7 +183,7 @@ useEffect(() => {
 
             const url =
                 mode === "recent"
-                    ? `/api/reviews?sort=recent&limit=${encodeURIComponent(limit)}`
+                    ? `/api/reviews?sort=helpful&limit=${encodeURIComponent(limit)}&helpfulThreshold=${encodeURIComponent(helpfulThreshold)}&randomSeed=${encodeURIComponent(randomSeed)}`
                     : `/api/reviews?school_urn=${encodeURIComponent(schoolUrn)}`;
 
                     
@@ -235,6 +243,41 @@ useEffect(() => {
 
         setEditingReview(null);
         setLocalRefresh((prev) => prev + 1);
+    };
+
+    const handleHelpfulToggle = async (reviewId, currentState) => {
+        if (!accessToken) {
+            setError("You must be signed in to mark a review as helpful.");
+            return;
+        }
+
+        const res = await fetch(`/api/reviews/${reviewId}/helpful`, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ like: !currentState }),
+        });
+
+        const body = await res.json().catch(() => ({}));
+        if (!res.ok) {
+            setError(body.error || "Failed to update helpful vote.");
+            return;
+        }
+
+        const { helpful_count, helpful_voted } = body.data || {};
+        setReviews((prev) =>
+            prev.map((r) =>
+                r.id === reviewId
+                    ? {
+                          ...r,
+                          helpful_count: helpful_count ?? r.helpful_count ?? 0,
+                          helpful_voted: typeof helpful_voted === "boolean" ? helpful_voted : r.helpful_voted,
+                      }
+                    : r
+            )
+        );
     };
 
         
@@ -402,6 +445,8 @@ useEffect(() => {
           showEdit={review.user_id === currentUserId}
           showDelete={isAdmin}
           showReport={canReport}
+          showHelpful
+          canHelpful={Boolean(accessToken)}
           onEdit={() => {
             setReportingReview(null);
             setEditingReview(review);
@@ -411,6 +456,7 @@ useEffect(() => {
             setEditingReview(null);
             setReportingReview(review);
           }}
+          onHelpfulToggle={() => handleHelpfulToggle(review.id, review.helpful_voted)}
         />
          </div>
         ))}

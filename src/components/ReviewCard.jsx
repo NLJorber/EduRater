@@ -6,9 +6,12 @@ export default function ReviewCard({
     showEdit,
     showDelete,
     showReport,
+    showHelpful,
+    canHelpful,
     onEdit,
     onDelete,
     onReport,
+    onHelpfulToggle,
 }) {
     if (!review) return null;   /* prevent rendering if no review data is provided */
     const author = review.author ?? null;
@@ -93,8 +96,32 @@ export default function ReviewCard({
                 {review.body}
             </p>
 
-            {(showEdit || showDelete || showReport) ? (
-                <div className="mt-4 flex gap-3 text-sm font-semibold text-brand-brown hover:text-brand-blue dark:text-brand-blue dark:hover:text-brand-brown">
+            {(showEdit || showDelete || showReport || showHelpful) ? (
+                <div className="mt-4 flex items-center gap-4 text-sm font-semibold text-brand-brown hover:text-brand-blue dark:text-brand-blue dark:hover:text-brand-brown">
+                    {showHelpful ? (
+                        <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              if (!canHelpful) return;
+                              onHelpfulToggle?.();
+                            }}
+                            className={[
+                              "inline-flex items-center gap-2",
+                              canHelpful ? "cursor-pointer" : "cursor-not-allowed opacity-60",
+                              review?.helpful_voted ? "text-brand-orange" : "text-brand-brown",
+                              "hover:text-brand-blue dark:text-brand-blue dark:hover:text-brand-brown",
+                            ].join(" ")}
+                            aria-pressed={Boolean(review?.helpful_voted)}
+                            aria-label="Mark as helpful"
+                        >
+                            <span className="text-base leading-none">👍</span>
+                            <span>Helpful</span>
+                            <span className="text-xs opacity-80">
+                              {review?.helpful_count ?? 0}
+                            </span>
+                        </button>
+                    ) : null}
                     {showEdit ? (
                         <button
                             type="button"
