@@ -31,7 +31,7 @@ const selectTheme = (theme) => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="icon"
-        className="bg-brand-orange dark:bg-brand-blue text-brand-cream">
+        className="bg-brand-orange dark:bg-brand-blue text-brand-brown dark:text-brand-cream">
 
           <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
 
@@ -44,7 +44,7 @@ const selectTheme = (theme) => {
 
 <DropdownMenuContent
   align="end"
-  className="z-[9999] bg-brand-blue dark:bg-brand-orange border border-brand-brown shadow-lg dark:border-brand-brown text-brand-cream dark:text-brand-cream
+  className="z-[9999] bg-brand-blue dark:bg-brand-orange border border-brand-brown shadow-lg dark:border-brand-brown text-brand-cream dark:text-brand-brown
   w-20 min-w-0 p-1"
 >
   <DropdownMenuItem 
