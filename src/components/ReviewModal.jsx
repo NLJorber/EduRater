@@ -1,6 +1,6 @@
 "use client";   // makes the component run in the browser
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 export default function ReviewModal({ open, review, onClose }) {
@@ -21,15 +21,15 @@ export default function ReviewModal({ open, review, onClose }) {
     };
 
 
-    const goPrev = () => {
+    const goPrev = useCallback(() => {
         setDirection(-1);
         setStep((s) => Math.max(0, s - 1));
-    };
+    }, []);
     
-    const goNext = () => {
+    const goNext = useCallback(() => {
         setDirection(1);
         setStep((s) => Math.min(totalSteps - 1, s + 1));
-    };
+    }, [totalSteps]);
 
     useEffect(() => {
         if (open) setStep(0); // reset to first step when opening a new review
@@ -59,7 +59,7 @@ export default function ReviewModal({ open, review, onClose }) {
             window.removeEventListener("keydown", onKeyDown);
             document.body.style.overflow = prevOverflow;
         };
-    }, [open, onClose]);
+    }, [open, onClose, goPrev, goNext]);
 
     if (!open || !review) return null;
 
