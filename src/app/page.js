@@ -5,7 +5,13 @@ import { useState, useEffect } from "react";
 
 /* lets component navigate to different pages without a page reload */
 import { useRouter } from "next/navigation";
-import IconsScroll from "@/components/IconsScroll";
+
+import dynamic from "next/dynamic";  
+
+const IconsScroll = dynamic(() => import("@/components/IconsScroll"), {
+  ssr: false,
+});
+
 import RecommendationCard from "@/components/Recommendation";
 import Link from "next/link";
 import { MagnetizeButton } from "@/components/ui/magnetize-button";
@@ -35,12 +41,12 @@ export default function Home() {
   const [magnetOffset, setMagnetOffset] = useState({ x: 0, y: 0 });
   const router = useRouter();
 
-  const [selectedUrn, setSelectedUrn] = useState(null);
+  // const [selectedUrn, setSelectedUrn] = useState(null);
 
-  // define these too (you reference them currently)
-  const [refreshKey, setRefreshKey] = useState(0);
-  const [reviewing, setReviewing] = useState(false);
-  const user = null; // replace with your auth user
+  // // define these too (you reference them currently)
+  // const [refreshKey, setRefreshKey] = useState(0);
+  // const [reviewing, setReviewing] = useState(false);
+  // const user = null; // replace with your auth user
 
   const onSearch = () => {
     const term = q.trim();

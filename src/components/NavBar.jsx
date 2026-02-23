@@ -72,13 +72,7 @@ export default function NavBar() {
         <button
           type="button"
           onClick={() => setMenuOpen((open) => !open)}
-          className="md:hidden inline-flex items-center justify-center w-10 h-10 
-          rounded-md
-          hover:bg-brand-orange
-          dark:hover:text-brand-brown
-          focus-visible:ring-2 
-          focus-visible:ring-neutral-tertiary
-          focus-visible:rounded-md"
+          className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-md hover:bg-brand-orange dark:hover:text-brand-brown focus-visible:ring-2 focus-visible:ring-neutral-tertiary focus-visible:rounded-md"
           aria-expanded={menuOpen}
           aria-label="Toggle menu"
         >
@@ -98,12 +92,10 @@ export default function NavBar() {
 
         {/* MENU LINKS */}
         <div
-  className={`
-    ${menuOpen ? "block" : "hidden"}
-    absolute right-4 top-full mt-2
-    w-36
-    md:static md:block md:w-auto md:mt-0
-  `}
+  className={cn(
+    menuOpen ? "block" : "hidden",
+    "absolute right-4 top-full mt-2 w-36 md:static md:block md:w-auto md:mt-0"
+  )}
 >
 
 <ul
