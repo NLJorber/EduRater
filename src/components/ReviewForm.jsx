@@ -14,6 +14,16 @@ const SECTION_DEFS = [
   { key: "extra_curricular", label: "Extra-Curricular & Enrichment" },
 ];
 
+const SECTION_THEME = {
+  teaching_learning: { bg: "#1573ff33", border: "#1573ff" },
+  pastoral_safeguarding: { bg: "#2E7D3233", border: "#2E7D32" },
+  parent_communication: { bg: "#7B1FA233", border: "#7B1FA2" },
+  send_support: { bg: "#00838F33", border: "#00838F" },
+  facilities_resources: { bg: "#C6282833", border: "#C62828" },
+  behaviour_culture: { bg: "#6D4C4133", border: "#6D4C41" },
+  extra_curricular: { bg: "#F9A82533", border: "#F9A825" },
+};
+
 export default function ReviewForm({
   schoolUrn,
   onPosted,
@@ -270,10 +280,19 @@ export default function ReviewForm({
           </h4>
 
           <div className="mt-3 space-y-3">
-            {sections.map((section, index) => (
+            {sections.map((section, index) => {
+              const theme = SECTION_THEME[section.key] ?? {
+                bg: "#1573ff33",
+                border: "#1573ff",
+              };
+              return (
               <div
                 key={section.key}
-                className="rounded-md border border-brand-cream p-3 dark:border-brand-cream"
+                className="rounded-md border p-3"
+                style={{
+                  backgroundColor: theme.bg,
+                  borderColor: theme.border,
+                }}
               >
                 <div className="flex items-center justify-between gap-3">
                   <p className="text-sm font-semibold text-brand-cream dark:text-brand-cream">
@@ -345,7 +364,8 @@ export default function ReviewForm({
                   />
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 

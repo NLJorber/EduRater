@@ -13,6 +13,9 @@ export default function ReviewModal({ open, review, onClose }) {
     const isMain = step === 0;
     const activeSection = step > 0 ? sections[step - 1] : null;
     const hasActiveSection = Boolean(activeSection?.section_key);
+    const panelTheme = isMain
+      ? SECTION_THEME.main
+      : SECTION_THEME[activeSection?.section_key] ?? SECTION_THEME.default;
 
     const slideVariants = {
         enter: (dir) => ({ x: dir > 0 ? "100%" : "-100%", opacity: 1 }),
@@ -109,7 +112,13 @@ return (
         className="absolute inset-0"
       >
         {/* the grey scroll box stays fixed size */}
-        <div className="h-full overflow-y-auto rounded-xl border p-4  bg-brand-orange ">
+        <div
+          className="h-full overflow-y-auto rounded-xl border p-4"
+          style={{
+            backgroundColor: panelTheme.bg,
+            borderColor: panelTheme.border,
+          }}
+        >
           {step === 0 ? (
             <>
               <div className="flex items-center justify-between gap-4">
@@ -191,6 +200,22 @@ return (
     </div>
   );
 }
+
+const SECTION_THEME = {
+  main: { bg: "#f0c2a8", border: "#3D2901" },
+  default: { bg: "#f0c2a8", border: "#3D2901" },
+  teaching_learning: { bg: "#1573ff33", border: "#1573ff" },
+  pastoral_safeguarding: { bg: "#2E7D3233", border: "#2E7D32" },
+  parent_communication: { bg: "#7B1FA233", border: "#7B1FA2" },
+  send_support: { bg: "#00838F33", border: "#00838F" },
+  facilities_resources: { bg: "#C6282833", border: "#C62828" },
+  behaviour_culture: { bg: "#6D4C4133", border: "#6D4C41" },
+  extra_curricular: { bg: "#F9A82533", border: "#F9A825" },
+  teaching: { bg: "#1573ff33", border: "#1573ff" },
+  safety: { bg: "#2E7D3233", border: "#2E7D32" },
+  facilities: { bg: "#C6282833", border: "#C62828" },
+  leadership: { bg: "#7B1FA233", border: "#7B1FA2" },
+};
 
 function prettySectionName(key) {
   const map = {
