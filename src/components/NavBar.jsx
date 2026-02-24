@@ -226,7 +226,7 @@ export default function NavBar() {
                 <button
                   type="button"
                   onClick={() => setSearchOpen((v) => !v)}
-                  className="inline-flex items-center justify-center w-9 h-9 rounded-md hover:bg-brand-orange dark:hover:text-brand-brown focus-visible:ring-2 focus-visible:ring-neutral-tertiary"
+                  className="inline-flex items-center text-brand-brown dark:text-brand-cream hover:text-brand-brown justify-center w-9 h-9 rounded-md hover:bg-brand-orange dark:hover:text-brand-brown focus-visible:ring-2 focus-visible:ring-neutral-tertiary"
                   aria-expanded={searchOpen}
                   aria-controls="navbar-search"
                   aria-label="Open search"
