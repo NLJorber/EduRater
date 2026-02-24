@@ -374,7 +374,7 @@ export default function ReviewForm({
           disabled={status.type === "loading"}
           className="rounded-md bg-brand-brown px-4 py-2 font-semibold text-brand-cream hover:bg-brand-orange disabled:opacity-60"
         >
-          {isEditing ? "Save changes" : "Post"}
+          {isEditing ? "Save changes" : "Submit"}
         </button>
 
         {isEditing ? (
