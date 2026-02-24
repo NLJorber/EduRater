@@ -124,7 +124,7 @@ export default function Home() {
           colors={["var(--color-brand-orange)", "var(--color-brand-brown)"]}
         />
 
-        <div className="relative z-10 px-6 pt-4 text-center">
+        <div className="relative z-10 px-6 text-center">
           <h1 className="font-extrabold text-brand-cream dark:text-brand-cream">
             Welcome to <br />
             <span className="text-brand-cream dark:text-brand-cream">EduRater</span>
@@ -156,9 +156,7 @@ export default function Home() {
               onSearch();
             }}
           >
- 
-
-
+            
           <div className="flex flex-col gap-4 rounded-md border border-brand-brown bg-brand-blue px-4 py-4 dark:bg-brand-cream dark:border-brand-cream">
 
             {/* ---------- SEARCH BAR + BUTTON ---------- */}

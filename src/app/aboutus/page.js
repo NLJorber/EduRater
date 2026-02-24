@@ -6,7 +6,7 @@ import Image from "next/image";
 export default function AboutPage() {
   return (
     <main className="display-headings m-0 pr-3 text-brand-brown/90 dark:text-brand-cream min-h-[calc(100vh-5rem)]">
-      <div className="w-full max-w-3xl mx-auto pt-20">
+      <div className="w-full max-w-3xl mx-auto">
       <h1 className="font-bold pl-3">Hey there,</h1>
 
 
