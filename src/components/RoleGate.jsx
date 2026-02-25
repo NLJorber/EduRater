@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useAuthProfile } from "@/lib/auth/useAuthProfile";
 
 export default function RoleGate({
@@ -32,7 +32,13 @@ function RoleGateContent({
   const [isAdmin, setIsAdmin] = useState(false);
   const [hasApprovedStaffRequest, setHasApprovedStaffRequest] = useState(false);
   const searchParams = useSearchParams();
-  const debugAccess = searchParams?.get("debug") === "1";
+  const pathname = usePathname();
+
+  const qs = searchParams.toString();
+  const currentUrl = qs ? `${pathname}?${qs}` : pathname;
+
+  const loginHref = `/login?redirect=${encodeURIComponent(currentUrl)}`;
+  const debugAccess = searchParams.get("debug") === "1";
 
   useEffect(() => {
     const checkAdmin = async () => {
@@ -95,7 +101,7 @@ function RoleGateContent({
       <p className="text-sm text-brand-brown dark:text-brand-orange">
         Please  
         <span className="text-brand-blue dark:text-brand-cream hover:text-brand-orange dark:hover:text-brand-blue font-bold">
-        <Link href="/login"> sign in</Link>
+        <Link href={loginHref}> sign in</Link>
         </span> to continue.
       </p>
     );

@@ -1,11 +1,22 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { supabaseClient } from "@/lib/supabase/client";
 
 export default function AuthCallbackPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectParam = searchParams.get("redirect") || "/";
+
+  const safeRedirect = (path) => {
+    if (!path) return "/";
+    if (!path.startsWith("/")) return "/";
+    if (path.startsWith("//")) return "/";
+    if (path.startsWith("/login")) return "/";
+    if (path.startsWith("/auth/callback")) return "/";
+    return path;
+  };
   const [message, setMessage] = useState("Finishing sign-in...");
 
   useEffect(() => {
@@ -24,7 +35,7 @@ export default function AuthCallbackPage() {
       }
 
       if (data?.session) {
-        router.replace("/");
+        router.replace(safeRedirect(redirectParam));
         return;
       }
 
@@ -36,13 +47,13 @@ export default function AuthCallbackPage() {
     return () => {
       active = false;
     };
-  }, [router]);
+  }, [router, redirectParam]);
 
   return (
     <main className="min-h-screen bg-white text-slate-900">
       <div className="mx-auto flex w-full max-w-md flex-col gap-4 px-6 py-20">
         <h1 className="text-2xl font-semibold">Authenticating</h1>
-        <p className="text-sm text-slate-600">{message}</p>
+        <p className="text-sm text-brand-blue">{message}</p>
       </div>
     </main>
   );
