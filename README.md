@@ -71,6 +71,13 @@
       </ul>
     </li>
     <li>
+      <a href="#features">Features</a>
+      <ul>
+        <li><a href="#data-sources">Data Sources</a></li>
+        <li><a href="#ratings-methodology">Ratings Methodology</a></li>
+      </ul>
+    </li>
+    <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
@@ -78,14 +85,13 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
+    <li><a href="#disclaimer">Disclaimer</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
-
 
 
 <!-- ABOUT THE PROJECT -->
@@ -164,14 +170,13 @@ npm
    ```
 3. Configure environment variables
    ```sh
-  Create a .env.local file and add the following:
-  NEXT_PUBLIC_SUPABASE_URL=
-  NEXT_PUBLIC_SUPABASE_ANON_KEY=
-  SUPABASE_URL=
-  SUPABASE_ANON_KEY=
-  SUPABASE_SERVICE_ROLE_KEY=
-  BREVO_API_KEY=
-  BREVO_TO_EMAIL=
+   NEXT_PUBLIC_SUPABASE_URL=
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=
+   SUPABASE_URL=
+   SUPABASE_ANON_KEY=
+   SUPABASE_SERVICE_ROLE_KEY=
+   BREVO_API_KEY=
+   BREVO_TO_EMAIL=
 
 4. Set up Supabase
   ```sh
@@ -180,26 +185,31 @@ npm
   Source data from:
   https://explore-education-statistics.service.gov.uk/find-statistics
   Note: dataset URLs may change over time — always use the latest available version
+  ```
 
 5. Configure Leaflet
   ```sh
+
   Connect Leaflet to your Supabase schools dataset for map rendering
+  ```
 
 6. Configure Brevo
   ```sh
   Create a Brevo contact form
   Link it to your desired contact email address
+  ```
 
 7. Run the development server
   ```sh
   npm run dev
+  ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
 <!-- USAGE EXAMPLES -->
-## Usage
+### Usage
 
 Search for school by name, location, poscode or distance
 View aggregated ratings and detailed category scores
@@ -255,7 +265,7 @@ Distributed under the project_license. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Natalie/Sam?Jonah - edurate@proton.me
+Natalie/Sam/Jonah - edurate@proton.me
 
 Project Link: [https://github.com/NLJorber/EduRater](https://github.com/NLJorber/EduRater)
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
