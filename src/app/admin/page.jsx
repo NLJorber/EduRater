@@ -185,9 +185,9 @@ export default function AdminDashboardPage() {
 
   return (
     <main className="display-headings min-h-screen bg-brand-cream dark:bg-brand-brown text-brand-brown dark:text-brand-cream ">
-      <div className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-6 py-16">
+      <div className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-6">
         <div className="space-y-2 font-bold">
-          <h2 className=" mt-8 text-brand-brown dark:text-brand-cream">
+          <h2 className=" text-brand-brown dark:text-brand-cream">
             Admin Dashboard
           </h2>
           <h1 className="text-3xl font-semibold">School review overview</h1>
@@ -275,23 +275,25 @@ export default function AdminDashboardPage() {
         )}
 
         {!authLoading && session && !error && (
+          <div className="pb-10">
           <div className="rounded-3xl border border-brand-brown/50 dark:border-brand-orange bg-brand-cream dark:bg-brand-brown p-6">
             <div className="flex items-center justify-between gap-4">
               <div>
                 <h2 className="text-lg text-brand-brown dark:text-brand-cream font-semibold">Staff requests</h2>
-                <p className="text-sm font-medium mt-1 text-brand-brown dark:text-brand-cream">
+                <p className="text-sm font-medium pt-1 text-brand-brown dark:text-brand-cream">
                   Review pending staff access requests:
                 </p>
               </div>
+              
               <button
                 type="button"
                 onClick={() => setStaffRefresh((prev) => prev + 1)}
-                className="rounded-full border border-brand-brown dark:border-brand-orange hover:border-brand-blue bg-brand-brown dark:bg-brand-orange px-4 py-2 text-sm font-semibold text-brand-cream dark:text-brand-brown hover:bg-brand-blue hover:text-brand-cream"
+                className="rounded-full border border-brand-brown  dark:border-brand-orange hover:border-brand-blue bg-brand-brown dark:bg-brand-orange px-4 py-2 text-sm font-semibold text-brand-cream dark:text-brand-brown hover:bg-brand-blue hover:text-brand-cream"
               >
                 Refresh
               </button>
             </div>
-
+          
             {staffError ? (
               <p className="mt-4 text-sm text-brand-blue dark:text-brand-orange">{staffError}</p>
             ) : null}
@@ -362,9 +364,11 @@ export default function AdminDashboardPage() {
                       </p>
                     ) : null}
                   </div>
+                  
                 ))}
               </div>
             )}
+          </div>
           </div>
         )}
       </div>

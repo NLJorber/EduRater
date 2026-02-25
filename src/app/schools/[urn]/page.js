@@ -101,7 +101,7 @@ export default function SchoolDetailPage() {
   return (
   <div className="min-h-screen p-6 bg-brand-cream dark:bg-brand-brown display-headings">
     {/* FULL-WIDTH HEADER */}
-    <h2 className="pt-16 pb-10 text-center font-bold text-brand-brown dark:text-brand-orange">
+    <h2 className=" pb-10 text-center font-bold text-brand-brown dark:text-brand-orange">
       {school.EstablishmentName}
     </h2>
 

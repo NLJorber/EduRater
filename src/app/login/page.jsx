@@ -86,8 +86,8 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="display-headings min-h-screen dark:bg-brand-brown text-brand-white dark:text-brand-custard">
-      <div className="mx-auto flex w-full max-w-md flex-col gap-6 px-2 py-20">
+    <main className="display-headings min-h-screen">
+      <div className="mx-auto flex w-full max-w-md flex-col gap-6 px-2">
         <div>
           <h2 className="font-extrabold text-brand-brown dark:text-brand-cream">
           Welcome to <br />
@@ -130,9 +130,8 @@ export default function LoginPage() {
                 required
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
-                className="mt-2 w-full rounded-2xl border border-brand-brown/50 bg-brand-cream 
-                focus:bg-brand-cream
-                dark:border-brand-cream  px-4 py-3 text-sm placeholder:text-brand-orange dark:placeholder:text-brand-brown/50 dark:focus:border-brand-orange focus:outline-none"
+                className="mt-2 w-full rounded-2xl border border-brand-brown/50 bg-brand-cream
+                focus:bg-brand-cream dark:border-brand-cream  px-4 py-3 text-sm text-brand-brown dark:text-brand-brown placeholder:text-brand-orange dark:placeholder:text-brand-orange dark:focus:border-brand-orange focus:outline-none"
                 placeholder="you@school.edu"
               />
             </label>
@@ -145,7 +144,7 @@ export default function LoginPage() {
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
                 className="mt-2 w-full rounded-2xl border border-brand-brown/50 bg-brand-cream 
-                focus:bg-brand-cream dark:border-brand-cream px-4 py-3 text-sm placeholder:text-brand-orange dark:placeholder:text-brand-brown/50 dark:focus:border-brand-orange focus:outline-none"
+                focus:bg-brand-cream dark:border-brand-cream px-4 py-3 text-sm text-brand-brown dark:text-brand-brown placeholder:text-brand-orange dark:placeholder:text-brand-orange dark:focus:border-brand-orange focus:outline-none"
                 placeholder="At least 8 characters"
               />
             </label>
@@ -167,7 +166,7 @@ export default function LoginPage() {
           </form>
         ) : (
           <form className="space-y-4" onSubmit={handleEmailSignUp}>
-            <label className="block text-sm font-bold text-brand-cream dark:text-brand-orange">
+            <label className="block text-sm font-bold text-brand-brown dark:text-brand-orange">
               Name
               <input
                 type="text"
@@ -175,22 +174,22 @@ export default function LoginPage() {
                 maxLength={40}
                 value={displayName}
                 onChange={(event) => setDisplayName(event.target.value)}
-                className="mt-2 w-full rounded-2xl border dark:border-brand-cream px-4 py-3 text-sm placeholder:text-brand-lightgrey dark:placeholder:text-brand-midgrey dark:focus:border-brand-cream focus:outline-none"
+                className="mt-2 w-full rounded-2xl border border-brand-orange bg-brand-cream  dark:border-brand-cream px-4 py-3 text-sm placeholder:text-brand-orange dark:placeholder:text-brand-orange dark:focus:border-brand-cream focus:outline-none"
                 placeholder="Your display name"
               />
             </label>
-            <label className="block text-sm font-bold text-brand-cream dark:text-brand-orange">
+            <label className="block text-sm font-bold text-brand-brown dark:text-brand-orange">
               Email
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
-                className="mt-2 w-full rounded-2xl border dark:border-brand-cream px-4 py-3 text-sm placeholder:text-brand-lightgrey dark:placeholder:text-brand-midgrey dark:focus:border-brand-cream focus:outline-none"
+                className="mt-2 w-full rounded-2xl border bg-brand-cream border-brand-orange dark:border-brand-cream px-4 py-3 text-sm placeholder:text-brand-orange dark:placeholder:text-brand-orange dark:focus:border-brand-cream focus:outline-none"
                 placeholder="you@school.edu"
               />
             </label>
-            <label className="block text-sm font-bold text-brand-cream dark:text-brand-orange">
+            <label className="block text-sm font-bold text-brand-brown dark:text-brand-orange">
               Password
               <input
                 type="password"
@@ -198,14 +197,14 @@ export default function LoginPage() {
                 minLength={8}
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
-                className="mt-2 w-full rounded-2xl border dark:border-brand-lightgrey px-4 py-3 text-sm placeholder:text-brand-brown/50 dark:placeholder:text-brand-midgrey dark:focus:border-brand-lightgrey focus:outline-none"
+                className="mt-2 w-full rounded-2xl border bg-brand-cream border-brand-orange dark:border-brand-orange px-4 py-3 text-sm placeholder:text-brand-orange dark:placeholder:text-brand-orange dark:focus:border-brand-orange focus:outline-none"
                 placeholder="At least 8 characters"
               />
             </label>
 
             <button
               type="submit"
-              className="w-full rounded-full border bg-brand-cream dark:bg-brand-cream border-brand-cream  dark:border-brand-cream  text-brand-brown dark:text-brand-blue hover:text-brand-cream dark:hover:text-brand-cream px-4 py-3 text-sm font-semibold transition hover:border-brand-orange dark:hover:border-brand-orange hover:bg-brand-orange dark:hover:bg-brand-orange"
+              className="w-full rounded-full border bg-brand-brown dark:bg-brand-cream border-brand-cream  dark:border-brand-cream  text-brand-cream dark:text-brand-blue hover:text-brand-brown dark:hover:text-brand-cream px-4 py-3 text-sm font-semibold transition hover:border-brand-orange dark:hover:border-brand-orange hover:bg-brand-orange dark:hover:bg-brand-orange"
             >
               Sign up
             </button>
@@ -215,7 +214,7 @@ export default function LoginPage() {
         {status.type !== "idle" ? (
           <p
             className={`text-sm ${
-              status.type === "error" ? "text-brand-blue" : "text-brand-cream"
+              status.type === "error" ? "text-brand-blue" : "text-brand-brown"
             }`}
           >
             {status.message}
