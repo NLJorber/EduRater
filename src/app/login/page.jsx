@@ -1,14 +1,27 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { supabaseClient } from "@/lib/supabase/client";
 
-const getRedirectUrl = () =>
-  `${window.location.origin.replace(/\/$/, "")}/auth/callback`;
+  const safeRedirect = (path) => {
+    if (!path) return "/";
+    if (!path.startsWith("/")) return "/";
+    if (path.startsWith("//")) return "/";
+    // optional: avoid redirecting back to login
+    if (path.startsWith("/login")) return "/";
+    return path;
+  };
+
+const getRedirectUrl = (redirect) => {
+  const base = `${window.location.origin.replace(/\/$/, "")}/auth/callback`;
+  return redirect ? `${base}?redirect=${encodeURIComponent(redirect)}` : base;
+};
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectParam = searchParams.get("redirect") || "/";
   const [mode, setMode] = useState("sign-in");
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
@@ -34,7 +47,7 @@ export default function LoginPage() {
       return;
     }
 
-    router.replace("/");
+    router.replace(safeRedirect(redirectParam));
   };
 
   const handleEmailSignUp = async (event) => {
@@ -53,7 +66,7 @@ export default function LoginPage() {
       email: normalizedEmail,
       password,
       options: {
-        emailRedirectTo: getRedirectUrl(),
+        emailRedirectTo: getRedirectUrl(redirectParam),
         data: {
           display_name: normalizedName,
         },
@@ -76,7 +89,7 @@ export default function LoginPage() {
     const { error } = await supabaseClient.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: getRedirectUrl(),
+        redirectTo: getRedirectUrl(redirectParam),
       },
     });
 
@@ -130,8 +143,7 @@ export default function LoginPage() {
                 required
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
-                className="mt-2 w-full rounded-2xl border border-brand-brown/50 bg-brand-cream
-                focus:bg-brand-cream dark:border-brand-cream  px-4 py-3 text-sm text-brand-brown dark:text-brand-brown placeholder:text-brand-orange dark:placeholder:text-brand-orange dark:focus:border-brand-orange focus:outline-none"
+                className="mt-2 w-full rounded-2xl border border-brand-brown/50 bg-brand-cream focus:bg-brand-cream dark:border-brand-cream  px-4 py-3 text-sm text-brand-brown dark:text-brand-brown placeholder:text-brand-orange dark:placeholder:text-brand-orange dark:focus:border-brand-orange focus:outline-none"
                 placeholder="you@school.edu"
               />
             </label>
@@ -143,8 +155,7 @@ export default function LoginPage() {
                 minLength={8}
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
-                className="mt-2 w-full rounded-2xl border border-brand-brown/50 bg-brand-cream 
-                focus:bg-brand-cream dark:border-brand-cream px-4 py-3 text-sm text-brand-brown dark:text-brand-brown placeholder:text-brand-orange dark:placeholder:text-brand-orange dark:focus:border-brand-orange focus:outline-none"
+                className="mt-2 w-full rounded-2xl border border-brand-brown/50 bg-brand-cream focus:bg-brand-cream dark:border-brand-cream px-4 py-3 text-sm text-brand-brown dark:text-brand-brown placeholder:text-brand-orange dark:placeholder:text-brand-orange dark:focus:border-brand-orange focus:outline-none"
                 placeholder="At least 8 characters"
               />
             </label>

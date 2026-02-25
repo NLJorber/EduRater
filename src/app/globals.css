@@ -383,3 +383,32 @@ pre {
 .scrollbar-none::-webkit-scrollbar {
   display: none;               /* Chrome/Safari */
 }
+
+/* === Autofill override (Chrome / Edge / Safari) === */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--color-brand-brown) !important;
+  box-shadow: 0 0 0 1000px var(--color-brand-cream) inset !important;
+  transition: background-color 999999s ease-in-out 0s;
+}
+
+/* Dark mode (still brown text, cream bg per your requirement) */
+.dark input:-webkit-autofill,
+.dark input:-webkit-autofill:hover,
+.dark input:-webkit-autofill:focus,
+.dark textarea:-webkit-autofill,
+.dark textarea:-webkit-autofill:hover,
+.dark textarea:-webkit-autofill:focus,
+.dark select:-webkit-autofill,
+.dark select:-webkit-autofill:hover,
+.dark select:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--color-brand-brown) !important;
+  box-shadow: 0 0 0 1000px var(--color-brand-cream) inset !important;
+}
