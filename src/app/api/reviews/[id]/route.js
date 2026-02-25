@@ -35,17 +35,23 @@ export async function PATCH(request, { params }) {
 
   // Replace sections if provided
   if (Array.isArray(sections)) {
-    const normalizedSections = sections
-      .filter((section) => section?.sectionKey)
-      .map((section) => ({
+    // Deduplicate by section key so malformed payloads cannot hit unique(review_id, section_key).
+    const sectionMap = new Map();
+    for (const section of sections) {
+      const sectionKey =
+        typeof section?.sectionKey === "string" ? section.sectionKey.trim() : "";
+      if (!sectionKey) continue;
+      sectionMap.set(sectionKey, {
         review_id: reviewId,
-        section_key: section.sectionKey,
+        section_key: sectionKey,
         rating: typeof section.rating === "number" ? section.rating : null,
         comment:
           typeof section.comment === "string" && section.comment.trim()
             ? section.comment.trim()
             : null,
-      }));
+      });
+    }
+    const normalizedSections = Array.from(sectionMap.values());
 
     // Enforce your rules on edit too
     const isValidRating = (rating) =>
