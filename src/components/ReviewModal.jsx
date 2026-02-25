@@ -13,9 +13,7 @@ export default function ReviewModal({ open, review, onClose }) {
     const isMain = step === 0;
     const activeSection = step > 0 ? sections[step - 1] : null;
     const hasActiveSection = Boolean(activeSection?.section_key);
-    const panelTheme = isMain
-      ? SECTION_THEME.main
-      : SECTION_THEME[activeSection?.section_key] ?? SECTION_THEME.default;
+    const panelTheme = SECTION_THEME.main;  
 
     const slideVariants = {
         enter: (dir) => ({ x: dir > 0 ? "100%" : "-100%", opacity: 1 }),
