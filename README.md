@@ -1,14 +1,37 @@
 <a id="readme-top"></a>
 
 
-[![NLJorber](https://img.shields.io/badge/NLJorber-GitHub-blue)](https://github.com/NLJorber)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-black?style=for-the-badge&logo=linkedin&colorB=555)](https://www.linkedin.com/in/natalie-j-66b587392/)
-
-[![SamR2406](https://img.shields.io/badge/SamR2406-GitHub-blue)](https://github.com/SamR2406)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-black?style=for-the-badge&logo=linkedin&colorB=555)](https://www.linkedin.com/in/samuel-reale-b4aaa0187/)
-
-[![jonahkingcs](https://img.shields.io/badge/jonahkingcs-GitHub-blue)](https://github.com/jonahkingcs)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-black?style=for-the-badge&logo=linkedin&colorB=555)](https://www.linkedin.com/in/jonah-king-06489538a/)
+<table align="center">
+  <tr>
+    <td align="center">
+      <a href="https://github.com/NLJorber">
+        <img src="https://img.shields.io/badge/NLJorber-GitHub-blue" alt="NLJorber GitHub" />
+      </a>
+      <br />
+      <a href="https://www.linkedin.com/in/natalie-j-66b587392/">
+        <img src="https://img.shields.io/badge/LinkedIn-Profile-black?style=for-the-badge&logo=linkedin&colorB=555" alt="Natalie LinkedIn" />
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/SamR2406">
+        <img src="https://img.shields.io/badge/SamR2406-GitHub-blue" alt="SamR2406 GitHub" />
+      </a>
+      <br />
+      <a href="https://www.linkedin.com/in/samuel-reale-b4aaa0187/">
+        <img src="https://img.shields.io/badge/LinkedIn-Profile-black?style=for-the-badge&logo=linkedin&colorB=555" alt="Samuel LinkedIn" />
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/jonahkingcs">
+        <img src="https://img.shields.io/badge/jonahkingcs-GitHub-blue" alt="jonahkingcs GitHub" />
+      </a>
+      <br />
+      <a href="https://www.linkedin.com/in/jonah-king-06489538a/">
+        <img src="https://img.shields.io/badge/LinkedIn-Profile-black?style=for-the-badge&logo=linkedin&colorB=555" alt="Jonah LinkedIn" />
+      </a>
+    </td>
+  </tr>
+</table>
 
 
 <!-- PROJECT LOGO -->
