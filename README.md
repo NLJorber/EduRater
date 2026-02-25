@@ -2,13 +2,13 @@
 
 
 [![NLJorber](https://img.shields.io/badge/NLJorber-GitHub-blue)](https://github.com/NLJorber)
-[![LinkedIn][linkedin-shield]](https://www.linkedin.com/in/natalie-j-66b587392/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-black?style=for-the-badge&logo=linkedin&colorB=555)](https://www.linkedin.com/in/natalie-j-66b587392/)
 
 [![SamR2406](https://img.shields.io/badge/SamR2406-GitHub-blue)](https://github.com/SamR2406)
-[![LinkedIn][linkedin-shield]](https://www.linkedin.com/in/samuel-reale-b4aaa0187/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-black?style=for-the-badge&logo=linkedin&colorB=555)](https://www.linkedin.com/in/samuel-reale-b4aaa0187/)
 
 [![jonahkingcs](https://img.shields.io/badge/jonahkingcs-GitHub-blue)](https://github.com/jonahkingcs)
-[![LinkedIn][linkedin-shield]](https://www.linkedin.com/in/jonah-king-06489538a/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-black?style=for-the-badge&logo=linkedin&colorB=555)](https://www.linkedin.com/in/jonah-king-06489538a/)
 
 
 <!-- PROJECT LOGO -->
@@ -38,27 +38,22 @@
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
-  </ol>
+
+- [About The Project](#about-the-project)
+  - [Built With](#built-with)
+- [Features](#features)
+  - [Data Sources](#data-sources)
+  - [Ratings Methodology](#ratings-methodology)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Usage](#usage)
+- [Disclaimer](#disclaimer)
+- [Roadmap](#roadmap)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
+
 </details>
 
 
@@ -76,11 +71,11 @@ EduRater is intended as a supplementary research tool and does not replace offic
 
 ### Built With
 
-Next.js
-React
-Supabase (database and authentication)
-Leaflet (interactive mapping)
-Brevo (contact form management)
+-Next.js
+-React
+-Supabase (database and authentication)
+-Leaflet (interactive mapping)
+-Brevo (contact form management)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -103,10 +98,10 @@ Verified teacher accounts with access to school-level review analytics
 
 ### Data Sources
 
-Community-submitted reviews
-Leaflet map API
-UK government school datasets
-School data is user-generated and maintained locally via Supabase.
+-Community-submitted reviews
+-Leaflet map API
+-UK government school datasets
+-School data is user-generated and maintained locally via Supabase.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -138,43 +133,41 @@ npm
    ```
 3. Configure environment variables
    ```sh
-  Create a .env.local file and add the following:
-  NEXT_PUBLIC_SUPABASE_URL=
-  NEXT_PUBLIC_SUPABASE_ANON_KEY=
-  SUPABASE_URL=
-  SUPABASE_ANON_KEY=
-  SUPABASE_SERVICE_ROLE_KEY=
-  BREVO_API_KEY=
-  BREVO_TO_EMAIL=
-
+   NEXT_PUBLIC_SUPABASE_URL=
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=
+   SUPABASE_URL=
+   SUPABASE_ANON_KEY=
+   SUPABASE_SERVICE_ROLE_KEY=
+   BREVO_API_KEY=
+   BREVO_TO_EMAIL=
+   ```
 4. Set up Supabase
-  ```sh
-  Create a Supabase project
-  Generate your own schools database using UK government data
-  Source data from:
-  https://explore-education-statistics.service.gov.uk/find-statistics
-  Note: dataset URLs may change over time — always use the latest available version
-
+   ```sh
+   -Create a Supabase project
+   -Generate your own schools database using UK government data
+   -Source data from: https://explore-education-statistics.service.gov.uk/find-statistics
+   -Note: dataset URLs may change over time, always use the latest available version
+   ```
 5. Configure Leaflet
-  ```sh
-  Connect Leaflet to your Supabase schools dataset for map rendering
-
+   ```sh
+   Connect Leaflet to your Supabase schools dataset for map rendering
+   ```
 6. Configure Brevo
-  ```sh
-  Create a Brevo contact form
-  Link it to your desired contact email address
-
+   ```sh
+   Create a Brevo contact form
+   Link it to your desired contact email address
+   ```
 7. Run the development server
-  ```sh
-  npm run dev
-
+   ```sh
+   npm run dev
+   ```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Search for school by name, location, poscode or distance
+Search for school by name, location, postcode or distance
 View aggregated ratings and detailed category scores
 Read and submit reviews based on personal experience
 
@@ -225,7 +218,7 @@ Distributed under the project_license. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Natalie/Sam?Jonah - edurate@proton.me
+Natalie/Sam/Jonah - edurate@proton.me
 
 Project Link: [https://github.com/NLJorber/EduRater](https://github.com/NLJorber/EduRater)
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
