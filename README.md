@@ -91,63 +91,108 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+EduRater is a web application that allows parents, teachers, and childcare professionals to create and view structured reviews of registered education providers across the UK.
 
-Here's a blank template to get started. To avoid retyping too much info, do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`, `project_license`
+The platform aggregates community-submitted reviews and presents them alongside mapped school data, enabling users to search, filter, and explore schools by name, location, and distance. Reviews are broken down into multiple categories to provide a more detailed and transparent view of school performance.
+
+EduRater is intended as a supplementary research tool and does not replace official inspections or professional advice.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 ### Built With
 
-* [![Next][Next.js]][Next-url]
-* [![React][React.js]][React-url]
-* [![Vue][Vue.js]][Vue-url]
-* [![Angular][Angular.io]][Angular-url]
-* [![Svelte][Svelte.dev]][Svelte-url]
-* [![Laravel][Laravel.com]][Laravel-url]
-* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
-* [![JQuery][JQuery.com]][JQuery-url]
-* [![Supabase][supabase.com]][Supabase-url]
+Next.js
+React
+Supabase (database and authentication)
+Leaflet (interactive mapping)
+Brevo (contact form management)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+### Features
 
+Aggregate reviews from users with direct experience of a school
+
+Search and filter schools by:
+Name
+Location / postcode
+Distance range
+
+Reviews organised into 7 scored categories for detailed breakdowns
+
+Overall school ratings calculated from all submitted reviews
+
+Verified teacher accounts with access to school-level review analytics
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Data Sources
+
+Community-submitted reviews
+Leaflet map API
+UK government school datasets
+School data is user-generated and maintained locally via Supabase.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Ratings Methodology
+
+Ratings are calculated on a 0.5 increment scale
+Each review consists of 7 individually scored categories
+A school’s overall rating is derived from the aggregate of all reviews submitted for that school
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+Node.js
+npm
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. Clone the repo
    ```sh
    git clone https://github.com/NLJorber/EduRater.git
    ```
-3. Install NPM packages
+2. Install NPM packages
    ```sh
-   npm install
+   npm install   
    ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
-5. Change git remote url to avoid accidental pushes to base project
+3. Configure environment variables
    ```sh
-   git remote set-url origin NLJorber/EduRater
-   git remote -v # confirm the changes
-   ```
+  Create a .env.local file and add the following:
+  NEXT_PUBLIC_SUPABASE_URL=
+  NEXT_PUBLIC_SUPABASE_ANON_KEY=
+  SUPABASE_URL=
+  SUPABASE_ANON_KEY=
+  SUPABASE_SERVICE_ROLE_KEY=
+  BREVO_API_KEY=
+  BREVO_TO_EMAIL=
+
+4. Set up Supabase
+  ```sh
+  Create a Supabase project
+  Generate your own schools database using UK government data
+  Source data from:
+  https://explore-education-statistics.service.gov.uk/find-statistics
+  Note: dataset URLs may change over time — always use the latest available version
+
+5. Configure Leaflet
+  ```sh
+  Connect Leaflet to your Supabase schools dataset for map rendering
+
+6. Configure Brevo
+  ```sh
+  Create a Brevo contact form
+  Link it to your desired contact email address
+
+7. Run the development server
+  ```sh
+  npm run dev
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -156,21 +201,28 @@ This is an example of how to list things you need to use the software and how to
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
+Search for school by name, location, poscode or distance
+View aggregated ratings and detailed category scores
+Read and submit reviews based on personal experience
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Disclaimer
+
+EduRater does not verify or endorse individual reviews.
+The application should not be used as the sole basis for educational or professional decision-making.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
+- [ ] Teacher-level reviews
+- [ ] Expanded school statistics on all profiles
+- [ ] Side-by-side school comparisons
+- [ ] International school support
+- [ ] Community Q&A functionality for schools
 
 See the [open issues](https://github.com/NLJorber/EduRater/issues) for a full list of proposed features (and known issues).
 
@@ -181,24 +233,13 @@ See the [open issues](https://github.com/NLJorber/EduRater/issues) for a full li
 <!-- CONTRIBUTING -->
 ## Contributing
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
 1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
+2. Create your Feature Branch (`git checkout -b feature/your-feature-name`)
+3. Commit your Changes
+4. Push to the Branch
 5. Open a Pull Request
-
+Contributions are welcome and appreciated.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-### Top contributors:
-
-<a href="https://github.com/NLJorber/EduRater/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=NLJorber/EduRater" alt="contrib.rocks image" />
-</a>
 
 
 
@@ -214,21 +255,13 @@ Distributed under the project_license. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - nljordanbaker@gmail.com
+Natalie/Sam?Jonah - edurate@proton.me
 
 Project Link: [https://github.com/NLJorber/EduRater](https://github.com/NLJorber/EduRater)
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
-
-* []()
-* []()
-* []()
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
@@ -252,23 +285,5 @@ Project Link: [https://github.com/NLJorber/EduRater](https://github.com/NLJorber
 [Next-url]: https://nextjs.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
-[Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
-[Vue-url]: https://vuejs.org/
-[Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
-[Angular-url]: https://angular.io/
-[Svelte.dev]: https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00
-[Svelte-url]: https://svelte.dev/
-[Laravel.com]: https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white
-[Laravel-url]: https://laravel.com
-[Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
-[Bootstrap-url]: https://getbootstrap.com
-[JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
-[JQuery-url]: https://jquery.com 
-[JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
-[JQuery-url]: https://jquery.com 
-
-
-
-
-
-
+[Supabase]: https://img.shields.io/badge/Supabase-3FCF8E?logo=supabase&logoColor=fff
+[Supabase-url]: https://supabase.com/
