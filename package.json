@@ -42,5 +42,6 @@
     "eslint-config-next": "16.1.1",
     "tailwindcss": "^4",
     "wrangler": "^4.57.1"
-  }
+  },
+  "license": "SEE LICENSE IN LICENSE.txt"
 }

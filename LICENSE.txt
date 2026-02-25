@@ -1,0 +1,23 @@
+PolyForm Noncommercial License 1.0.0
+
+<https://polyformproject.org/licenses/noncommercial/1.0.0>
+
+Accepted on: 2020-06-29
+
+Copyright (c) 2026 EduRater Contributors
+
+---
+
+The Software may be used, copied, modified, and distributed only for
+Noncommercial Purposes, as defined in the license above.
+
+Commercial use, monetization, resale, paid hosting, paid support, and any
+for-profit exploitation require prior written permission from the copyright
+holders.
+
+For commercial licensing requests, contact: edurate@proton.me
+
+---
+
+By using this software, you agree to the full PolyForm Noncommercial 1.0.0
+license terms at the URL above.

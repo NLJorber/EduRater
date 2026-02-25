@@ -72,6 +72,7 @@
   - [Installation](#installation)
 - [Usage](#usage)
 - [Disclaimer](#disclaimer)
+- [Policies](#policies)
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
 - [License](#license)
@@ -203,6 +204,15 @@ The application should not be used as the sole basis for educational or professi
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Policies
+
+- Privacy Policy: `/privacy`
+- Terms of Use: `/terms`
+
+These pages are included in the app footer and should be reviewed before production deployment.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 
 <!-- ROADMAP -->
 ## Roadmap
@@ -233,7 +243,11 @@ Contributions are welcome and appreciated.
 <!-- LICENSE -->
 ## License
 
-Distributed under the project_license. See `LICENSE.txt` for more information.
+Distributed under the PolyForm Noncommercial 1.0.0 license.
+
+Commercial use, monetization, resale, paid hosting, paid support, and commercial derivatives are not permitted without prior written permission.
+
+See `LICENSE.txt` for full terms.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
