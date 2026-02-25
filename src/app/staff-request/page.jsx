@@ -176,10 +176,10 @@ export default function StaffRequestPage() {
 
   return (
     <main className="display-headings min-h-screen text-brand-brown dark:text-brand-cream">
-      <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 px-6 py-16">
+      <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 px-6">
         <div className="space-y-2">
           
-          <h2 className=" font-bold mt-10">Request staff access</h2>
+          <h2 className=" font-bold">Request staff access</h2>
           <h4 className="font-bold text-brand-brown dark:text-brand-cream pt-8">
             Use your school email where possible. We auto-approve matching
             domains.

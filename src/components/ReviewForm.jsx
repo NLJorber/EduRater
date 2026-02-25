@@ -266,7 +266,7 @@ export default function ReviewForm({
           <textarea
             value={body}
             onChange={(e) => setBody(e.target.value)}
-            className="mt-1 w-full rounded-md border border-brand-cream px-3 py-2 dark:border-brand-cream dark:bg-brand-cream dark:text-brand-cream placeholder:text-brand-brown/30"
+            className="mt-1 w-full rounded-md border border-brand-cream px-3 py-2 text-brand-brown dark:border-brand-cream dark:bg-brand-cream dark:text-brand-brown placeholder:text-brand-brown/30"
             rows={5}
             maxLength={2000}
             placeholder="Write your review here..."
@@ -288,7 +288,7 @@ export default function ReviewForm({
               return (
               <div
                 key={section.key}
-                className="rounded-md border p-3"
+                className="rounded-md border p-3 text-brand-brown"
                 style={{
                   backgroundColor: theme.bg,
                   borderColor: theme.border,
@@ -357,7 +357,7 @@ export default function ReviewForm({
                         )
                       )
                     }
-                    className="w-full rounded-md border border-brand-cream px-3 py-2 text-sm dark:border-brand-cream dark:bg-brand-cream text-brand-cream dark:text-brand-brown placeholder:text-brand-cream/70" 
+                    className="w-full rounded-md border border-brand-cream px-3 py-2 text-sm dark:border-brand-cream dark:bg-brand-cream text-brand-brown dark:text-brand-brown placeholder:text-brand-brown/60" 
                     rows={3}
                     placeholder="Write a comment (at least one section comment required)"
                     disabled={section.isNa}

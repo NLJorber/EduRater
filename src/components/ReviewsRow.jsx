@@ -299,7 +299,7 @@ useEffect(() => {
         )}
 
             {showTitle ? (
-    <h3 className="mb-3 mt-4 text-brand-blue dark:text-brand-white">
+    <h3 className="mb-3 mt-15 font-bold text-brand-blue dark:text-brand-white">
       Reviews:
     </h3>
   ) : null}
