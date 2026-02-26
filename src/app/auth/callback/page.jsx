@@ -1,60 +1,13 @@
-"use client";
+import { Suspense } from "react";
+import AuthCallbackClient from "./AuthCallbackClient";
 
-import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { supabaseClient } from "@/lib/supabase/client";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
-export default function AuthCallbackPage() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const redirectParam = searchParams.get("redirect") || "/";
-
-  const safeRedirect = (path) => {
-    if (!path) return "/";
-    if (!path.startsWith("/")) return "/";
-    if (path.startsWith("//")) return "/";
-    if (path.startsWith("/login")) return "/";
-    if (path.startsWith("/auth/callback")) return "/";
-    return path;
-  };
-  const [message, setMessage] = useState("Finishing sign-in...");
-
-  useEffect(() => {
-    let active = true;
-
-    const finalizeSession = async () => {
-      const { data, error } = await supabaseClient.auth.getSession();
-
-      if (!active) {
-        return;
-      }
-
-      if (error) {
-        setMessage(error.message);
-        return;
-      }
-
-      if (data?.session) {
-        router.replace(safeRedirect(redirectParam));
-        return;
-      }
-
-      setMessage("Please return to the login page to finish sign-in.");
-    };
-
-    finalizeSession();
-
-    return () => {
-      active = false;
-    };
-  }, [router, redirectParam]);
-
+export default function Page() {
   return (
-    <main className="min-h-screen bg-white text-slate-900">
-      <div className="mx-auto flex w-full max-w-md flex-col gap-4 px-6 py-20">
-        <h1 className="text-2xl font-semibold">Authenticating</h1>
-        <p className="text-sm text-brand-blue">{message}</p>
-      </div>
-    </main>
+    <Suspense fallback={<div className="p-6">Finishing sign-in...</div>}>
+      <AuthCallbackClient />
+    </Suspense>
   );
 }
