@@ -442,7 +442,11 @@ useEffect(() => {
         <ReviewCard
           review={review}
           variant={cardVariant}
-          showEdit={cardVariant === "home" ? false : review.user_id === currentUserId}
+          showEdit={
+            cardVariant === "home"
+              ? false
+              : review.user_id === currentUserId || isAdmin
+          }
           showDelete={cardVariant === "home" ? false : isAdmin}
           showReport={cardVariant === "home" ? false : canReport}
           showHelpful

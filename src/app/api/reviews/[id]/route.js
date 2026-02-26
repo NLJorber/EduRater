@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createUserClient, getUserFromRequest, requireAdmin } from "@/lib/auth/server";
+import { createServiceRoleClient } from "@/lib/supabase/server";
 
 export async function PATCH(request, { params }) {
   const { user, error, token } = await getUserFromRequest(request);
@@ -17,13 +18,49 @@ export async function PATCH(request, { params }) {
 
   const supabaseUser = createUserClient(token);
 
+  const { data: review, error: reviewError } = await supabaseUser
+    .from("reviews")
+    .select("id, user_id, deleted_at")
+    .eq("id", reviewId)
+    .maybeSingle();
+
+  if (reviewError) {
+    return NextResponse.json({ error: reviewError.message }, { status: 500 });
+  }
+
+  if (!review || review.deleted_at) {
+    return NextResponse.json({ error: "Review not found." }, { status: 404 });
+  }
+
+  const isOwner = review.user_id === user.id;
+  if (!isOwner) {
+    const adminResult = await requireAdmin(request);
+    if (adminResult.error) {
+      return NextResponse.json(
+        { error: adminResult.error },
+        { status: adminResult.status }
+      );
+    }
+  }
+
+  let writeClient;
+  try {
+    // Authorized edit path (owner or admin) writes with service role to avoid RLS drift.
+    writeClient = createServiceRoleClient();
+  } catch (clientError) {
+    return NextResponse.json(
+      { error: clientError.message || "Server misconfiguration." },
+      { status: 500 }
+    );
+  }
+
   // Update review text fields only (overall rating is computed)
   const updatePayload = {};
   if (title !== undefined) updatePayload.title = title ?? null;
   if (reviewBody !== undefined) updatePayload.body = reviewBody ?? null;
 
   if (Object.keys(updatePayload).length > 0) {
-    const { error: updateError } = await supabaseUser
+    const { error: updateError } = await writeClient
       .from("reviews")
       .update(updatePayload)
       .eq("id", reviewId);
@@ -64,10 +101,6 @@ export async function PATCH(request, { params }) {
       isValidRating(s.rating)
     );
 
-    const hasAtLeastOneSectionComment = normalizedSections.some(
-      (s) => typeof s.comment === "string" && s.comment.trim().length > 0
-    );
-
     if (!hasAtLeastOneRating) {
       return NextResponse.json(
         { error: "Please rate at least one section." },
@@ -75,33 +108,17 @@ export async function PATCH(request, { params }) {
       );
     }
 
-    if (!hasAtLeastOneSectionComment) {
-      return NextResponse.json(
-        { error: "Please write a comment in at least one section." },
-        { status: 400 }
-      );
-    }
-
-    // Delete existing sections then insert new ones
-    const { error: deleteError } = await supabaseUser
+    // Upsert avoids duplicate-key failures when existing section rows are present.
+    const { error: upsertError } = await writeClient
       .from("review_sections")
-      .delete()
-      .eq("review_id", reviewId);
+      .upsert(normalizedSections, { onConflict: "review_id,section_key" });
 
-    if (deleteError) {
-      return NextResponse.json({ error: deleteError.message }, { status: 500 });
-    }
-
-    const { error: insertError } = await supabaseUser
-      .from("review_sections")
-      .insert(normalizedSections);
-
-    if (insertError) {
-      return NextResponse.json({ error: insertError.message }, { status: 500 });
+    if (upsertError) {
+      return NextResponse.json({ error: upsertError.message }, { status: 500 });
     }
 
     // Optional: refetch computed rating after triggers (nice for UI)
-    const { data: updatedReview } = await supabaseUser
+    const { data: updatedReview } = await writeClient
       .from("reviews")
       .select("id, rating_computed")
       .eq("id", reviewId)

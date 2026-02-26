@@ -123,14 +123,12 @@ export default function ReviewForm({
       return;
     }
 
-    // Build sections payload (only include sections that have anything)
-    const payloadSections = sections
-      .filter((s) => s.rating !== "" || s.comment.trim() || s.isNa)
-      .map((s) => ({
-        sectionKey: s.key,
-        rating: s.isNa || s.rating === "" ? null : Number(s.rating),
-        comment: s.comment.trim() || null,
-      }));
+    // Send all known section keys so edits can clear previous values safely.
+    const payloadSections = sections.map((s) => ({
+      sectionKey: s.key,
+      rating: s.isNa || s.rating === "" ? null : Number(s.rating),
+      comment: s.comment.trim() || null,
+    }));
 
     // Enforce your rules:
     // 1) at least one section star rating
@@ -140,19 +138,6 @@ export default function ReviewForm({
 
     if (!hasAtLeastOneSectionRating) {
       setStatus({ type: "error", message: "Please rate at least one section." });
-      return;
-    }
-
-    // 2) at least one section comment (you said “ideally” — you asked to enforce it)
-    const hasAtLeastOneSectionComment = payloadSections.some(
-      (s) => typeof s.comment === "string" && s.comment.trim().length > 0
-    );
-
-    if (!hasAtLeastOneSectionComment) {
-      setStatus({
-        type: "error",
-        message: "Please write a comment in at least one section.",
-      });
       return;
     }
 
@@ -295,7 +280,7 @@ export default function ReviewForm({
                 }}
               >
                 <div className="flex items-center justify-between gap-3">
-                  <p className="text-sm font-semibold text-brand-cream dark:text-brand-cream">
+                  <p className="text-sm font-semibold text-brand-brown dark:text-brand-cream">
                     {section.label}
                   </p>
 
@@ -311,7 +296,7 @@ export default function ReviewForm({
                           )
                         )
                       }
-                      className="text-xs font-semibold text-brand-cream hover:text-brand-cream"
+                      className="text-xs font-semibold text-brand-brown hover:text-brand-brown dark:text-brand-cream dark:hover:text-brand-cream"
                     >
                       {section.isNa ? "Undo N/A" : "Mark as N/A"}
                     </button>
@@ -336,7 +321,7 @@ export default function ReviewForm({
                         )
                       }
                     />
-                    <p className="mt-1 text-xs text-brand-cream dark:text-brand-cream">
+                    <p className="mt-1 text-xs text-brand-brown dark:text-brand-cream">
                       {section.isNa
                         ? "Marked N/A"
                         : section.rating
@@ -357,9 +342,9 @@ export default function ReviewForm({
                         )
                       )
                     }
-                    className="w-full rounded-md border border-brand-cream px-3 py-2 text-sm dark:border-brand-cream dark:bg-brand-cream text-brand-brown dark:text-brand-brown placeholder:text-brand-brown/60" 
+                    className="w-full rounded-md border border-brand-cream bg-brand-cream px-3 py-2 text-sm text-brand-brown placeholder:text-brand-brown/60 dark:border-brand-cream dark:bg-brand-cream dark:text-brand-brown dark:placeholder:text-brand-brown/60"
                     rows={3}
-                    placeholder="Write a comment (at least one section comment required)"
+                    placeholder="Write a comment (optional)"
                     disabled={section.isNa}
                   />
                 </div>
